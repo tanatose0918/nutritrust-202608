@@ -610,9 +610,9 @@ export default function ProductDetailView({
                                         {/* Price Range Format & Formatted Serving Package */}
                                         <div className="pt-2 border-t border-gray-100 flex items-end justify-between">
                                             <div>
-                                                <p className="text-[10px] text-gray-400 font-medium">ราคาประมาณ</p>
+                                                <p className="text-[10px] text-gray-400 font-medium">ราคาเริ่มต้น</p>
                                                 <p className="text-base font-black text-emerald-700">
-                                                    {formatPriceRange(product.min_price, product.max_price)}
+                                                    {product.min_price.toLocaleString()} ฿
                                                 </p>
                                             </div>
                                             <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
