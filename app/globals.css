@@ -24,3 +24,93 @@ body {
   font-family: var(--font-sans);
 }
 
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-bottom {
+  animation: slideInBottom 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sectionFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-section-swap {
+  animation: sectionFadeIn 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 750ms Smoothly Directional Animations */
+@keyframes slideInBottom750 {
+  0% {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft750 {
+  0% {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight750 {
+  0% {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-bottom-750 {
+  animation: slideInBottom750 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left-750 {
+  animation: slideInLeft750 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-right-750 {
+  animation: slideInRight750 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

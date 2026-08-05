@@ -1,0 +1,21 @@
+import { Schema, model, models, Document } from 'mongoose';
+import { IProduct } from '@/types/traceability';
+
+export interface IProductDocument extends IProduct, Document {}
+
+const ProductSchema = new Schema<IProductDocument>({
+    id: { type: String, required: true, unique: true },
+    brand_id: { type: String, required: true, ref: 'Brand' },
+    name: { type: String, required: true },
+    category_slug: { type: String, required: true },
+    sub_category: { type: String, default: null },
+    ingredient_list: [{
+        igd_id: { type: String, required: true, ref: 'Ingredient' },
+        volume: { type: String, required: true }
+    }],
+    serving_package: { type: String, required: true },
+    min_price: { type: Number, required: true },
+    max_price: { type: Number, default: null }
+}, { timestamps: true });
+
+export const ProductModel = models.Product || model<IProductDocument>('Product', ProductSchema);

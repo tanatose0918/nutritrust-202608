@@ -1,0 +1,61 @@
+[
+    {
+        "id": "br_001",
+        "name": "Blackmores",
+        "provide_at": "Australia",
+        "provider_list": [
+            "prov_001",
+            "prov_003"
+        ]
+    },
+    {
+        "id": "br_002",
+        "name": "Vistra",
+        "provide_at": "Thailand",
+        "provider_list": [
+            "prov_001",
+            "prov_004"
+        ]
+    },
+    {
+        "id": "br_003",
+        "name": "NOW Foods",
+        "provide_at": "USA",
+        "provider_list": [
+            "prov_003",
+            "prov_004"
+        ]
+    },
+    {
+        "id": "br_004",
+        "name": "Mega We Care",
+        "provide_at": "Thailand/Australia",
+        "provider_list": [
+            "prov_002"
+        ]
+    },
+    {
+        "id": "br_005",
+        "name": "Swisse",
+        "provide_at": "Australia",
+        "provider_list": [
+            "prov_001"
+        ]
+    },
+    {
+        "id": "br_006",
+        "name": "Move Free (Schiff)",
+        "provide_at": "USA",
+        "provider_list": [
+            "prov_003"
+        ]
+    },
+    {
+        "id": "br_007",
+        "name": "SaltStick",
+        "provide_at": "USA",
+        "provider_list": [
+            "prov_003"
+        ]
+    }
+]

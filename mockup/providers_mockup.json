@@ -1,0 +1,22 @@
+[
+    {
+        "id": "prov_001",
+        "name": "DSM Nutritional Products (Switzerland)",
+        "traceability_process": "มีสิทธิบัตรตรวจสอบย้อนกลับ Quali-C ยันมาตรฐานยุโรปด้านความบริสุทธิ์ของกรด Ascorbic"
+    },
+    {
+        "id": "prov_002",
+        "name": "Aker BioMarine (Norway)",
+        "traceability_process": "มาตรฐานการทำประมงเพื่อความยั่งยืน Eco-Harvesting ตรวจสอบย้อนกลับพิกัดจับกริลล์ในขั้วโลกใต้ได้ 100%"
+    },
+    {
+        "id": "prov_003",
+        "name": "Albion Laboratories (USA)",
+        "traceability_process": "มีเครื่องหมายลิขสิทธิ์ TRAACS (The Real Amino Acid Chelate System) รับรองการคีเลชั่นสารสกัดแร่ธาตุ"
+    },
+    {
+        "id": "prov_004",
+        "name": "Lonza Group (Switzerland)",
+        "traceability_process": "สิทธิบัตร Carnipure® วิจัยเกรดการแพทย์ และตรวจสอบกระบวนการสังเคราะห์ทางชีวเคมีระดับสูง"
+    }
+]
