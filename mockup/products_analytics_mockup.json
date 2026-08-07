@@ -1,0 +1,1190 @@
+[
+  {
+    "product_id": "p_001",
+    "merchant_score": 4.88,
+    "ratings_breakdown": {
+      "rating_score": 4.88,
+      "total_reviews": 4820,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 96,
+      "packaging_quality": 98,
+      "customer_service": 95,
+      "repurchase_rate": 92
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 2840,
+        "sold_count": "24.5k",
+        "store_type": "Blackmores Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 1420,
+        "sold_count": "11.2k",
+        "store_type": "Blackmores LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 560,
+        "sold_count": "4.8k",
+        "store_type": "Blackmores Thailand Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_002",
+    "merchant_score": 4.82,
+    "ratings_breakdown": {
+      "rating_score": 4.82,
+      "total_reviews": 3250,
+      "satisfaction_rate": 95
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 98,
+      "delivery_speed": 95,
+      "packaging_quality": 96,
+      "customer_service": 94,
+      "repurchase_rate": 90
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1920,
+        "sold_count": "18.3k",
+        "store_type": "Vistra Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 980,
+        "sold_count": "8.5k",
+        "store_type": "Vistra LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 350,
+        "sold_count": "2.9k",
+        "store_type": "Vistra Official TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_003",
+    "merchant_score": 4.85,
+    "ratings_breakdown": {
+      "rating_score": 4.85,
+      "total_reviews": 5100,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 94,
+      "packaging_quality": 97,
+      "customer_service": 93,
+      "repurchase_rate": 94
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 3100,
+        "sold_count": "32.1k",
+        "store_type": "MEGA We Care Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 1450,
+        "sold_count": "14.2k",
+        "store_type": "MEGA We Care LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 550,
+        "sold_count": "5.1k",
+        "store_type": "MEGA We Care TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_004",
+    "merchant_score": 4.91,
+    "ratings_breakdown": {
+      "rating_score": 4.91,
+      "total_reviews": 2150,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 92,
+      "packaging_quality": 98,
+      "customer_service": 96,
+      "repurchase_rate": 95
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1350,
+        "sold_count": "9.4k",
+        "store_type": "NOW Foods Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 620,
+        "sold_count": "4.1k",
+        "store_type": "NOW Foods Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 180,
+        "sold_count": "1.2k",
+        "store_type": "NOW Foods Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_005",
+    "merchant_score": 4.86,
+    "ratings_breakdown": {
+      "rating_score": 4.86,
+      "total_reviews": 1890,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 93,
+      "packaging_quality": 96,
+      "customer_service": 94,
+      "repurchase_rate": 89
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1120,
+        "sold_count": "8.1k",
+        "store_type": "Swisse Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 580,
+        "sold_count": "3.9k",
+        "store_type": "Swisse LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 190,
+        "sold_count": "1.1k",
+        "store_type": "Swisse TikTok Shop",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_006",
+    "merchant_score": 4.89,
+    "ratings_breakdown": {
+      "rating_score": 4.89,
+      "total_reviews": 3100,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 95,
+      "packaging_quality": 97,
+      "customer_service": 95,
+      "repurchase_rate": 93
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1890,
+        "sold_count": "14.5k",
+        "store_type": "Move Free Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 920,
+        "sold_count": "6.8k",
+        "store_type": "Move Free LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 290,
+        "sold_count": "2.1k",
+        "store_type": "Schiff Health Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_007",
+    "merchant_score": 4.80,
+    "ratings_breakdown": {
+      "rating_score": 4.80,
+      "total_reviews": 1650,
+      "satisfaction_rate": 94
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 97,
+      "delivery_speed": 94,
+      "packaging_quality": 95,
+      "customer_service": 93,
+      "repurchase_rate": 88
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1020,
+        "sold_count": "7.5k",
+        "store_type": "Vistra Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 480,
+        "sold_count": "3.1k",
+        "store_type": "Vistra LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 150,
+        "sold_count": "950",
+        "store_type": "Vistra TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_008",
+    "merchant_score": 4.93,
+    "ratings_breakdown": {
+      "rating_score": 4.93,
+      "total_reviews": 1280,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 96,
+      "packaging_quality": 99,
+      "customer_service": 97,
+      "repurchase_rate": 96
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 780,
+        "sold_count": "5.4k",
+        "store_type": "SaltStick Authorized Shop",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 390,
+        "sold_count": "2.8k",
+        "store_type": "SaltStick Sports Mall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.9,
+        "review_count": 110,
+        "sold_count": "720",
+        "store_type": "SaltStick Runner Shop",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Authorized Shop",
+      "Lazada Sports Mall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_009",
+    "merchant_score": 4.87,
+    "ratings_breakdown": {
+      "rating_score": 4.87,
+      "total_reviews": 4120,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 95,
+      "packaging_quality": 97,
+      "customer_service": 94,
+      "repurchase_rate": 91
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 2450,
+        "sold_count": "21.0k",
+        "store_type": "Blackmores Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 1280,
+        "sold_count": "9.8k",
+        "store_type": "Blackmores LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 390,
+        "sold_count": "3.5k",
+        "store_type": "Blackmores TikTok Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_010",
+    "merchant_score": 4.90,
+    "ratings_breakdown": {
+      "rating_score": 4.90,
+      "total_reviews": 3850,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 94,
+      "packaging_quality": 98,
+      "customer_service": 95,
+      "repurchase_rate": 94
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 2350,
+        "sold_count": "18.5k",
+        "store_type": "NOW Foods Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 1150,
+        "sold_count": "8.9k",
+        "store_type": "NOW Foods Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 350,
+        "sold_count": "2.4k",
+        "store_type": "NOW Foods Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_011",
+    "merchant_score": 4.81,
+    "ratings_breakdown": {
+      "rating_score": 4.81,
+      "total_reviews": 2980,
+      "satisfaction_rate": 95
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 97,
+      "delivery_speed": 95,
+      "packaging_quality": 96,
+      "customer_service": 93,
+      "repurchase_rate": 89
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1820,
+        "sold_count": "16.2k",
+        "store_type": "Vistra Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 890,
+        "sold_count": "7.1k",
+        "store_type": "Vistra LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 270,
+        "sold_count": "2.0k",
+        "store_type": "Vistra TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_012",
+    "merchant_score": 4.88,
+    "ratings_breakdown": {
+      "rating_score": 4.88,
+      "total_reviews": 2450,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 93,
+      "packaging_quality": 97,
+      "customer_service": 94,
+      "repurchase_rate": 92
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1490,
+        "sold_count": "11.8k",
+        "store_type": "Swisse Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 720,
+        "sold_count": "5.3k",
+        "store_type": "Swisse LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 240,
+        "sold_count": "1.7k",
+        "store_type": "Swisse TikTok Shop",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_013",
+    "merchant_score": 4.86,
+    "ratings_breakdown": {
+      "rating_score": 4.86,
+      "total_reviews": 1780,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 95,
+      "packaging_quality": 98,
+      "customer_service": 95,
+      "repurchase_rate": 91
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1050,
+        "sold_count": "7.8k",
+        "store_type": "Blackmores Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 540,
+        "sold_count": "3.5k",
+        "store_type": "Blackmores LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 190,
+        "sold_count": "1.2k",
+        "store_type": "Blackmores TikTok Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_014",
+    "merchant_score": 4.92,
+    "ratings_breakdown": {
+      "rating_score": 4.92,
+      "total_reviews": 1420,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 94,
+      "packaging_quality": 99,
+      "customer_service": 96,
+      "repurchase_rate": 95
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 860,
+        "sold_count": "5.9k",
+        "store_type": "NOW Foods Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 420,
+        "sold_count": "2.8k",
+        "store_type": "NOW Foods Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 140,
+        "sold_count": "900",
+        "store_type": "NOW Foods Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_015",
+    "merchant_score": 4.79,
+    "ratings_breakdown": {
+      "rating_score": 4.79,
+      "total_reviews": 2100,
+      "satisfaction_rate": 94
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 97,
+      "delivery_speed": 94,
+      "packaging_quality": 95,
+      "customer_service": 92,
+      "repurchase_rate": 87
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1280,
+        "sold_count": "10.4k",
+        "store_type": "Vistra Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.7,
+        "review_count": 640,
+        "sold_count": "4.8k",
+        "store_type": "Vistra LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 180,
+        "sold_count": "1.3k",
+        "store_type": "Vistra TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_016",
+    "merchant_score": 4.84,
+    "ratings_breakdown": {
+      "rating_score": 4.84,
+      "total_reviews": 1690,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 98,
+      "delivery_speed": 93,
+      "packaging_quality": 96,
+      "customer_service": 94,
+      "repurchase_rate": 90
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1010,
+        "sold_count": "8.2k",
+        "store_type": "MEGA We Care Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 510,
+        "sold_count": "3.9k",
+        "store_type": "MEGA We Care LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 170,
+        "sold_count": "1.1k",
+        "store_type": "MEGA We Care TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_017",
+    "merchant_score": 4.83,
+    "ratings_breakdown": {
+      "rating_score": 4.83,
+      "total_reviews": 4200,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 98,
+      "delivery_speed": 96,
+      "packaging_quality": 95,
+      "customer_service": 95,
+      "repurchase_rate": 91
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 2540,
+        "sold_count": "28.9k",
+        "store_type": "Yanhee Hospital Official",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 1250,
+        "sold_count": "12.4k",
+        "store_type": "Yanhee LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 410,
+        "sold_count": "4.5k",
+        "store_type": "Yanhee Official TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_018",
+    "merchant_score": 4.85,
+    "ratings_breakdown": {
+      "rating_score": 4.85,
+      "total_reviews": 2300,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 94,
+      "packaging_quality": 97,
+      "customer_service": 93,
+      "repurchase_rate": 91
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1420,
+        "sold_count": "11.5k",
+        "store_type": "MEGA We Care Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 680,
+        "sold_count": "5.1k",
+        "store_type": "MEGA We Care LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 200,
+        "sold_count": "1.4k",
+        "store_type": "MEGA We Care TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_019",
+    "merchant_score": 4.91,
+    "ratings_breakdown": {
+      "rating_score": 4.91,
+      "total_reviews": 1950,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 95,
+      "packaging_quality": 98,
+      "customer_service": 96,
+      "repurchase_rate": 94
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1180,
+        "sold_count": "8.8k",
+        "store_type": "NOW Foods Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 580,
+        "sold_count": "4.2k",
+        "store_type": "NOW Foods Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 190,
+        "sold_count": "1.3k",
+        "store_type": "NOW Foods Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_020",
+    "merchant_score": 4.78,
+    "ratings_breakdown": {
+      "rating_score": 4.78,
+      "total_reviews": 1250,
+      "satisfaction_rate": 93
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 96,
+      "delivery_speed": 93,
+      "packaging_quality": 94,
+      "customer_service": 92,
+      "repurchase_rate": 86
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 780,
+        "sold_count": "5.6k",
+        "store_type": "InterCare Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.7,
+        "review_count": 360,
+        "sold_count": "2.4k",
+        "store_type": "InterCare LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 110,
+        "sold_count": "800",
+        "store_type": "InterCare TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_021",
+    "merchant_score": 4.87,
+    "ratings_breakdown": {
+      "rating_score": 4.87,
+      "total_reviews": 4500,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 95,
+      "packaging_quality": 97,
+      "customer_service": 94,
+      "repurchase_rate": 92
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 2720,
+        "sold_count": "26.4k",
+        "store_type": "MEGA We Care Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 1310,
+        "sold_count": "11.8k",
+        "store_type": "MEGA We Care LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 470,
+        "sold_count": "4.2k",
+        "store_type": "MEGA We Care TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_022",
+    "merchant_score": 4.90,
+    "ratings_breakdown": {
+      "rating_score": 4.90,
+      "total_reviews": 3200,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 94,
+      "packaging_quality": 98,
+      "customer_service": 95,
+      "repurchase_rate": 93
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1950,
+        "sold_count": "15.2k",
+        "store_type": "NOW Foods Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 960,
+        "sold_count": "7.1k",
+        "store_type": "NOW Foods Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 290,
+        "sold_count": "2.1k",
+        "store_type": "NOW Foods Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_023",
+    "merchant_score": 4.89,
+    "ratings_breakdown": {
+      "rating_score": 4.89,
+      "total_reviews": 6800,
+      "satisfaction_rate": 97
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 96,
+      "packaging_quality": 96,
+      "customer_service": 95,
+      "repurchase_rate": 95
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 4120,
+        "sold_count": "45.0k",
+        "store_type": "DHC Thailand Official",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 1980,
+        "sold_count": "21.5k",
+        "store_type": "DHC LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 700,
+        "sold_count": "8.2k",
+        "store_type": "DHC Japan Direct TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_024",
+    "merchant_score": 4.82,
+    "ratings_breakdown": {
+      "rating_score": 4.82,
+      "total_reviews": 1560,
+      "satisfaction_rate": 95
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 98,
+      "delivery_speed": 93,
+      "packaging_quality": 96,
+      "customer_service": 93,
+      "repurchase_rate": 88
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 940,
+        "sold_count": "6.5k",
+        "store_type": "Nature's Bounty Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 470,
+        "sold_count": "3.1k",
+        "store_type": "Nature's Bounty LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 150,
+        "sold_count": "980",
+        "store_type": "Nature's Bounty TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_025",
+    "merchant_score": 4.85,
+    "ratings_breakdown": {
+      "rating_score": 4.85,
+      "total_reviews": 2100,
+      "satisfaction_rate": 96
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 99,
+      "delivery_speed": 95,
+      "packaging_quality": 97,
+      "customer_service": 94,
+      "repurchase_rate": 90
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1260,
+        "sold_count": "9.2k",
+        "store_type": "Blackmores Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 620,
+        "sold_count": "4.2k",
+        "store_type": "Blackmores LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.7,
+        "review_count": 220,
+        "sold_count": "1.5k",
+        "store_type": "Blackmores TikTok Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_026",
+    "merchant_score": 4.83,
+    "ratings_breakdown": {
+      "rating_score": 4.83,
+      "total_reviews": 2750,
+      "satisfaction_rate": 95
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 98,
+      "delivery_speed": 95,
+      "packaging_quality": 96,
+      "customer_service": 94,
+      "repurchase_rate": 91
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.8,
+        "review_count": 1680,
+        "sold_count": "14.8k",
+        "store_type": "Vistra Official Store",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.8,
+        "review_count": 820,
+        "sold_count": "6.9k",
+        "store_type": "Vistra LazMall",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 250,
+        "sold_count": "1.9k",
+        "store_type": "Vistra TikTok",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Store",
+      "Lazada LazMall",
+      "TikTok Shop Direct"
+    ]
+  },
+  {
+    "product_id": "p_027",
+    "merchant_score": 4.93,
+    "ratings_breakdown": {
+      "rating_score": 4.93,
+      "total_reviews": 1820,
+      "satisfaction_rate": 98
+    },
+    "merchant_chart_metrics": {
+      "authenticity": 100,
+      "delivery_speed": 94,
+      "packaging_quality": 99,
+      "customer_service": 97,
+      "repurchase_rate": 96
+    },
+    "platform_breakdown": {
+      "shopee": {
+        "rating": 4.9,
+        "review_count": 1100,
+        "sold_count": "7.9k",
+        "store_type": "Doctor's Best Official Import",
+        "url": "https://shopee.co.th"
+      },
+      "lazada": {
+        "rating": 4.9,
+        "review_count": 550,
+        "sold_count": "3.8k",
+        "store_type": "Doctor's Best Flagship",
+        "url": "https://lazada.co.th"
+      },
+      "tiktok": {
+        "rating": 4.8,
+        "review_count": 170,
+        "sold_count": "1.1k",
+        "store_type": "Doctor's Best Direct",
+        "url": "https://tiktok.com"
+      }
+    },
+    "reference_sources": [
+      "Shopee Official Import",
+      "Lazada Flagship",
+      "TikTok Shop Direct"
+    ]
+  }
+]

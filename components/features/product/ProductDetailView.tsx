@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Search, ShieldCheck, Plus, Minus, ArrowLeft, ArrowRight, Sparkles, ChevronRight, CheckCircle, Award, Factory, ChevronDown, ChevronLeft, Layers, Check } from 'lucide-react';
+import { Search, ShieldCheck, Plus, Minus, ArrowLeft, ArrowRight, Sparkles, ChevronRight, CheckCircle, Award, Factory, ChevronDown, ChevronLeft, Layers, Check, RotateCw, Package, FlaskConical, Store, ShieldAlert, BookOpenCheck } from 'lucide-react';
 import { IProduct, IBrand, IIngredient, IProvider } from '@/types/traceability';
 
 import productsData from '@/mockup/products_mockup.json';
@@ -10,12 +10,19 @@ import brandsData from '@/mockup/brands_mockup.json';
 import ingredientsData from '@/mockup/ingredients_mockup.json';
 import providersData from '@/mockup/providers_mockup.json';
 
+import ScientificEvidence from '@/components/features/product/ScientificEvidence';
+import MerchantScoreChart from '@/components/features/product/MerchantScoreChart';
+import HealthScoreTab from '@/components/features/product/HealthScoreTab';
+import ScienceStudiesTab from '@/components/features/product/ScienceStudiesTab';
+import { fetchProductDetail } from '@/services/api';
+
 interface ProductDetailViewProps {
     initialProductId?: string;
     isSearchOnlyMode?: boolean;
 }
 
 type SearchCategory = 'ingredients' | 'products' | 'brands';
+type ScoreTabType = 'merchant' | 'health' | 'science';
 
 // Helper for formatting serving package (e.g. tablet-150 -> 150 เม็ด, capsule-60 -> 60 แคปซูล)
 const formatServingPackage = (pkg: string) => {
@@ -58,14 +65,47 @@ export default function ProductDetailView({
     const [showMoreBadges, setShowMoreBadges] = useState(false);
     const [isTableExpanded, setIsTableExpanded] = useState(false);
 
+    // Score Analytics Tab Navigation State (Merchant | Health | Science Studies)
+    const [activeScoreTab, setActiveScoreTab] = useState<ScoreTabType>('merchant');
+
+    // Fastify API Integration & Latency Loading State
+    const [isLoading, setIsLoading] = useState(false);
+    const [apiProductDetail, setApiProductDetail] = useState<any | null>(null);
+
+    useEffect(() => {
+        if (!selectedProductId) return;
+
+        let isMounted = true;
+        setIsLoading(true);
+        const startTime = Date.now();
+
+        fetchProductDetail(selectedProductId)
+            .then((data) => {
+                if (isMounted && data) {
+                    setApiProductDetail(data);
+                }
+            })
+            .finally(() => {
+                if (isMounted) {
+                    const elapsed = Date.now() - startTime;
+                    const delay = elapsed > 4000 ? 600 : 0;
+                    setTimeout(() => setIsLoading(false), delay);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [selectedProductId]);
+
     const categoryDropdownRef = useRef<HTMLDivElement>(null);
 
     // Directional Animation Class (750ms Smoothly)
     const [animationClass, setAnimationClass] = useState('animate-slide-left-750');
 
-    // Carousel Pagination State (3 cards per page)
+    // Carousel Pagination State (6 cards per page)
     const [carouselPageIndex, setCarouselPageIndex] = useState(0);
-    const CAROUSEL_PAGE_SIZE = 3;
+    const CAROUSEL_PAGE_SIZE = 6;
 
     // Detect navigation direction from URL
     useEffect(() => {
@@ -114,60 +154,75 @@ export default function ProductDetailView({
         return map;
     }, [providers]);
 
-    // Current Selected Product for Spec Table View
+    // Current Selected Product for Spec View (Uses Fastify API data or local mockup fallback)
     const currentProduct = useMemo(() => {
         if (!selectedProductId) return null;
-        return products.find(p => p.id === selectedProductId) || products[0];
-    }, [products, selectedProductId]);
+        return apiProductDetail || products.find(p => p.id === selectedProductId) || products[0];
+    }, [products, selectedProductId, apiProductDetail]);
 
     const currentBrand = currentProduct ? brandMap.get(currentProduct.brand_id) : null;
 
-    // Category Display Options
-    const categoryOptions = [
-        { key: 'products', label: 'ชื่อผลิตภัณฑ์' },
-        { key: 'brands', label: 'ชื่อแบรนด์ (Brands)' },
-        { key: 'ingredients', label: 'ส่วนประกอบ (Ingredients)' },
-    ];
+    // Group ingredients by provider ID for currentProduct (deduplicate cards by provider)
+    const providerTraceabilityGroup = useMemo(() => {
+        if (!currentProduct) return [];
 
-    const currentCategoryLabel = categoryOptions.find(c => c.key === searchCategory)?.label || 'ชื่อผลิตภัณฑ์';
+        const map = new Map<string, { provider: IProvider; ingredients: string[] }>();
 
-    // ----------------------------------------------------
-    // Related Products Matching & Filtering
-    // ----------------------------------------------------
+        (currentProduct.ingredient_list || []).forEach((ingItem: { igd_id: string; volume: string }) => {
+            const ingObj = ingredientMap.get(ingItem.igd_id);
+            if (ingObj) {
+                const provObj = providerMap.get(ingObj.provider_id);
+                if (provObj) {
+                    if (!map.has(provObj.id)) {
+                        map.set(provObj.id, {
+                            provider: provObj,
+                            ingredients: [ingObj.name],
+                        });
+                    } else {
+                        const existing = map.get(provObj.id)!;
+                        if (!existing.ingredients.includes(ingObj.name)) {
+                            existing.ingredients.push(ingObj.name);
+                        }
+                    }
+                }
+            }
+        });
+
+        return Array.from(map.values());
+    }, [currentProduct, ingredientMap, providerMap]);
+
+    // Dynamic Filtered Products for Related Carousel View (Mode B)
     const matchingProducts = useMemo(() => {
         const q = searchQuery.trim().toLowerCase();
+        if (!q) return products;
 
-        // 1. If searching/selecting a Brand
-        if (searchCategory === 'brands' && q) {
-            const matchedBrandObj = brands.find(b => b.name.toLowerCase().includes(q));
-            if (matchedBrandObj) {
-                return products.filter(p => p.brand_id === matchedBrandObj.id);
-            }
-        }
-
-        // 2. If searching/selecting an Ingredient
-        if (searchCategory === 'ingredients' && q) {
-            const matchedIngObj = ingredients.find(i => i.name.toLowerCase().includes(q));
-            if (matchedIngObj) {
-                return products.filter(p => p.ingredient_list.some(ing => ing.igd_id === matchedIngObj.id));
-            }
-        }
-
-        // 3. If searching Products by name
-        if (q) {
+        if (searchCategory === 'brands') {
+            const matchedBrands = brands.filter(b => b.name.toLowerCase().includes(q)).map(b => b.id);
+            return products.filter(p => matchedBrands.includes(p.brand_id));
+        } else if (searchCategory === 'ingredients') {
+            const matchedIngredients = ingredients.filter(i => i.name.toLowerCase().includes(q)).map(i => i.id);
+            return products.filter(p => p.ingredient_list.some(ing => matchedIngredients.includes(ing.igd_id)));
+        } else {
             return products.filter(p =>
                 p.name.toLowerCase().includes(q) ||
                 p.category_slug.toLowerCase().includes(q) ||
                 (p.sub_category && p.sub_category.toLowerCase().includes(q))
             );
         }
+    }, [products, brands, ingredients, searchQuery, searchCategory]);
 
-        // Default: return all products for carousel browsing
-        return products;
-    }, [searchCategory, searchQuery, products, brands, ingredients]);
+    const categoryOptions = [
+        { key: 'products', label: 'ค้นหาจากชื่อผลิตภัณฑ์' },
+        { key: 'brands', label: 'ค้นหาจากแบรนด์' },
+        { key: 'ingredients', label: 'ค้นหาจากส่วนประกอบ' },
+    ];
 
-    // Carousel Paginated Slices (3 products per page)
+    const currentCategoryLabel = useMemo(() => {
+        return categoryOptions.find(o => o.key === searchCategory)?.label || 'ค้นหาตามผลิตภัณฑ์';
+    }, [searchCategory]);
+
     const totalCarouselPages = Math.ceil(matchingProducts.length / CAROUSEL_PAGE_SIZE);
+
     const paginatedProducts = useMemo(() => {
         const start = carouselPageIndex * CAROUSEL_PAGE_SIZE;
         return matchingProducts.slice(start, start + CAROUSEL_PAGE_SIZE);
@@ -177,9 +232,7 @@ export default function ProductDetailView({
         setCarouselPageIndex(0);
     }, [searchQuery, searchCategory]);
 
-    // ----------------------------------------------------
-    // Badges Data Generator by Category (No Emojis, Smart Truncation)
-    // ----------------------------------------------------
+    // Badges Data Generator by Category
     const allBadgesForCategory = useMemo(() => {
         if (searchCategory === 'brands') {
             return brands.map(b => ({
@@ -241,8 +294,29 @@ export default function ProductDetailView({
     };
 
     return (
-        <div className={`max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 font-sans space-y-8 overflow-x-hidden ${animationClass}`}>
+        <div className={`max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 font-sans space-y-8 overflow-x-hidden ${animationClass}`}>
             
+            {/* Speed Bouncing Rotate Latency Loading Overlay */}
+            {isLoading && (
+                <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs flex flex-col items-center justify-center z-50 transition-all duration-300">
+                    <div className="bg-slate-900/95 border border-emerald-500/30 rounded-3xl p-8 shadow-2xl flex flex-col items-center gap-4 text-center max-w-sm mx-4">
+                        <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                            <RotateCw className="w-10 h-10 text-emerald-400 animate-speed-bounce-rotate" />
+                        </div>
+                        <div>
+                            <h4 className="text-white font-extrabold text-lg">กำลังโหลดข้อมูลผลิตภัณฑ์...</h4>
+                            <p className="text-slate-400 text-xs mt-1.5 leading-relaxed">
+                                กำลัง Query ข้อมูลจาก NutriTrust Fastify Backend & MongoDB
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2 text-[11px] font-semibold text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/50">
+                            <Sparkles size={13} />
+                            <span>Latency Control (4 - 10s) • Bouncing Speed Rotate</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Top Navigation Back to Home Page */}
             <div className="flex items-center justify-between">
                 <Link
@@ -258,17 +332,14 @@ export default function ProductDetailView({
                 </div>
             </div>
 
-            {/* Section 1: Search Bar & Custom Modern Dropdown Menu */}
+            {/* Search Bar Block */}
             <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm space-y-4">
                 <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
                     <Search className="text-green-700" size={20} />
                     <span>ค้นหาข้อมูลผลิตภัณฑ์และโภชนาการ</span>
                 </h2>
 
-                {/* Search Input Box with Custom Modern Dropdown */}
                 <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row items-center gap-2 bg-gray-50 p-2 rounded-2xl border border-gray-300 focus-within:ring-2 focus-within:ring-green-500 transition relative">
-                    
-                    {/* Custom Modern Dropdown Popover (No Emojis) */}
                     <div ref={categoryDropdownRef} className="relative w-full sm:w-auto">
                         <button
                             type="button"
@@ -279,7 +350,6 @@ export default function ProductDetailView({
                             <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180' : ''}`} />
                         </button>
 
-                        {/* Dropdown Menu Popup */}
                         {isCategoryOpen && (
                             <div className="absolute left-0 top-full mt-1 w-full sm:w-56 bg-white rounded-2xl border border-gray-200 shadow-xl z-50 p-1.5 space-y-0.5 animate-in fade-in slide-in-from-top-1 duration-150">
                                 {categoryOptions.map((opt) => (
@@ -306,7 +376,6 @@ export default function ProductDetailView({
                         )}
                     </div>
 
-                    {/* Input Field */}
                     <input
                         type="text"
                         value={searchQuery}
@@ -315,7 +384,6 @@ export default function ProductDetailView({
                         className="w-full flex-grow bg-transparent text-sm text-gray-800 outline-none px-3 py-2 placeholder-gray-400 font-medium"
                     />
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full sm:w-auto bg-green-700 hover:bg-green-800 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
@@ -325,7 +393,6 @@ export default function ProductDetailView({
                     </button>
                 </form>
 
-                {/* Badges List with Smart Truncation & "+" Expansion Button */}
                 <div className="pt-2 border-t border-gray-100">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="text-xs font-semibold text-gray-500">Top Search Badges:</span>
@@ -343,7 +410,6 @@ export default function ProductDetailView({
                             </button>
                         ))}
 
-                        {/* Expand/Collapse "+" Round Button */}
                         {allBadgesForCategory.length > 5 && (
                             <button
                                 onClick={() => setShowMoreBadges(prev => !prev)}
@@ -357,103 +423,132 @@ export default function ProductDetailView({
                 </div>
             </div>
 
-            {/* Section 2: MODE A - Single Product Specification Table View */}
+            {/* Section 2: Single Product View - Responsive 2-Column Layout */}
             {selectedProductId && currentProduct ? (
-                <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden space-y-0 relative animate-slide-left-750">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start animate-slide-left-750">
                     
-                    {/* Header Banner */}
-                    <div className="bg-gradient-to-r from-green-800 via-emerald-800 to-teal-800 text-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                                <span className="bg-emerald-500/20 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full border border-emerald-400/30">
-                                    Specs Sheet & Traceability Summary
-                                </span>
-                                <button
-                                    onClick={() => setSelectedProductId(null)}
-                                    className="text-xs font-medium text-emerald-200 hover:text-white underline ml-2 cursor-pointer"
-                                >
-                                    ดูรายการสินค้าเกี่ยวข้องทั้งหมด ({matchingProducts.length})
-                                </button>
-                            </div>
-                            <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-                                {currentProduct.name}
-                            </h1>
-                            <p className="text-sm text-green-100 flex items-center gap-2">
-                                <span>แบรนด์: <strong>{currentBrand?.name || currentProduct.brand_id}</strong></span>
-                                <span>•</span>
-                                <span>ประเทศผู้ผลิต: <strong>{currentBrand?.provide_at || 'Australia'}</strong></span>
-                            </p>
-                        </div>
-
-                        {/* Yellow Price Range Format ({min_price} - {max_price} ฿) */}
-                        <div className="text-right sm:border-l border-green-700/60 sm:pl-6">
-                            <p className="text-xs text-green-200 font-medium">ราคาประมาณการ</p>
-                            <p className="text-2xl font-black text-amber-300">
-                                {formatPriceRange(currentProduct.min_price, currentProduct.max_price)}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Table Content Container */}
-                    <div className={`p-6 sm:p-8 space-y-8 relative transition-all duration-500 ${
-                        !isTableExpanded ? 'max-h-[480px] overflow-hidden' : 'max-h-none'
-                    }`}>
+                    {/* LEFT COLUMN (2/3 Width): Main Specifications, Ingredients, Traceability & Score Analytics Tabs */}
+                    <div className="lg:col-span-2 space-y-8">
                         
-                        {/* 1. General Specs */}
-                        <div className="space-y-3">
-                            <h3 className="text-sm font-extrabold text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                                <Sparkles size={16} className="text-green-600" />
-                                <span>1. ข้อมูลทั่วไปของผลิตภัณฑ์ (General Info)</span>
-                            </h3>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs font-medium">
-                                <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200">
-                                    <span className="text-gray-400 block mb-1">หมวดหมู่หลัก (Category)</span>
-                                    <span className="font-bold text-gray-800 text-sm">{currentProduct.category_slug}</span>
+                        {/* Header Banner */}
+                        <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-slate-800 shadow-md">
+                            <div className="space-y-1.5">
+                                <div className="flex items-center gap-2">
+                                    <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-emerald-400/30">
+                                        Specs Sheet & Traceability Summary
+                                    </span>
+                                    <button
+                                        onClick={() => setSelectedProductId(null)}
+                                        className="text-xs font-medium text-slate-300 hover:text-white underline ml-2 cursor-pointer"
+                                    >
+                                        ดูสินค้าทั้งหมด ({matchingProducts.length})
+                                    </button>
                                 </div>
-                                <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200">
-                                    <span className="text-gray-400 block mb-1">หมวดหมู่ย่อย (Sub Category)</span>
-                                    <span className="font-bold text-gray-800 text-sm">{currentProduct.sub_category || '-'}</span>
+                                <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                                    {currentProduct.name}
+                                </h1>
+                                <p className="text-xs text-slate-300 flex items-center gap-2">
+                                    <span>แบรนด์: <strong className="text-emerald-300">{currentBrand?.name || currentProduct.brand_id}</strong></span>
+                                    <span>•</span>
+                                    <span>ประเทศผู้ผลิต: <strong className="text-emerald-300">{currentBrand?.provide_at || 'Australia'}</strong></span>
+                                </p>
+                            </div>
+
+                            <div className="text-right sm:border-l border-slate-800 sm:pl-6">
+                                <p className="text-xs text-slate-400 font-medium">ราคาประมาณการ</p>
+                                <p className="text-2xl font-black text-amber-400">
+                                    {formatPriceRange(currentProduct.min_price, currentProduct.max_price)}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* General Information Section (Image on RIGHT, Text Flex-Row on LEFT) */}
+                        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
+                            {/* Header Directive #2 Standard */}
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <Package size={24} className="text-slate-800 shrink-0" />
+                                    <h3 className="text-2xl font-bold text-slate-800">
+                                        Information Overview
+                                    </h3>
                                 </div>
-                                <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200">
-                                    <span className="text-gray-400 block mb-1">รูปแบบบรรจุภัณฑ์ (Serving Format)</span>
-                                    <span className="font-bold text-gray-800 text-sm">{formatServingPackage(currentProduct.serving_package)}</span>
+                                <p className="text-base font-normal text-slate-500 mt-0.5">
+                                    ข้อมูลทั่วไปของผลิตภัณฑ์
+                                </p>
+                            </div>
+
+                            {/* Content: Left Text Paragraphs (Flex-Row), Right Product Image */}
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-2">
+                                {/* Left Side: Pure Paragraphs Flex-Row (No Box Wrapping) */}
+                                <div className="flex-1 space-y-3">
+                                    <div className="flex flex-col items-start gap-y-2.5">
+                                        <p className="text-sm font-normal text-slate-500">
+                                            Category: <strong className="text-slate-800 font-bold text-base">{currentProduct.category_slug}</strong>
+                                        </p>
+                                        <p className="text-sm font-normal text-slate-500">
+                                            Sub Category: <strong className="text-slate-800 font-bold text-base">{currentProduct.sub_category || '-'}</strong>
+                                        </p>
+                                        <p className="text-sm font-normal text-slate-500">
+                                            Serving: <strong className="text-slate-800 font-bold text-base">{formatServingPackage(currentProduct.serving_package)}</strong>
+                                        </p>
+                                    </div>
+                                    <p className="text-xs text-slate-600 leading-relaxed pt-2 border-t border-slate-100">
+                                        ได้รับการตรวจสอบความบริสุทธิ์ของวัตถุดิบและขึ้นทะเบียนมาตรฐานความปลอดภัยทางโภชนาการ
+                                    </p>
+                                </div>
+
+                                {/* Right Side: Product Image Placeholder */}
+                                <div className="w-36 h-36 shrink-0 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100 border border-emerald-200 flex flex-col items-center justify-center p-4 shadow-sm">
+                                    <div className="w-14 h-14 rounded-2xl bg-white/90 shadow-md flex items-center justify-center text-emerald-600 mb-2 border border-emerald-100">
+                                        <Sparkles size={28} />
+                                    </div>
+                                    <span className="text-[11px] font-bold text-emerald-800 bg-white/90 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-2xs">
+                                        {currentBrand?.name || 'NutriTrust Spec'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* 2. Key Ingredients & Dosage */}
-                        <div className="space-y-3">
-                            <h3 className="text-sm font-extrabold text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                                <Award size={16} className="text-green-600" />
-                                <span>2. รายละเอียดส่วนประกอบหลักและปริมาณ (Key Ingredients & Dosage)</span>
-                            </h3>
+                        {/* Ingredients & Dosage Section */}
+                        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
+                            {/* Header Directive #2 Standard */}
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <FlaskConical size={24} className="text-slate-800 shrink-0" />
+                                    <h3 className="text-2xl font-bold text-slate-800">
+                                        Ingredients & Dosage
+                                    </h3>
+                                </div>
+                                <p className="text-base font-normal text-slate-500 mt-0.5">
+                                    ส่วนประกอบสำคัญและปริมาณ
+                                </p>
+                            </div>
 
-                            <div className="border border-gray-200 rounded-2xl overflow-hidden">
+                            <div className="border border-slate-200 rounded-2xl overflow-hidden pt-2">
                                 <table className="w-full text-left text-xs">
-                                    <thead className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                                    <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                                         <tr>
-                                            <th className="p-3">ชื่อส่วนประกอบ (Ingredient)</th>
-                                            <th className="p-3">ปริมาณต่อหน่วยบริโภค (Volume)</th>
-                                            <th className="p-3">โรงงานสารสกัดต้นน้ำ (Upstream Provider)</th>
+                                            <th className="p-3.5">ชื่อส่วนประกอบ (Ingredient)</th>
+                                            <th className="p-3.5">ปริมาณต่อหน่วย (Volume)</th>
+                                            <th className="p-3.5">โรงงานสารสกัดต้นน้ำ (Upstream Provider)</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-gray-100 text-gray-800 font-medium">
-                                        {currentProduct.ingredient_list.map((ingItem, idx) => {
+                                    <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
+                                        {(currentProduct.ingredient_list || []).map((ingItem: { igd_id: string; volume: string }, idx: number) => {
                                             const ingObj = ingredientMap.get(ingItem.igd_id);
                                             const provObj = ingObj ? providerMap.get(ingObj.provider_id) : undefined;
 
                                             return (
-                                                <tr key={idx} className="hover:bg-gray-50/80 transition">
-                                                    <td className="p-3 font-bold text-green-900">
+                                                <tr key={idx} className="hover:bg-slate-50 transition">
+                                                    <td className="p-3.5 font-bold text-emerald-950">
                                                         {ingObj?.name || ingItem.igd_id}
                                                     </td>
-                                                    <td className="p-3">
-                                                        <span className="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full font-bold">
+                                                    <td className="p-3.5">
+                                                        <span className="bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-full font-bold">
                                                             {ingItem.volume}
                                                         </span>
                                                     </td>
-                                                    <td className="p-3 text-gray-600">
+                                                    <td className="p-3.5 text-slate-600">
                                                         {provObj?.name || 'DSM Nutritional Products'}
                                                     </td>
                                                 </tr>
@@ -464,57 +559,145 @@ export default function ProductDetailView({
                             </div>
                         </div>
 
-                        {/* 3. Upstream Traceability Chain */}
-                        <div className="space-y-3">
-                            <h3 className="text-sm font-extrabold text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                                <Factory size={16} className="text-green-600" />
-                                <span>3. ข้อมูลระบบตรวจสอบย้อนกลับสารสกัด (Traceability Process)</span>
-                            </h3>
+                        {/* Traceability Process Section (Card Layout with max-w-3xl) */}
+                        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
+                            {/* Header Directive #2 Standard */}
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <Factory size={24} className="text-slate-800 shrink-0" />
+                                    <h3 className="text-2xl font-bold text-slate-800">
+                                        Traceability Process
+                                    </h3>
+                                </div>
+                                <p className="text-base font-normal text-slate-500 mt-0.5">
+                                    กระบวนการตรวจสอบย้อนกลับสารสกัด
+                                </p>
+                            </div>
 
-                            <div className="space-y-3">
-                                {currentProduct.ingredient_list.map((ingItem, idx) => {
-                                    const ingObj = ingredientMap.get(ingItem.igd_id);
-                                    const provObj = ingObj ? providerMap.get(ingObj.provider_id) : undefined;
-
-                                    if (!provObj) return null;
-
-                                    return (
-                                        <div key={idx} className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200/80 space-y-1.5">
-                                            <div className="flex items-center justify-between">
-                                                <span className="font-bold text-xs text-emerald-900 flex items-center gap-1.5">
-                                                    <CheckCircle size={14} className="text-emerald-600" />
-                                                    <span>{provObj.name}</span>
-                                                </span>
-                                                <span className="text-[11px] font-bold bg-white text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                                    มาตรฐานตรวจสอบย้อนกลับได้จริง
-                                                </span>
+                            {/* Max Width Controlled Card List */}
+                            <div className="space-y-4 max-w-3xl pt-2">
+                                {providerTraceabilityGroup.map(({ provider, ingredients: ingNames }, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="bg-emerald-50/70 p-5 rounded-2xl border border-emerald-200 flex flex-col md:flex-row md:items-start justify-between gap-4 transition hover:bg-emerald-50 shadow-2xs"
+                                    >
+                                        <div className="flex-1 space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <CheckCircle size={16} className="text-emerald-600 shrink-0" />
+                                                <h4 className="font-bold text-sm text-emerald-950">
+                                                    {provider.name}
+                                                </h4>
                                             </div>
-                                            <p className="text-xs text-gray-700 leading-relaxed">
-                                                {provObj.traceability_process}
+                                            <p className="text-xs text-slate-700 leading-relaxed pl-6">
+                                                {provider.traceability_process}
                                             </p>
                                         </div>
-                                    );
-                                })}
+
+                                        <div className="md:w-48 shrink-0 flex flex-col justify-center gap-1 bg-white/90 p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                                            <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
+                                                สารสกัดจากโรงงานนี้ ({ingNames.length}):
+                                            </span>
+                                            <div className="flex flex-wrap gap-1">
+                                                {ingNames.map((name, i) => (
+                                                    <span key={i} className="text-xs font-semibold bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded-md border border-emerald-200">
+                                                        {name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Score Analytics Tab Section (Merchant Score | Health Score | Science Studies) */}
+                        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
+                            {/* Header Directive #2 Standard */}
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <Sparkles size={24} className="text-slate-800 shrink-0" />
+                                        <h3 className="text-2xl font-bold text-slate-800">
+                                            Score Analytics
+                                        </h3>
+                                    </div>
+                                    <p className="text-base font-normal text-slate-500 mt-0.5">
+                                        ระบบการวิเคราะห์คะแนนเชิงเปรียบเทียบ
+                                    </p>
+                                </div>
+
+                                {/* Tab Navigation Buttons */}
+                                <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 self-start sm:self-auto">
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveScoreTab('merchant')}
+                                        className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                                            activeScoreTab === 'merchant'
+                                                ? 'bg-slate-900 text-white shadow-xs'
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                                        }`}
+                                    >
+                                        <Store size={14} />
+                                        <span>Merchant Score</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveScoreTab('health')}
+                                        className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                                            activeScoreTab === 'health'
+                                                ? 'bg-slate-900 text-white shadow-xs'
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                                        }`}
+                                    >
+                                        <ShieldAlert size={14} />
+                                        <span>Health Score</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveScoreTab('science')}
+                                        className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                                            activeScoreTab === 'science'
+                                                ? 'bg-slate-900 text-white shadow-xs'
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                                        }`}
+                                    >
+                                        <BookOpenCheck size={14} />
+                                        <span>Science Studies</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Active Tab Content */}
+                            <div>
+                                {activeScoreTab === 'merchant' && (
+                                    <MerchantScoreChart productId={currentProduct.id} />
+                                )}
+
+                                {activeScoreTab === 'health' && (
+                                    <HealthScoreTab safetyProfile={currentProduct.safety_profile} />
+                                )}
+
+                                {activeScoreTab === 'science' && (
+                                    <ScienceStudiesTab evidenceIds={currentProduct.evidence_ids} />
+                                )}
                             </div>
                         </div>
 
                     </div>
 
-                    {/* More Detail Click! Transparent Gradient Overlay */}
-                    {!isTableExpanded && (
-                        <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-white via-white/90 to-transparent flex flex-col items-center justify-end pb-6 z-20 pointer-events-auto">
-                            <button
-                                onClick={() => setIsTableExpanded(true)}
-                                className="bg-green-700 hover:bg-green-800 text-white font-extrabold text-xs sm:text-sm px-8 py-3.5 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer flex items-center gap-2 border border-green-600"
-                            >
-                                <span>More Detail Click! (ดูผลวิจัยและรายละเอียดเชิงลึกทั้งหมด)</span>
-                                <ChevronRight size={16} />
-                            </button>
-                        </div>
-                    )}
+                    {/* RIGHT COLUMN (1/3 Width): Scientific Evidence Sidebar */}
+                    <div className="lg:col-span-1 sticky top-8">
+                        <ScientificEvidence
+                            evidenceIds={currentProduct?.evidence_ids || []}
+                            customEvidences={apiProductDetail?.evidences}
+                        />
+                    </div>
+
                 </div>
             ) : (
-                /* Section 3: MODE B - Multi-Product Related Carousel Pagination View (3 cards per page) */
+                /* Mode B: Related Products Carousel View */
                 <div className="space-y-6 animate-section-swap">
                     <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div>
@@ -531,7 +714,6 @@ export default function ProductDetailView({
                             </p>
                         </div>
 
-                        {/* Carousel Pagination Controls */}
                         {totalCarouselPages > 1 && (
                             <div className="flex items-center gap-3">
                                 <button
@@ -559,7 +741,6 @@ export default function ProductDetailView({
                         )}
                     </div>
 
-                    {/* 3 Product Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {paginatedProducts.map((product) => {
                             const bName = brandMap.get(product.brand_id)?.name || product.brand_id;
@@ -569,7 +750,6 @@ export default function ProductDetailView({
                                     key={product.id}
                                     className="bg-white rounded-3xl border border-gray-200 hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl group"
                                 >
-                                    {/* Product Image Placeholder */}
                                     <div className="w-full h-44 bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100 flex flex-col items-center justify-center p-6 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
                                         <div className="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center text-emerald-600 mb-2 border border-emerald-100">
                                             <Sparkles size={30} />
@@ -579,58 +759,38 @@ export default function ProductDetailView({
                                         </span>
                                     </div>
 
-                                    {/* Product Details Body */}
                                     <div className="p-5 flex-grow flex flex-col justify-between space-y-4">
                                         <div className="space-y-2">
                                             <span className="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-md inline-block">
                                                 {product.category_slug}
                                             </span>
-                                            <h3 className="font-bold text-base text-gray-900 line-clamp-2 leading-snug">
+                                            <h3 className="font-extrabold text-base text-gray-900 group-hover:text-emerald-700 transition line-clamp-2">
                                                 {product.name}
                                             </h3>
-                                        </div>
-
-                                        {/* Ingredients Preview */}
-                                        <div className="space-y-1 pt-2 border-t border-gray-100">
-                                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
-                                                สารสกัดหลัก
+                                            <p className="text-xs text-gray-500">
+                                                ขนาดบรรจุ: {formatServingPackage(product.serving_package)}
                                             </p>
-                                            <div className="flex flex-wrap gap-1">
-                                                {product.ingredient_list.map((ing, idx) => {
-                                                    const iName = ingredientMap.get(ing.igd_id)?.name || ing.igd_id;
-                                                    return (
-                                                        <span key={idx} className="text-xs font-medium bg-gray-50 text-gray-700 px-2 py-0.5 rounded-md border border-gray-200">
-                                                            {iName} ({ing.volume})
-                                                        </span>
-                                                    );
-                                                })}
-                                            </div>
                                         </div>
 
-                                        {/* Price Range Format & Formatted Serving Package */}
-                                        <div className="pt-2 border-t border-gray-100 flex items-end justify-between">
+                                        <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                                             <div>
-                                                <p className="text-[10px] text-gray-400 font-medium">ราคาเริ่มต้น</p>
-                                                <p className="text-base font-black text-emerald-700">
-                                                    {product.min_price.toLocaleString()} ฿
-                                                </p>
+                                                <span className="text-[10px] text-gray-400 block font-medium">ราคาเริ่มต้น</span>
+                                                <span className="text-lg font-black text-amber-500">
+                                                    {formatPriceRange(product.min_price, product.max_price)}
+                                                </span>
                                             </div>
-                                            <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
-                                                {formatServingPackage(product.serving_package)}
-                                            </span>
-                                        </div>
 
-                                        {/* Select Product Action */}
-                                        <button
-                                            onClick={() => {
-                                                setSelectedProductId(product.id);
-                                                setAnimationClass('animate-slide-left-750');
-                                            }}
-                                            className="w-full mt-2 py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition cursor-pointer shadow-md group-hover:shadow-lg"
-                                        >
-                                            <span>ดูรายละเอียดผลิตภัณฑ์</span>
-                                            <ArrowRight size={14} />
-                                        </button>
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedProductId(product.id);
+                                                    setAnimationClass('animate-slide-left-750');
+                                                }}
+                                                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition cursor-pointer shadow-xs flex items-center gap-1"
+                                            >
+                                                <span>ดู Specs</span>
+                                                <ChevronRight size={14} />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );

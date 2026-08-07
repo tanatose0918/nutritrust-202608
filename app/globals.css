@@ -114,3 +114,27 @@ body {
 .animate-slide-right-750 {
   animation: slideInRight750 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Speed Bouncing Rotate Animation for Latency Loading */
+@keyframes bounceRotateSpeed {
+  0% {
+    transform: rotate(0deg) translateY(0px) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) translateY(-6px) scale(1.08);
+  }
+  50% {
+    transform: rotate(180deg) translateY(0px) scale(1);
+  }
+  75% {
+    transform: rotate(270deg) translateY(-6px) scale(1.08);
+  }
+  100% {
+    transform: rotate(360deg) translateY(0px) scale(1);
+  }
+}
+
+.animate-speed-bounce-rotate {
+  animation: bounceRotateSpeed 1s infinite ease-in-out;
+}
+

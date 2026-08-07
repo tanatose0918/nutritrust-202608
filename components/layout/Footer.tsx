@@ -1,8 +1,32 @@
-import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+'use client';
+
+import React, { useState } from 'react';
+import { ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { SiFacebook, SiLine, SiYoutube, SiInstagram } from '@icons-pack/react-simple-icons';
+import { submitUserProfile } from '@/services/api';
 
 export default function Footer() {
+    const [newsletterEmail, setNewsletterEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [subscribedSuccess, setSubscribedSuccess] = useState(false);
+
+    const handleNewsletterSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newsletterEmail.trim() || !newsletterEmail.includes('@')) return;
+
+        setIsSubmitting(true);
+        // Call API endpoint to record newsletter consent
+        await submitUserProfile({
+            email: newsletterEmail.trim(),
+            is_newsletter_subscriber: true,
+        });
+
+        setIsSubmitting(false);
+        setSubscribedSuccess(true);
+        setNewsletterEmail('');
+        setTimeout(() => setSubscribedSuccess(false), 5000);
+    };
+
     return (
         <footer className="bg-gray-50 border-t border-gray-200 pt-16 pb-12 text-sm text-gray-600">
             <div className="max-w-7xl mx-auto px-6 md:px-10">
@@ -12,9 +36,13 @@ export default function Footer() {
 
                     {/* คอลัมน์ 1: โลโก้ และ สโลแกน */}
                     <div className="space-y-4">
-                        <div className="text-2xl font-extrabold text-green-700 flex items-center gap-2">
-                            <ShieldCheck className="text-green-600" size={28} />
-                            NutriTrust
+                        <div className="text-2xl font-extrabold text-green-700 flex items-center gap-2.5">
+                            <img
+                                src="/nutritrust_icon.jpg"
+                                alt="NutriTrust Logo"
+                                className="w-9 h-9 rounded-full border border-emerald-200/80 object-cover p-0.5 bg-white shrink-0"
+                            />
+                            <span>NutriTrust</span>
                         </div>
                         <p className="text-gray-500 leading-relaxed text-sm">
                             แหล่งข้อมูลโภชนาการและอาหารเสริมที่คุณเชื่อถือได้ เพื่อการตัดสินใจที่ดีที่สุดเพื่อสุขภาพของคุณและคนที่คุณรัก
@@ -46,7 +74,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* คอลัมน์ 4: โซเชียล และ ฟอร์มรับข่าวสาร */}
+                    {/* คอลัมน์ 4: โซเชียล และ ฟอร์มรับข่าวสาร (ใช้ Model เดียวกันกับ Survey) */}
                     <div>
                         <h3 className="font-bold text-gray-900 mb-4 text-base">ติดตามเรา</h3>
                         <div className="flex gap-4 mb-6">
@@ -64,20 +92,30 @@ export default function Footer() {
                             </a>
                         </div>
 
-                        <h3 className="font-bold text-gray-900 mb-2 text-sm">รับข่าวสาร</h3>
-                        <form className="flex gap-2">
+                        <h3 className="font-bold text-gray-900 mb-2 text-sm">รับข่าวสาร (NEWS Broadcast)</h3>
+                        <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
                             <input
                                 type="email"
+                                value={newsletterEmail}
+                                onChange={(e) => setNewsletterEmail(e.target.value)}
                                 placeholder="Your email"
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                                required
                             />
                             <button
-                                type="button"
-                                className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-800 transition"
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-800 transition cursor-pointer disabled:opacity-50"
                             >
-                                Subscribe
+                                {isSubmitting ? '...' : 'Subscribe'}
                             </button>
                         </form>
+                        {subscribedSuccess && (
+                            <p className="text-xs font-bold text-emerald-600 mt-2 flex items-center gap-1">
+                                <CheckCircle2 size={13} />
+                                <span>ลงทะเบียนรับข่าวสาร NEWS Broadcast เรียบร้อย!</span>
+                            </p>
+                        )}
                     </div>
                 </div>
 

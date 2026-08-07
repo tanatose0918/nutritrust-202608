@@ -14,8 +14,8 @@ export default function SurveyEarlyAccess() {
 
     useEffect(() => {
         setIsMounted(true);
-        // กำหนดเป้าหมายเวลาเปิดตัว (Target Launch Date: 9 ส.ค. 2026 00:00:00 UTC+7)
-        const targetDate = new Date('2026-08-09T00:00:00+07:00').getTime();
+        // กำหนดเป้าหมายเวลาเปิดตัว (Target Launch Date: 15 ส.ค. 2026 09:00:00 UTC+7)
+        const targetDate = new Date('2026-08-15T09:00:00+07:00').getTime();
 
         const calculateTimeLeft = () => {
             const now = new Date().getTime();
@@ -61,11 +61,10 @@ export default function SurveyEarlyAccess() {
 
             {/* Survey & Early-Access Section (MVP Goal) */}
             <section className="px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto w-full">
-                <div className={`bg-green-50 rounded-3xl p-8 sm:p-10 border transition-all duration-700 ${
-                    isGlowing
-                        ? 'border-emerald-500 ring-4 ring-emerald-300/80 shadow-2xl scale-[1.02] bg-emerald-50'
-                        : 'border-green-100 shadow-sm'
-                }`}>
+                <div className={`bg-green-50 rounded-3xl p-8 sm:p-10 border transition-all duration-700 ${isGlowing
+                    ? 'border-emerald-500 ring-4 ring-emerald-300/80 shadow-2xl scale-[1.02] bg-emerald-50'
+                    : 'border-green-100 shadow-sm'
+                    }`}>
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
                         ช่วยเราสร้างแพลตฟอร์มข้อมูลโภชนาการที่คนไทยไว้วางใจ
                     </h2>

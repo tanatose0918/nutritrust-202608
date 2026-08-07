@@ -8,6 +8,7 @@ import { IProduct, IBrand, IIngredient } from '@/types/traceability';
 import productsData from '@/mockup/products_mockup.json';
 import brandsData from '@/mockup/brands_mockup.json';
 import ingredientsData from '@/mockup/ingredients_mockup.json';
+import { searchAllCollections } from '@/services/api';
 
 const PRODUCTS = [
     { id: 1, name: 'Blackmores Bio C 1000 mg' },
@@ -105,8 +106,33 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Filter ผลลัพธ์แยกตาม 3 หมวดหมู่ (ผลิตภัณฑ์, แบรนด์, ส่วนประกอบ)
-    const searchResults = useMemo(() => {
+    // Fastify API Search State & Async Effect
+    const [apiSearchResults, setApiSearchResults] = useState<{ products: any[]; brands: any[]; ingredients: any[] } | null>(null);
+
+    useEffect(() => {
+        const q = searchQuery.trim();
+        if (!q) {
+            setApiSearchResults(null);
+            return;
+        }
+
+        let isMounted = true;
+        const timer = setTimeout(() => {
+            searchAllCollections(q).then((results) => {
+                if (isMounted && results && (results.products.length > 0 || results.brands.length > 0 || results.ingredients.length > 0)) {
+                    setApiSearchResults(results);
+                }
+            });
+        }, 150);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(timer);
+        };
+    }, [searchQuery]);
+
+    // Filter ผลลัพธ์ (ใช้ข้อมูลจาก Fastify MongoDB API หรือ Local Fallback)
+    const localSearchResults = useMemo(() => {
         const q = searchQuery.trim().toLowerCase();
         if (!q) return { products: [], brands: [], ingredients: [] };
 
@@ -135,6 +161,8 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
             ingredients: matchedIngredients,
         };
     }, [searchQuery]);
+
+    const searchResults = apiSearchResults || localSearchResults;
 
     const totalResultsCount =
         searchResults.products.length +

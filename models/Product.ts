@@ -3,6 +3,14 @@ import { IProduct } from '@/types/traceability';
 
 export interface IProductDocument extends IProduct, Document {}
 
+const SafetyProfileSchema = new Schema({
+    warnings: [{ type: String }],
+    contraindications: [{ type: String }],
+    optimal_intake: { type: String, required: true },
+    pros: [{ type: String }],
+    considerations: [{ type: String }]
+}, { _id: false });
+
 const ProductSchema = new Schema<IProductDocument>({
     id: { type: String, required: true, unique: true },
     brand_id: { type: String, required: true, ref: 'Brand' },
@@ -15,7 +23,9 @@ const ProductSchema = new Schema<IProductDocument>({
     }],
     serving_package: { type: String, required: true },
     min_price: { type: Number, required: true },
-    max_price: { type: Number, default: null }
+    max_price: { type: Number, default: null },
+    safety_profile: { type: SafetyProfileSchema },
+    evidence_ids: [{ type: String, ref: 'Evidence' }]
 }, { timestamps: true });
 
 export const ProductModel = models.Product || model<IProductDocument>('Product', ProductSchema);

@@ -20,8 +20,13 @@ const notoSansThai = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "NutriTrust Web Application",
-  description: "NutriTrust Web Application for Comparing Supplements and Vitamins",
+  title: "NutriTrust - Supplements & Nutrition Intelligence",
+  description: "Independent Nutrition & Supplement Comparison Platform",
+  icons: {
+    icon: "/nttco.ico",
+    shortcut: "/nttco.ico",
+    apple: "/nttco.ico",
+  },
 };
 
 export default function RootLayout({

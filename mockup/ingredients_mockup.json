@@ -1,32 +1,62 @@
 [
-    {
-        "id": "igd_001",
-        "name": "Vitamin C (Ascorbic Acid)",
-        "provider_id": "prov_001"
-    },
-    {
-        "id": "igd_002",
-        "name": "Standardized Fish Oil (Omega-3)",
-        "provider_id": "prov_002"
-    },
-    {
-        "id": "igd_003",
-        "name": "Magnesium Bisglycinate Chelate",
-        "provider_id": "prov_003"
-    },
-    {
-        "id": "igd_004",
-        "name": "L-Carnitine L-Tartrate (Carnipure)",
-        "provider_id": "prov_004"
-    },
-    {
-        "id": "igd_005",
-        "name": "Acerola Cherry Extract",
-        "provider_id": "prov_001"
-    },
-    {
-        "id": "igd_006",
-        "name": "Undenatured Type II Collagen (UC-II)",
-        "provider_id": "prov_003"
-    }
+  {
+    "id": "igd_001",
+    "name": "Vitamin C (Ascorbic Acid)",
+    "provider_id": "prov_001"
+  },
+  {
+    "id": "igd_002",
+    "name": "Standardized Fish Oil (Omega-3 EPA/DHA)",
+    "provider_id": "prov_002"
+  },
+  {
+    "id": "igd_003",
+    "name": "Magnesium Bisglycinate Chelate",
+    "provider_id": "prov_003"
+  },
+  {
+    "id": "igd_004",
+    "name": "L-Carnitine L-Tartrate (Carnipure®)",
+    "provider_id": "prov_004"
+  },
+  {
+    "id": "igd_005",
+    "name": "Acerola Cherry Extract",
+    "provider_id": "prov_001"
+  },
+  {
+    "id": "igd_006",
+    "name": "Undenatured Type II Collagen (UC-II®)",
+    "provider_id": "prov_005"
+  },
+  {
+    "id": "igd_007",
+    "name": "Salmon Fish Oil (Natural Omega-3)",
+    "provider_id": "prov_002"
+  },
+  {
+    "id": "igd_008",
+    "name": "Green Tea Extract (EGCG 90%)",
+    "provider_id": "prov_001"
+  },
+  {
+    "id": "igd_009",
+    "name": "Calcium Carbonate & Vitamin D3",
+    "provider_id": "prov_003"
+  },
+  {
+    "id": "igd_010",
+    "name": "Magnesium Oxide (400mg Heavy Density)",
+    "provider_id": "prov_003"
+  },
+  {
+    "id": "igd_011",
+    "name": "Glucosamine Sulfate & Chondroitin Complex",
+    "provider_id": "prov_005"
+  },
+  {
+    "id": "igd_012",
+    "name": "Electrolyte Complex (Sodium, Potassium, Magnesium)",
+    "provider_id": "prov_003"
+  }
 ]
