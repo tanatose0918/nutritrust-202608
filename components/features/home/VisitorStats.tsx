@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { Users, Search, Activity, UserCheck } from 'lucide-react';
 import { fetchWebAnalytics, sendTelemetryEvent } from '@/services/api';
 
-const BASE_EARLY_ADOPTERS = 142;
-const BASE_VISITORS = 1250;
-const BASE_SEARCHES = 3840;
+const BASE_EARLY_ADOPTERS = 0;
+const BASE_VISITORS = 0;
+const BASE_SEARCHES = 0;
 
 export default function VisitorStats() {
     const [earlyAdopterCount, setEarlyAdopterCount] = useState(BASE_EARLY_ADOPTERS);

@@ -57,9 +57,9 @@ export default function Footer() {
                         <h3 className="font-bold text-gray-900 mb-4 text-base">เกี่ยวกับเรา</h3>
                         <ul className="space-y-3">
                             <li><a href="/about" className="hover:text-green-700 transition">เกี่ยวกับ NutriTrust</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">วิธีการประเมินของเรา (Methodology)</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">ทีมงาน</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">ติดต่อเรา</a></li>
+                            <li><a href="/about" className="hover:text-green-700 transition">วิธีการประเมินของเรา (Methodology)</a></li>
+                            <li><a href="/about" className="hover:text-green-700 transition">ทีมงาน & Blue Horizon</a></li>
+                            <li><a href="/about" className="hover:text-green-700 transition">ติดต่อเรา</a></li>
                         </ul>
                     </div>
 
@@ -67,10 +67,10 @@ export default function Footer() {
                     <div>
                         <h3 className="font-bold text-gray-900 mb-4 text-base">ช่วยเหลือ</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="hover:text-green-700 transition">คำถามที่พบบ่อย (FAQ)</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">ข้อกำหนดการใช้งาน</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">นโยบายความเป็นส่วนตัว (Privacy Policy)</a></li>
-                            <li><a href="#" className="hover:text-green-700 transition">การใช้คุกกี้</a></li>
+                            <li><a href="/help#faq" className="hover:text-green-700 transition">คำถามที่พบบ่อย (FAQ)</a></li>
+                            <li><a href="/help#terms" className="hover:text-green-700 transition">ข้อกำหนดการใช้งาน</a></li>
+                            <li><a href="/help#privacy" className="hover:text-green-700 transition">นโยบายความเป็นส่วนตัว (Privacy Policy)</a></li>
+                            <li><a href="/help#cookies" className="hover:text-green-700 transition">การใช้คุกกี้</a></li>
                         </ul>
                     </div>
 

@@ -33,19 +33,45 @@ function EvidenceSummaryText({ summary }: { summary: string }) {
   );
 }
 
+function getEvidenceBadgeStyle(level: string) {
+  const l = (level || '').toLowerCase();
+  if (l.includes('สูง') || l.includes('high') || l.includes('level a') || l.includes('meta')) {
+    return {
+      bg: 'bg-emerald-800 text-emerald-50 border-emerald-700',
+      icon: 'text-amber-300',
+      subText: 'text-emerald-200'
+    };
+  }
+  if (l.includes('ต่ำ') || l.includes('low') || l.includes('level c') || l.includes('vitro')) {
+    return {
+      bg: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+      icon: 'text-emerald-700',
+      subText: 'text-emerald-800'
+    };
+  }
+  // Default: Moderate / Medium
+  return {
+    bg: 'bg-emerald-600 text-white border-emerald-500',
+    icon: 'text-emerald-200',
+    subText: 'text-emerald-100'
+  };
+}
+
 function FormatEvidenceLevel({ level }: { level: string }) {
   if (!level) return null;
+  const style = getEvidenceBadgeStyle(level);
   const parts = level.split('(');
+
   if (parts.length > 1) {
     const main = parts[0].trim();
     const sub = parts.slice(1).join('(').trim();
     return (
-      <span className="inline-flex flex-col text-[10px] font-bold bg-emerald-50 text-emerald-900 p-2 rounded-xl border border-emerald-200/80 space-y-0.5 w-full">
-        <span className="flex items-center gap-1 text-emerald-800 font-extrabold">
-          <Award size={12} className="text-emerald-600 shrink-0" />
+      <span className={`inline-flex flex-col text-[10px] font-bold p-2.5 rounded-xl border space-y-0.5 w-full shadow-2xs ${style.bg}`}>
+        <span className="flex items-center gap-1 font-extrabold">
+          <Award size={13} className={`${style.icon} shrink-0`} />
           <span>{main}</span>
         </span>
-        <span className="text-[9.5px] font-medium text-slate-600 leading-snug pl-4">
+        <span className={`text-[9.5px] font-medium leading-snug pl-4 ${style.subText}`}>
           ({sub}
         </span>
       </span>
@@ -53,8 +79,8 @@ function FormatEvidenceLevel({ level }: { level: string }) {
   }
 
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
-      <Award size={12} className="text-emerald-600" />
+    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-lg border shadow-2xs ${style.bg}`}>
+      <Award size={13} className={style.icon} />
       <span>{level}</span>
     </span>
   );
@@ -89,7 +115,7 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
           return (
             <div
               key={product.id}
-              className="bg-slate-50/80 rounded-2xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between hover:border-emerald-300 transition shadow-2xs overflow-hidden"
+              className="bg-slate-50/80 rounded-2xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between hover:border-emerald-300 transition duration-300 shadow-2xs overflow-hidden"
             >
               <div className="space-y-3">
                 <h4 className="font-extrabold text-sm text-slate-900 truncate" title={product.name}>
@@ -99,7 +125,7 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
                 <div className="space-y-3">
                   {displayEvidences.map((ev, idx) => (
                     <div key={ev.evidence_id || idx} className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2.5 overflow-hidden">
-                      {/* Benefit Title - Fix Overflow with break-words & leading-snug */}
+                      {/* Benefit Title */}
                       <div className="flex items-start gap-1.5 border-b border-slate-100 pb-2">
                         <ShieldCheck size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                         <h5 className="font-extrabold text-xs text-slate-900 leading-snug break-words flex-1">
@@ -107,7 +133,7 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
                         </h5>
                       </div>
 
-                      {/* Evidence Level formatted with newline before ( */}
+                      {/* Evidence Level formatted with 3 green shades */}
                       <FormatEvidenceLevel level={ev.evidence_level} />
 
                       {/* Summary with 150 chars toggle */}
@@ -126,7 +152,7 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
                                 href={pubmedUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-600 hover:text-white px-2 py-0.5 rounded border border-emerald-200 transition cursor-pointer"
+                                className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-600 hover:text-white px-2 py-0.5 rounded border border-emerald-200 transition-colors duration-200 cursor-pointer"
                               >
                                 <span>PMID: {cleanPmid}</span>
                                 <ExternalLink size={10} />

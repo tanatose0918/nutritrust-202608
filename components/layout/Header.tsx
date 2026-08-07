@@ -42,15 +42,15 @@ export default function Header() {
                     <a href="#early-access" onClick={scrollToEarlyAccess} className="hover:text-green-700 transition">
                         Health Guides
                     </a>
-                    <a href="#early-access" onClick={scrollToEarlyAccess} className="hover:text-green-700 transition">
+                    <Link href="/about" className="hover:text-green-700 transition-colors duration-200">
                         About Us
-                    </a>
+                    </Link>
                 </nav>
 
                 {/* Join Early Access Button */}
                 <Link
                     href="/survey"
-                    className="bg-green-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-green-800 transition shadow-sm cursor-pointer flex items-center gap-1.5"
+                    className="bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-sm hover:shadow-md cursor-pointer flex items-center gap-1.5"
                 >
                     Join Early Access
                 </Link>
