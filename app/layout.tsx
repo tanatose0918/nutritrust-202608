@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import MedicalDisclaimerBanner from "@/components/layout/MedicalDisclaimerBanner";
 import PrimeReactClientProvider from "@/components/providers/PrimeReactClientProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -40,13 +41,14 @@ export default function RootLayout({
       lang="th"
       className={`${plusJakartaSans.variable} ${notoSansThai.variable} h-full antialiased`}
     >
-      <body className="flex flex-col min-h-screen font-sans">
+      <body className="flex flex-col min-h-screen font-sans pb-16">
         <PrimeReactClientProvider>
           <Header />
           <main className="bg-white flex-1 flex flex-col min-w-0">
             {children}
           </main>
           <Footer />
+          <MedicalDisclaimerBanner />
         </PrimeReactClientProvider>
       </body>
     </html>

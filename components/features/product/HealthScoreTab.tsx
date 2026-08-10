@@ -27,12 +27,12 @@ export default function HealthScoreTab({ safetyProfile }: HealthScoreTabProps) {
       {/* Header Directive #2 Standard */}
       <div>
         <div className="flex items-center gap-2">
-          <ShieldAlert size={24} className="text-slate-800 shrink-0" />
-          <h3 className="text-2xl font-bold text-slate-800">
+          <ShieldAlert size={24} className="text-emerald-400 shrink-0" />
+          <h3 className="text-2xl font-black text-white">
             Health Score Analytics
           </h3>
         </div>
-        <p className="text-base font-normal text-slate-500 mt-0.5">
+        <p className="text-sm font-medium text-slate-300 mt-0.5">
           ผลการวิเคราะห์ความปลอดภัยทางสุขภาพและโปรไฟล์ทางโภชนาการ
         </p>
       </div>

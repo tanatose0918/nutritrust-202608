@@ -77,18 +77,18 @@ export default function MerchantScoreChart({ productId }: MerchantScoreChartProp
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <Store size={24} className="text-slate-800 shrink-0" />
-            <h3 className="text-2xl font-bold text-slate-800">
+            <Store size={24} className="text-emerald-400 shrink-0" />
+            <h3 className="text-2xl font-black text-white">
               Merchant Score Analytics
             </h3>
           </div>
-          <p className="text-base font-normal text-slate-500 mt-0.5">
+          <p className="text-sm font-medium text-slate-300 mt-0.5">
             ผลการวิเคราะห์คะแนนประเมินร้านค้าและบริการ
           </p>
         </div>
 
-        <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full flex items-center gap-1 self-start sm:self-auto">
-          <Info size={14} className="text-emerald-600" />
+        <span className="text-xs font-extrabold text-emerald-300 bg-emerald-950/90 px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5 self-start sm:self-auto">
+          <Info size={14} className="text-emerald-400" />
           <span>รีวิวจาก Shopee, Lazada & TikTok Shop</span>
         </span>
       </div>

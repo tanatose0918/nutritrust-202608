@@ -31,7 +31,7 @@ export default function SpiderChart({ metrics, size = 300 }: SpiderChartProps) {
   ];
 
   const center = size / 2;
-  const radius = size * 0.35;
+  const radius = size * 0.27;
   const levels = [0.25, 0.5, 0.75, 1.0];
 
   const getCoordinates = (index: number, valPercent: number) => {
@@ -51,7 +51,7 @@ export default function SpiderChart({ metrics, size = 300 }: SpiderChartProps) {
     .join(' ');
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex flex-col items-center justify-center p-2">
       <svg width={size} height={size} className="overflow-visible">
         {/* Grid Concentric Pentagons */}
         {levels.map((level, lvlIdx) => {
@@ -67,7 +67,7 @@ export default function SpiderChart({ metrics, size = 300 }: SpiderChartProps) {
               key={lvlIdx}
               points={points}
               fill="none"
-              stroke="#e2e8f0"
+              stroke="#cbd5e1"
               strokeWidth="1"
               strokeDasharray={level === 1 ? 'none' : '2,2'}
             />
@@ -116,7 +116,7 @@ export default function SpiderChart({ metrics, size = 300 }: SpiderChartProps) {
         {/* Axis Labels & Values */}
         {[0, 1, 2, 3, 4].map((i) => {
           const angle = (-90 + i * 72) * (Math.PI / 180);
-          const labelRadius = radius + 22;
+          const labelRadius = radius + 24;
           const x = center + labelRadius * Math.cos(angle);
           const y = center + labelRadius * Math.sin(angle);
 
@@ -131,9 +131,10 @@ export default function SpiderChart({ metrics, size = 300 }: SpiderChartProps) {
               y={y}
               textAnchor={textAnchor}
               dominantBaseline="middle"
-              className="text-[11px] font-semibold fill-slate-700"
+              className="text-[11px] font-bold fill-slate-800"
             >
-              {labels[i]} ({values[i]}%)
+              <tspan x={x} dy="-0.4em">{labels[i]}</tspan>
+              <tspan x={x} dy="1.2em" className="fill-emerald-600 font-extrabold">({values[i]}%)</tspan>
             </text>
           );
         })}
