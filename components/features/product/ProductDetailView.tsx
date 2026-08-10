@@ -27,7 +27,7 @@ interface ProductDetailViewProps {
   isSearchOnlyMode?: boolean;
 }
 
-type SearchCategory = 'ingredients' | 'products' | 'brands';
+type SearchCategory = 'ingredients' | 'products' | 'brands' | 'issues' | 'goals';
 type ScoreTabType = 'merchant' | 'health' | 'science';
 
 const formatServingPackage = (pkg: string) => {
