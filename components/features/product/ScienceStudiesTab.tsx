@@ -80,7 +80,7 @@ export default function ScienceStudiesTab({ evidenceIds = [] }: ScienceStudiesTa
       {/* CONDITIONAL RENDER: VERTICAL BAR CHART (N <= 2) VS SPIDER CHART (N >= 3) */}
       {N <= 2 ? (
         /* VERTICAL BAR CHART FOR 1-2 EVIDENCES */
-        <div className="bg-slate-950/80 rounded-3xl p-6 border border-emerald-500/30 shadow-inner space-y-5">
+        <div className="bg-slate-950/80 rounded-3xl p-6 border border-emerald-500/30 shadow-inner space-y-6">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3 text-xs font-bold text-slate-300">
             <span className="flex items-center gap-1.5 text-emerald-400">
               <CheckCircle size={14} /> Evidence Level Vertical Bar Chart ({N} {N === 1 ? 'Study' : 'Studies'})
@@ -90,58 +90,61 @@ export default function ScienceStudiesTab({ evidenceIds = [] }: ScienceStudiesTa
             </span>
           </div>
 
-          {/* Vertical Bar Chart Container with Y-Axis */}
-          <div className="flex items-stretch gap-4 pt-2 h-64">
-            {/* Y-Axis Labels */}
-            <div className="flex flex-col justify-between text-[10px] font-bold text-slate-500 pr-2 border-r border-slate-800 shrink-0 py-1">
-              <span>100%</span>
-              <span>75%</span>
-              <span>50%</span>
-              <span>25%</span>
-              <span>0%</span>
-            </div>
-
-            {/* Vertical Columns Area with Horizontal Grid Lines */}
-            <div className="relative flex-grow flex items-end justify-around px-4 border-b border-slate-800">
-              {/* Horizontal Grid Lines */}
-              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none py-1">
-                <div className="border-b border-slate-800/80 w-full" />
-                <div className="border-b border-slate-800/80 w-full" />
-                <div className="border-b border-slate-800/80 w-full" />
-                <div className="border-b border-slate-800/80 w-full" />
-                <div className="border-b border-slate-800/80 w-full" />
+          {/* Chart Graphics Section */}
+          <div className="space-y-3 pt-2">
+            {/* Main Canvas: Y-Axis + Grid Lines + Bars */}
+            <div className="flex items-stretch gap-4 h-56 relative">
+              {/* Y-Axis Labels Container (Height h-56 aligned) */}
+              <div className="flex flex-col justify-between text-[11px] font-bold text-slate-400 pr-3 border-r border-slate-800 shrink-0 select-none py-0">
+                <span className="leading-none">100%</span>
+                <span className="leading-none">75%</span>
+                <span className="leading-none">50%</span>
+                <span className="leading-none">25%</span>
+                <span className="leading-none">0%</span>
               </div>
 
-              {/* Vertical Bars */}
+              {/* Grid Box & Bars Area */}
+              <div className="relative flex-grow h-56 border-b border-slate-700/80">
+                {/* 5 Horizontal Grid Lines (Exact Percentages from Top) */}
+                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                  <div className="border-b border-slate-800 w-full" />
+                  <div className="border-b border-slate-800 w-full" />
+                  <div className="border-b border-slate-800 w-full" />
+                  <div className="border-b border-slate-800 w-full" />
+                  <div className="border-b border-slate-800 w-full" />
+                </div>
+
+                {/* Vertical Bars positioned relative to bottom: 0 */}
+                <div className="absolute inset-0 flex items-end justify-around px-8">
+                  {summaries.map((item, idx) => {
+                    const score = getEvidenceScore(item.evidence_level);
+                    return (
+                      <div key={idx} className="relative flex flex-col items-center justify-end h-full w-20 sm:w-28 group">
+                        {/* Vertical Bar (Height = exact score%) */}
+                        <div
+                          className="w-14 sm:w-16 bg-gradient-to-t from-emerald-700 via-teal-500 to-emerald-400 rounded-t-xl transition-all duration-700 ease-out border-t border-x border-emerald-300/40 shadow-lg group-hover:brightness-110"
+                          style={{ height: `${score}%` }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* X-Axis Labels & Study Titles (Below the Chart Canvas) */}
+            <div className="flex justify-around pl-14 pr-2 pt-2">
               {summaries.map((item, idx) => {
                 const score = getEvidenceScore(item.evidence_level);
-                const simpleLevelTag = score >= 90 ? 'ระดับสูง (95%)' : score >= 70 ? 'ระดับปานกลาง (75%)' : 'ระดับเริ่มต้น (55%)';
+                const simpleLevelText = score >= 90 ? 'ระดับสูง' : score >= 70 ? 'ระดับปานกลาง' : 'ระดับเริ่มต้น';
                 return (
-                  <div key={idx} className="relative z-10 flex flex-col items-center gap-2 h-full justify-end w-28 sm:w-36 group">
-                    {/* Score Label above Bar */}
-                    <span className="text-[11px] font-black text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded-full border border-emerald-800 shadow-md">
-                      {score}%
+                  <div key={idx} className="text-center space-y-1 w-32 sm:w-44">
+                    <h5 className="text-xs font-bold text-white line-clamp-1" title={item.benefit_title}>
+                      {item.benefit_title}
+                    </h5>
+                    <span className="text-[11px] font-semibold text-emerald-400 block bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800/80 inline-block">
+                      {simpleLevelText}
                     </span>
-
-                    {/* Column Bar Container */}
-                    <div className="w-14 sm:w-16 bg-slate-900/90 rounded-t-2xl border border-slate-800 overflow-hidden flex items-end justify-center p-1 shadow-inner h-full">
-                      <div
-                        className="w-full bg-gradient-to-t from-emerald-700 via-teal-500 to-emerald-400 rounded-t-xl transition-all duration-700 ease-out flex items-start justify-center pt-2 shadow-lg group-hover:brightness-110"
-                        style={{ height: `${score}%` }}
-                      >
-                        <span className="text-[10px] font-black text-slate-950">{score}%</span>
-                      </div>
-                    </div>
-
-                    {/* X-Axis Title & Simplified Level */}
-                    <div className="text-center space-y-0.5 pt-1">
-                      <h5 className="text-[11px] font-bold text-white line-clamp-1 max-w-[120px]" title={item.benefit_title}>
-                        {item.benefit_title}
-                      </h5>
-                      <span className="text-[10px] font-semibold text-emerald-400 block">
-                        {simpleLevelTag}
-                      </span>
-                    </div>
                   </div>
                 );
               })}

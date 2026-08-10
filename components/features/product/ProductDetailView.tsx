@@ -110,15 +110,33 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
     setIsTier3Unlocked(false);
     let isMounted = true;
 
-    fetchProductDetail(selectedProductId).then((detail) => {
-      if (isMounted) {
-        if (detail) setApiProductDetail(detail);
-        setIsLoading(false);
-      }
-    });
+    const fallback = (productsData as unknown as IProduct[]).find((p) => p.id === selectedProductId) || null;
+    if (fallback) {
+      setApiProductDetail(fallback);
+    }
+
+    fetchProductDetail(selectedProductId)
+      .then((detail) => {
+        if (isMounted && detail) {
+          setApiProductDetail(detail);
+        }
+      })
+      .catch((err) => {
+        console.warn('Backend product fetch error:', err);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
+
+    const autoDismissTimer = setTimeout(() => {
+      if (isMounted) setIsLoading(false);
+    }, 400);
 
     return () => {
       isMounted = false;
+      clearTimeout(autoDismissTimer);
     };
   }, [selectedProductId]);
 
