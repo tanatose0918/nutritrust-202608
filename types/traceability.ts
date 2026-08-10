@@ -58,4 +58,6 @@ export interface IProduct {
     max_price: number | null; // ราคาสูงสุด ถ้ามี
     safety_profile: ISafetyProfile; // ข้อมูลความปลอดภัย (ฝังตัวอยู่ในสินค้าเลย)
     evidence_ids: string[]; // รายการ ID เปเปอร์วิจัยที่เกี่ยวข้อง (อ้างอิงข้าม Collection)
+    health_goals?: string[]; // เป้าหมายสุขภาพที่เกี่ยวข้อง เช่น ["Eye & Vision Protection", "Brain & Memory Care"]
+    health_issues?: string[]; // ปัญหาสุขภาพที่ช่วยบรรเทา เช่น ["Sleep Quality & Stress Relief", "Office Syndrome & Muscle Relief"]
 }

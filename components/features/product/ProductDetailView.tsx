@@ -209,6 +209,8 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
         p.category_slug.toLowerCase().includes(q) ||
         (p.sub_category && p.sub_category.toLowerCase().includes(q)) ||
         p.ingredient_list.some((ing) => ing.igd_id.toLowerCase().includes(q)) ||
+        (p.health_goals && p.health_goals.some((g) => g.toLowerCase().includes(q))) ||
+        (p.health_issues && p.health_issues.some((i) => i.toLowerCase().includes(q))) ||
         matchHealthConcept(p, q)
     );
   }, [products, brands, ingredients, searchCategory, searchQuery]);
