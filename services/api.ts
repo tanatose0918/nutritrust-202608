@@ -7,7 +7,7 @@ export async function fetchProducts(params?: { search?: string; category?: strin
     if (params?.category) url.searchParams.append('category', params.category);
     if (params?.brand) url.searchParams.append('brand', params.brand);
 
-    const res = await fetch(url.toString());
+    const res = await fetch(url.toString(), { signal: AbortSignal.timeout(2000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.success ? data.data : null;
@@ -19,7 +19,7 @@ export async function fetchProducts(params?: { search?: string; category?: strin
 
 export async function fetchProductDetail(id: string) {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/products/${id}`);
+    const res = await fetch(`${API_BASE_URL}/api/products/${id}`, { signal: AbortSignal.timeout(2000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.success ? data.data : null;
@@ -34,7 +34,7 @@ export async function searchAllCollections(query: string) {
     if (!query || query.trim() === '') {
       return { products: [], brands: [], ingredients: [] };
     }
-    const res = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query.trim())}`);
+    const res = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query.trim())}`, { signal: AbortSignal.timeout(2000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.success ? data.data : { products: [], brands: [], ingredients: [] };
@@ -82,7 +82,7 @@ export async function submitUserProfile(formData: {
 
 export async function fetchWebAnalytics() {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/web-analytics`);
+    const res = await fetch(`${API_BASE_URL}/api/web-analytics`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.success ? data.data : null;
@@ -96,15 +96,16 @@ export function sendTelemetryEvent(eventType: string, sessionId?: string) {
   try {
     if (typeof window !== 'undefined') {
       const payload = JSON.stringify({ event_type: eventType, session_id: sessionId });
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(`${API_BASE_URL}/api/telemetry/event`, payload);
-      } else {
-        fetch(`${API_BASE_URL}/api/telemetry/event`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload
-        }).catch(() => {});
-      }
+      
+      // Use fetch with application/json header to ensure Fastify parses body correctly
+      fetch(`${API_BASE_URL}/api/telemetry/event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true
+      }).catch((err) => {
+        console.warn('Telemetry fetch error:', err);
+      });
     }
   } catch {
     // Ignore telemetry errors

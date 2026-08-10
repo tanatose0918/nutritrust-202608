@@ -4,10 +4,8 @@
     "name": "Blackmores",
     "provide_at": "Australia",
     "provider_list": [
-      "prov_001",
-      "prov_002",
-      "prov_003",
-      "prov_004"
+      "prv_001",
+      "prv_002"
     ]
   },
   {
@@ -15,9 +13,8 @@
     "name": "Vistra",
     "provide_at": "Thailand",
     "provider_list": [
-      "prov_001",
-      "prov_002",
-      "prov_004"
+      "prv_003",
+      "prv_004"
     ]
   },
   {
@@ -25,20 +22,17 @@
     "name": "NOW Foods",
     "provide_at": "USA",
     "provider_list": [
-      "prov_002",
-      "prov_003",
-      "prov_004",
-      "prov_007"
+      "prv_001",
+      "prv_005"
     ]
   },
   {
     "id": "br_004",
     "name": "Mega We Care",
-    "provide_at": "Thailand/Australia",
+    "provide_at": "Thailand",
     "provider_list": [
-      "prov_001",
-      "prov_002",
-      "prov_007"
+      "prv_002",
+      "prv_003"
     ]
   },
   {
@@ -46,8 +40,8 @@
     "name": "Swisse",
     "provide_at": "Australia",
     "provider_list": [
-      "prov_001",
-      "prov_002"
+      "prv_001",
+      "prv_004"
     ]
   },
   {
@@ -55,8 +49,8 @@
     "name": "Move Free (Schiff)",
     "provide_at": "USA",
     "provider_list": [
-      "prov_004",
-      "prov_005"
+      "prv_006",
+      "prv_007"
     ]
   },
   {
@@ -64,47 +58,262 @@
     "name": "SaltStick",
     "provide_at": "USA",
     "provider_list": [
-      "prov_003"
+      "prv_005"
     ]
   },
   {
     "id": "br_008",
-    "name": "Yanhee",
-    "provide_at": "Thailand",
+    "name": "DHC",
+    "provide_at": "Japan",
     "provider_list": [
-      "prov_004"
+      "prv_001",
+      "prv_003"
     ]
   },
   {
     "id": "br_009",
-    "name": "InterCare",
-    "provide_at": "Thailand",
+    "name": "Hicee",
+    "provide_at": "Japan",
     "provider_list": [
-      "prov_004"
+      "prv_002"
     ]
   },
   {
     "id": "br_010",
-    "name": "DHC",
-    "provide_at": "Japan",
+    "name": "Kirkland Signature",
+    "provide_at": "USA",
     "provider_list": [
-      "prov_006"
+      "prv_001",
+      "prv_005"
     ]
   },
   {
     "id": "br_011",
-    "name": "Doctor's Best",
+    "name": "21st Century",
     "provide_at": "USA",
     "provider_list": [
-      "prov_003"
+      "prv_005"
     ]
   },
   {
     "id": "br_012",
+    "name": "California Gold Nutrition",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_001",
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_013",
+    "name": "Demosana",
+    "provide_at": "Germany",
+    "provider_list": [
+      "prv_004"
+    ]
+  },
+  {
+    "id": "br_014",
+    "name": "Nordic Naturals",
+    "provide_at": "Norway",
+    "provider_list": [
+      "prv_002"
+    ]
+  },
+  {
+    "id": "br_015",
+    "name": "Carlson Labs",
+    "provide_at": "Norway",
+    "provider_list": [
+      "prv_002"
+    ]
+  },
+  {
+    "id": "br_016",
+    "name": "GNC",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_001",
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_017",
+    "name": "Doctor's Best",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_001",
+      "prv_006"
+    ]
+  },
+  {
+    "id": "br_018",
+    "name": "KAL",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_019",
+    "name": "Life Extension",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_001",
+      "prv_006"
+    ]
+  },
+  {
+    "id": "br_020",
     "name": "Nature's Bounty",
     "provide_at": "USA",
     "provider_list": [
-      "prov_003"
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_021",
+    "name": "Meiji",
+    "provide_at": "Japan",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_022",
+    "name": "Neocell",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_023",
+    "name": "Amado Colligi",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_024",
+    "name": "Bomi",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_025",
+    "name": "Centrum",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_001"
+    ]
+  },
+  {
+    "id": "br_026",
+    "name": "InterCare",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_003",
+      "prv_006"
+    ]
+  },
+  {
+    "id": "br_027",
+    "name": "Yanhee",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_028",
+    "name": "Nutrex Research",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_029",
+    "name": "Watsons",
+    "provide_at": "Hong Kong",
+    "provider_list": [
+      "prv_004"
+    ]
+  },
+  {
+    "id": "br_030",
+    "name": "Gold Nutrition",
+    "provide_at": "Portugal",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_031",
+    "name": "Pocari Sweat",
+    "provide_at": "Japan",
+    "provider_list": [
+      "prv_004"
+    ]
+  },
+  {
+    "id": "br_032",
+    "name": "Active Peak",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_033",
+    "name": "Dever",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_034",
+    "name": "AMMO",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_035",
+    "name": "Royal-D",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_004"
+    ]
+  },
+  {
+    "id": "br_036",
+    "name": "GU Energy",
+    "provide_at": "USA",
+    "provider_list": [
+      "prv_005"
+    ]
+  },
+  {
+    "id": "br_037",
+    "name": "Plantae",
+    "provide_at": "Thailand",
+    "provider_list": [
+      "prv_003"
+    ]
+  },
+  {
+    "id": "br_000",
+    "name": "General Brand",
+    "provide_at": "Global",
+    "provider_list": [
+      "prv_001"
     ]
   }
 ]

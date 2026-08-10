@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Slider } from 'primereact/slider';
+import { Tag } from 'primereact/tag';
 import { User, Mail, Lock, Sparkles, CheckCircle2, ShieldCheck, Heart, AlertCircle, ArrowRight, UserCheck, Sliders, MessageSquare } from 'lucide-react';
 import { submitUserProfile } from '@/services/api';
 
@@ -41,6 +43,7 @@ export default function SurveyWaitlistForm() {
   });
 
   const [additionalFeedback, setAdditionalFeedback] = useState('');
+  const [legalConsent, setLegalConsent] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -308,16 +311,17 @@ export default function SurveyWaitlistForm() {
                     {val} / 5
                   </span>
                 </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={5}
-                  step={1}
-                  value={val}
-                  onChange={(e) => handleRatingChange(item.key as keyof ExpectationRatings, parseInt(e.target.value, 10))}
-                  className="w-full accent-emerald-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg"
-                />
-                <div className="flex justify-between text-[9px] text-slate-400 font-bold px-0.5">
+                <div className="py-2 px-1">
+                  {React.createElement(Slider as any, {
+                    value: val,
+                    min: 0,
+                    max: 5,
+                    step: 1,
+                    onChange: (e: any) => handleRatingChange(item.key as keyof ExpectationRatings, e.value as number),
+                    className: "w-full"
+                  })}
+                </div>
+                <div className="flex justify-between text-[9px] text-slate-400 font-bold px-0.5 pt-1">
                   <span>0 (Not Needed)</span>
                   <span>1</span>
                   <span>2</span>
@@ -346,11 +350,27 @@ export default function SurveyWaitlistForm() {
         />
       </div>
 
+      {/* Legal & Medical Disclaimer Verification Checkbox (Task 3.2) */}
+      <div className="pt-2 border-t border-slate-100">
+        <label className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 p-3 rounded-xl border border-amber-200/80 cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            checked={legalConsent}
+            onChange={(e) => setLegalConsent(e.target.checked)}
+            className="mt-0.5 accent-emerald-600 rounded shrink-0 cursor-pointer"
+          />
+          <span className="leading-relaxed font-medium">
+            <strong className="text-amber-900 font-bold">Medical Disclaimer Agreement:</strong> I understand that NutriTrust compiles public research for educational purposes and does not replace medical advice from doctors or pharmacists.
+          </span>
+        </label>
+      </div>
+
       {/* Submit */}
       <div className="pt-2">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !legalConsent}
           className="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-extrabold text-xs py-3.5 rounded-xl transition cursor-pointer shadow-sm flex items-center justify-center gap-2"
         >
           <UserCheck size={16} />

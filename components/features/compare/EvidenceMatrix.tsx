@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Tag } from 'primereact/tag';
+import { Badge } from 'primereact/badge';
 import { BookOpen, ExternalLink, Award, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { IProduct } from '@/types/traceability';
 import scienceSummariesData from '@/mockup/science_summaries_mockup.json';
@@ -33,56 +35,28 @@ function EvidenceSummaryText({ summary }: { summary: string }) {
   );
 }
 
-function getEvidenceBadgeStyle(level: string) {
-  const l = (level || '').toLowerCase();
-  if (l.includes('สูง') || l.includes('high') || l.includes('level a') || l.includes('meta')) {
-    return {
-      bg: 'bg-emerald-800 text-emerald-50 border-emerald-700',
-      icon: 'text-amber-300',
-      subText: 'text-emerald-200'
-    };
-  }
-  if (l.includes('ต่ำ') || l.includes('low') || l.includes('level c') || l.includes('vitro')) {
-    return {
-      bg: 'bg-emerald-100 text-emerald-950 border-emerald-300',
-      icon: 'text-emerald-700',
-      subText: 'text-emerald-800'
-    };
-  }
-  // Default: Moderate / Medium
-  return {
-    bg: 'bg-emerald-600 text-white border-emerald-500',
-    icon: 'text-emerald-200',
-    subText: 'text-emerald-100'
-  };
-}
-
-function FormatEvidenceLevel({ level }: { level: string }) {
+function PrimeEvidenceTag({ level }: { level: string }) {
   if (!level) return null;
-  const style = getEvidenceBadgeStyle(level);
-  const parts = level.split('(');
-
-  if (parts.length > 1) {
-    const main = parts[0].trim();
-    const sub = parts.slice(1).join('(').trim();
-    return (
-      <span className={`inline-flex flex-col text-[10px] font-bold p-2.5 rounded-xl border space-y-0.5 w-full shadow-2xs ${style.bg}`}>
-        <span className="flex items-center gap-1 font-extrabold">
-          <Award size={13} className={`${style.icon} shrink-0`} />
-          <span>{main}</span>
-        </span>
-        <span className={`text-[9.5px] font-medium leading-snug pl-4 ${style.subText}`}>
-          ({sub}
-        </span>
-      </span>
-    );
+  const l = level.toLowerCase();
+  
+  let severity: 'success' | 'info' | 'warn' | 'danger' | 'secondary' = 'success';
+  if (l.includes('สูง') || l.includes('high') || l.includes('level a') || l.includes('meta')) {
+    severity = 'success';
+  } else if (l.includes('ต่ำ') || l.includes('low') || l.includes('level c') || l.includes('vitro')) {
+    severity = 'info';
+  } else {
+    severity = 'warn';
   }
 
   return (
-    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-lg border shadow-2xs ${style.bg}`}>
-      <Award size={13} className={style.icon} />
-      <span>{level}</span>
-    </span>
+    <div className="w-full">
+      <Tag
+        value={level}
+        severity={severity}
+        icon="pi pi-verified"
+        className="w-full text-[10px] font-extrabold p-2 rounded-xl text-left flex items-center gap-1.5 shadow-2xs"
+      />
+    </div>
   );
 }
 
@@ -91,12 +65,11 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-      {/* Header Directive #2 Standard */}
       <div>
         <div className="flex items-center gap-2">
           <BookOpen size={24} className="text-slate-800 shrink-0" />
           <h3 className="text-2xl font-bold text-slate-800">
-            Scientific Evidence Matrix
+            Scientific Evidence Matrix (PrimeReact Tag Badges)
           </h3>
         </div>
         <p className="text-base font-normal text-slate-500 mt-0.5">
@@ -104,7 +77,6 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
         </p>
       </div>
 
-      {/* Side-by-Side Evidence Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
         {selectedProducts.map((product) => {
           const matchedEvidences = allSummaries.filter(
@@ -118,14 +90,16 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
               className="bg-slate-50/80 rounded-2xl border border-slate-200 p-5 space-y-4 flex flex-col justify-between hover:border-emerald-300 transition duration-300 shadow-2xs overflow-hidden"
             >
               <div className="space-y-3">
-                <h4 className="font-extrabold text-sm text-slate-900 truncate" title={product.name}>
-                  {product.name}
-                </h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="font-extrabold text-sm text-slate-900 truncate max-w-[190px]" title={product.name}>
+                    {product.name}
+                  </h4>
+                  <Badge value={displayEvidences.length} severity="success" className="font-extrabold text-[10px]" />
+                </div>
 
                 <div className="space-y-3">
                   {displayEvidences.map((ev, idx) => (
                     <div key={ev.evidence_id || idx} className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2.5 overflow-hidden">
-                      {/* Benefit Title */}
                       <div className="flex items-start gap-1.5 border-b border-slate-100 pb-2">
                         <ShieldCheck size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                         <h5 className="font-extrabold text-xs text-slate-900 leading-snug break-words flex-1">
@@ -133,13 +107,11 @@ export default function EvidenceMatrix({ selectedProducts }: EvidenceMatrixProps
                         </h5>
                       </div>
 
-                      {/* Evidence Level formatted with 3 green shades */}
-                      <FormatEvidenceLevel level={ev.evidence_level} />
+                      {/* PrimeReact Status Tag Badge */}
+                      <PrimeEvidenceTag level={ev.evidence_level} />
 
-                      {/* Summary with 150 chars toggle */}
                       <EvidenceSummaryText summary={ev.summary} />
 
-                      {/* PubMed Identifiers Clickable Buttons */}
                       {ev.pubmed_ids && ev.pubmed_ids.length > 0 && (
                         <div className="pt-1 flex flex-wrap items-center gap-1 border-t border-slate-100">
                           {ev.pubmed_ids.map((pmid: string) => {

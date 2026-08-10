@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import HeroSection from '@/components/features/home/HeroSection';
+import QuickSearchCategories from '@/components/features/home/QuickSearchCategories';
 import TrustPropositions from '@/components/features/home/TrustPropositions';
 import VisitorStats from '@/components/features/home/VisitorStats';
 import SurveyEarlyAccess from '@/components/features/home/SurveyEarlyAccess';
-import ProductSearchResultsSection from '@/components/features/home/ProductSearchResultsSection';
-import { IProduct } from '@/types/traceability';
 
 export default function HomePage() {
-    const [stackedProducts, setStackedProducts] = useState<IProduct[]>([]);
     const [animationClass, setAnimationClass] = useState('animate-section-swap');
 
     useEffect(() => {
@@ -24,47 +22,21 @@ export default function HomePage() {
         }
     }, []);
 
-    const handleSearch = (newProducts: IProduct[]) => {
-        setStackedProducts(prev => {
-            const existingIds = new Set(prev.map(p => p.id));
-            const freshProducts = newProducts.filter(p => !existingIds.has(p.id));
-            return [...freshProducts, ...prev];
-        });
-    };
-
-    const handleClearAll = () => {
-        setStackedProducts([]);
-    };
-
-    const handleRemoveProduct = (id: string) => {
-        setStackedProducts(prev => prev.filter(p => p.id !== id));
-    };
-
     return (
-        <div className={`flex flex-col gap-12 md:gap-16 lg:gap-20 pt-6 md:pt-10 pb-16 md:pb-24 overflow-x-hidden ${animationClass}`}>
-            {/* 1. ส่วนแบนเนอร์และค้นหา */}
-            <HeroSection onSearch={handleSearch} />
+        <div className={`flex flex-col gap-6 md:gap-8 lg:gap-10 pt-2 md:pt-4 pb-10 md:pb-14 overflow-x-hidden ${animationClass}`}>
+            {/* 1. Hero Section Banner & Search */}
+            <HeroSection />
 
-            {/* 2 & 3. สลับส่วนแสดงผลพร้อม 750ms Smooth Transition */}
-            {stackedProducts.length > 0 ? (
-                <div key="search-results-section" className="animate-section-swap">
-                    <ProductSearchResultsSection
-                        products={stackedProducts}
-                        onClearAll={handleClearAll}
-                        onRemoveProduct={handleRemoveProduct}
-                    />
-                </div>
-            ) : (
-                <div key="default-stats-section" className="animate-section-swap flex flex-col gap-12 md:gap-16 lg:gap-20">
-                    {/* ส่วนสถิติจำนวนผู้ใช้งานและจำนวนการค้นหา */}
-                    <VisitorStats />
+            {/* 2. Compact Collapsible One-Click Search Categories */}
+            <QuickSearchCategories />
 
-                    {/* ส่วนการ์ดจุดขาย 4 ข้อ */}
-                    <TrustPropositions />
-                </div>
-            )}
+            {/* 3. Live Telemetry Visitor Stats */}
+            <VisitorStats />
 
-            {/* 5. ฟอร์มรับอีเมล / Early Access */}
+            {/* 4. Core Trust Layer Propositions */}
+            <TrustPropositions />
+
+            {/* 5. Early Access Membership Form */}
             <SurveyEarlyAccess />
         </div>
     );

@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { Tag } from 'primereact/tag';
+import { Badge } from 'primereact/badge';
 import { Trash2, ArrowRight, Layers, Sparkles, Scale, CheckCircle2 } from 'lucide-react';
 import { IProduct } from '@/types/traceability';
 
@@ -192,13 +194,9 @@ export default function ProductSearchResultsSection({
                             <div className="p-5 flex-grow flex flex-col justify-between space-y-4">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-bold">
-                                        <span className="bg-emerald-100 px-2.5 py-0.5 rounded-md">
-                                            {product.category_slug}
-                                        </span>
+                                        <Tag value={product.category_slug} severity="success" className="text-[10px] font-bold" />
                                         {product.sub_category && (
-                                            <span className="bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-md">
-                                                {product.sub_category}
-                                            </span>
+                                            <Tag value={product.sub_category} severity="info" className="text-[10px] font-bold" />
                                         )}
                                     </div>
 
