@@ -219,6 +219,24 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
     if (searchCategory === 'ingredients') {
       return ingredients.map((i) => ({ id: i.id, fullName: i.name, displayName: i.name, type: 'ingredient' }));
     }
+    if (searchCategory === 'issues') {
+      return [
+        { id: 'iss_1', fullName: 'Sleep Quality & Stress Relief', displayName: '🌙 Sleep & Stress', type: 'issue' },
+        { id: 'iss_2', fullName: 'Office Syndrome & Muscle Relief', displayName: '💻 Office Syndrome', type: 'issue' },
+        { id: 'iss_3', fullName: 'Joint Care & Cartilage Protection', displayName: '🦴 Joint Care', type: 'issue' },
+        { id: 'iss_4', fullName: 'Fatigue Recovery & Stamina', displayName: '⚡ Fatigue & Energy', type: 'issue' },
+        { id: 'iss_5', fullName: 'Allergy & Immune Shield', displayName: '🌿 Allergy Shield', type: 'issue' },
+      ];
+    }
+    if (searchCategory === 'goals') {
+      return [
+        { id: 'gol_1', fullName: 'Eye & Vision Protection', displayName: '👁️ Eye & Vision', type: 'goal' },
+        { id: 'gol_2', fullName: 'Brain & Memory Care', displayName: '🧠 Brain & Memory', type: 'goal' },
+        { id: 'gol_3', fullName: 'Anti-Aging & Cellular Energy', displayName: '✨ Anti-Aging', type: 'goal' },
+        { id: 'gol_4', fullName: 'Heart & Cardiovascular Health', displayName: '❤️ Heart & Cardio', type: 'goal' },
+        { id: 'gol_5', fullName: 'Immune System Support', displayName: '🛡️ Immune Support', type: 'goal' },
+      ];
+    }
     return products.map((p) => ({ id: p.id, fullName: p.name, displayName: p.name, type: 'product', productId: p.id }));
   }, [searchCategory, brands, ingredients, products]);
 
@@ -233,11 +251,19 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
     setSearchQuery(badge.fullName);
     setIsTier2Unlocked(false);
     setIsTier3Unlocked(false);
+    setCurrentPage(1);
+
     if (badge.type === 'product' && badge.productId) {
       setSelectedProductId(badge.productId);
       setAnimationClass('animate-slide-left-750');
     } else {
       setSelectedProductId(null);
+    }
+
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('search', badge.fullName);
+      window.history.pushState({}, '', url.toString());
     }
   };
 
