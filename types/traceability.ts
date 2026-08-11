@@ -34,6 +34,8 @@ export interface IEvidence {
     evidence_level: string; // ระดับความน่าเชื่อถือ
     summary: string; // บทสรุปทางวิทยาศาสตร์
     pubmed_ids?: string[]; // อาร์เรย์ของ ID งานวิจัย เช่น ["PMC123456", "PMC789012"]
+    cochrane_ids?: string[]; // อ้างอิง Cochrane Library เช่น ["CD001234.pub3"]
+    efsa_claims?: string[]; // อ้างอิง European Food Safety Authority เช่น ["EFSA Journal 2021;19(4):6543"]
 }
 
 // 6. Safety Profile Sub-document (ข้อมูลความปลอดภัยเฉพาะตัวผลิตภัณฑ์ - Embedded Sub-document ใหม่)

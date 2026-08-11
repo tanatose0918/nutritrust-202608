@@ -2958,5 +2958,98 @@
     "evidence_ids": [
       "ev_magnesium_001"
     ]
+  },
+  {
+    "id": "p_081",
+    "brand_id": "br_004",
+    "name": "Mega We Care Vitamin K2 MK-7 100 mcg",
+    "category_slug": "bone-vascular",
+    "sub_category": "k2-osteocalcin-calcification",
+    "ingredient_list": [
+      {
+        "igd_id": "igd_013",
+        "volume": "100mcg"
+      }
+    ],
+    "serving_package": "capsule-60",
+    "min_price": 620,
+    "max_price": 850,
+    "health_goals": [
+      "Heart & Cardiovascular Health",
+      "Anti-Aging & Cellular Energy"
+    ],
+    "health_issues": [
+      "Joint Care & Cartilage Protection"
+    ],
+    "safety_profile": {
+      "warnings": [
+        "ควรรับประทาน Mega We Care Vitamin K2 MK-7 ตามขนาดที่แนะนำบนฉลาก",
+        "ผู้ที่รับประทานยาละลายลิ่มเลือด (เช่น Warfarin, Aspirin) ควรปรึกษาแพทย์หรือเภสัชกรก่อนทาน"
+      ],
+      "contraindications": [
+        "ผู้ที่มีประวัติแพ้ส่วนผสมในผลิตภัณฑ์นี้ควรหลีกเลี่ยง",
+        "ห้ามรับประทานร่วมกับยาต้านการแข็งตัวของเลือดโดยไม่อยู่ภายใต้การดูแลของแพทย์"
+      ],
+      "optimal_intake": "รับประทานวันละ 1 แคปซูล พร้อมมื้ออาหารที่มีไขมัน (มื้อเช้า) ร่วมกับ Vitamin D3 เพื่อประสิทธิภาพการดูดซึมแคลเซียมสูงสุด",
+      "pros": [
+        "ใช้สารสกัด MenaQ7® วิตามิน K2 รูปแบบ MK-7 ธรรมชาติ ดูดซึมดีและคงอยู่ในร่างกายยาวนาน 72 ชั่วโมง",
+        "ช่วยดึงแคลเซียมเข้าสู่กระดูกและลดการสะสมของหินปูนในผนังหลอดเลือด"
+      ],
+      "considerations": [
+        "ควรเก็บในที่แห้ง พ้นจากแสงแดดและความร้อน"
+      ]
+    },
+    "evidence_ids": [
+      "ev_vitamink2_001",
+      "ev_vitamink2_002"
+    ]
+  },
+  {
+    "id": "p_082",
+    "brand_id": "br_005",
+    "name": "SWISSE Ultiboost Vitamin D3 + K2 Matrix",
+    "category_slug": "bone-vascular",
+    "sub_category": "d3-k2-calcium-synergy",
+    "ingredient_list": [
+      {
+        "igd_id": "igd_013",
+        "volume": "90mcg"
+      },
+      {
+        "igd_id": "igd_001",
+        "volume": "1000IU"
+      }
+    ],
+    "serving_package": "capsule-90",
+    "min_price": 890,
+    "max_price": 1150,
+    "health_goals": [
+      "Heart & Cardiovascular Health",
+      "Immune System Support"
+    ],
+    "health_issues": [
+      "Joint Care & Cartilage Protection"
+    ],
+    "safety_profile": {
+      "warnings": [
+        "ควรรับประทาน SWISSE Ultiboost Vitamin D3 + K2 ตามขนาดที่แนะนำ",
+        "ผู้ใช้ยาต้านการแข็งตัวของเลือด Warfarin ควรปรึกษาแพทย์"
+      ],
+      "contraindications": [
+        "ผู้ที่มีภาวะแคลเซียมในเลือดสูงเกินเกณฑ์ (Hypercalcemia) ควรหลีกเลี่ยง"
+      ],
+      "optimal_intake": "รับประทานวันละ 1 แคปซูล พร้อมอาหารเช้าที่มีไขมันสุขภาพ",
+      "pros": [
+        "สูตร Synergy ทำงานร่วมกันระหว่าง Vitamin D3 และ K2 MK-7 นำแคลเซียมลงกระดูกโดยตรง",
+        "มาตรฐานความปลอดภัยและงานวิจัยรองรับจากประเทศออสเตรเลีย"
+      ],
+      "considerations": [
+        "หลีกเลี่ยงการทานเกินขนาดที่กำหนด"
+      ]
+    },
+    "evidence_ids": [
+      "ev_vitamink2_001",
+      "ev_vitamink2_002"
+    ]
   }
 ]

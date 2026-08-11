@@ -58,5 +58,10 @@
     "id": "igd_012",
     "name": "Green Tea Extract (EGCG)",
     "provider_id": "prv_003"
+  },
+  {
+    "id": "igd_013",
+    "name": "Vitamin K2 (MK-7 / MenaQ7)",
+    "provider_id": "prv_001"
   }
 ]

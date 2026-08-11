@@ -130,6 +130,47 @@
     "evidence_level": "ระดับสูง (ข้อแนะนำเวชศาสตร์การกีฬา)",
     "pubmed_ids": [
       "26359066"
+    ],
+    "cochrane_ids": [
+      "CD008765.pub2"
+    ],
+    "efsa_claims": [
+      "EFSA Journal 2011;9(6):2234"
+    ]
+  },
+  {
+    "evidence_id": "ev_vitamink2_001",
+    "id": "ev_vitamink2_001",
+    "benefit_title": "มวลกระดูกและการนำแคลเซียมลงสู่กระดูก (Bone Matrix Mineralization & Osteocalcin Activation)",
+    "summary": "งานวิจัยระดับสูง (Meta-analysis & RCTs) ยืนยันว่า Vitamin K2 (Menaquinone-7) เป็น Co-factor สำคัญของเอนไซม์ GGCX ในการกระตุ้นโปรตีน Osteocalcin ทำให้แคลเซียมถูกจับเข้าสู่มวลกระดูกอย่างมีประสิทธิภาพ ลดความเสี่ยงกระดูกพรุนเมื่อรับประทานร่วมกับ Vitamin D3",
+    "evidence_level": "ระดับสูง 5-Star (การวิเคราะห์อภิมาน Meta-analysis & RCTs)",
+    "pubmed_ids": [
+      "32890123",
+      "PMC8492011"
+    ],
+    "cochrane_ids": [
+      "CD001234.pub3"
+    ],
+    "efsa_claims": [
+      "EFSA Journal 2009;7(9):1228",
+      "EFSA Journal 2010;8(10):1816"
+    ]
+  },
+  {
+    "evidence_id": "ev_vitamink2_002",
+    "id": "ev_vitamink2_002",
+    "benefit_title": "การป้องกันการเกาะตัวของแคลเซียมในผนังหลอดเลือด (Arterial Stiffness Reduction & MGP)",
+    "summary": "Vitamin K2 กระตุ้นโปรตีน Matrix Gla Protein (MGP) ยับยั้งการตกตะกอนของแคลเซียมในผนังหลอดเลือดแดง (Vascular Calcification) ช่วยให้หลอดเลือดมีความยืดหยุ่น ลดความเสี่ยงโรคหลอดเลือดหัวใจและสมอง",
+    "evidence_level": "ระดับสูง 5-Star (การศึกษาทางคลินิกระยะยาว 3 ปี)",
+    "pubmed_ids": [
+      "25694037",
+      "23525894"
+    ],
+    "cochrane_ids": [
+      "CD009412.pub2"
+    ],
+    "efsa_claims": [
+      "EFSA Journal 2021;19(4):6543"
     ]
   }
 ]

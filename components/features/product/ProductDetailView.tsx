@@ -828,30 +828,52 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
               </div>
             </div>
 
-            {/* Center: Compare Button */}
-            <div className="flex items-center gap-2 w-full md:w-auto justify-center">
+            {/* Center: Compare Button & Build Supplements Stack Button */}
+            <div className="flex items-center gap-2 w-full md:w-auto justify-center flex-wrap">
               {selectedIds.length > 0 && (
                 <button
                   onClick={() => setSelectedIds([])}
                   className="px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition cursor-pointer"
                 >
-                  ยกเลิกเลือก
+                  ยกเลิกเลือก ({selectedIds.length})
                 </button>
               )}
 
+              {/* Build Supplements Stack Button (Enabled when N >= 1) */}
               <Link
-                href={`/compare?ids=${selectedIds.join(',')}`}
-                className={`px-5 py-2 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition ${
-                  selectedIds.length >= 2
-                    ? 'bg-emerald-700 text-white hover:bg-emerald-800 cursor-pointer shadow-md shadow-emerald-200 scale-105'
+                href={`/products/stack?ids=${selectedIds.join(',')}`}
+                className={`px-4 py-2 rounded-xl font-extrabold text-xs flex items-center justify-center gap-1.5 transition ${
+                  selectedIds.length >= 1
+                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 shadow-md cursor-pointer hover:scale-105 active:scale-95'
                     : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
                 }`}
                 onClick={(e) => {
-                  if (selectedIds.length < 2) e.preventDefault();
+                  if (selectedIds.length < 1) e.preventDefault();
+                }}
+              >
+                <Layers size={15} />
+                <span>Build Supplements Stack {selectedIds.length >= 1 ? `(${selectedIds.length})` : ''}</span>
+              </Link>
+
+              {/* Compare Button (Enabled ONLY when 2 <= N <= 4) */}
+              <Link
+                href={`/compare?ids=${selectedIds.join(',')}`}
+                title={selectedIds.length > 4 ? "ระบบเปรียบเทียบรองรับสูงสุด 4 รายการ (หากเลือกมากกว่า 4 รายการ โปรดใช้ Build Supplements Stack)" : selectedIds.length === 1 ? "กรุณาเลือกอย่างน้อย 2 รายการเพื่อทำ Comparison Matrix" : ""}
+                className={`px-4 py-2 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition ${
+                  selectedIds.length >= 2 && selectedIds.length <= 4
+                    ? 'bg-emerald-700 text-white hover:bg-emerald-800 cursor-pointer shadow-md shadow-emerald-200 hover:scale-105 active:scale-95'
+                    : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200 opacity-60'
+                }`}
+                onClick={(e) => {
+                  if (selectedIds.length < 2 || selectedIds.length > 4) e.preventDefault();
                 }}
               >
                 <Scale size={15} />
-                <span>เปรียบเทียบผลิตภัณฑ์ {selectedIds.length >= 2 ? `(${selectedIds.length})` : ''}</span>
+                <span>
+                  {selectedIds.length > 4 
+                    ? `เปรียบเทียบ (เกินโควตา 4 ชิ้น)` 
+                    : `เปรียบเทียบผลิตภัณฑ์ ${selectedIds.length >= 2 ? `(${selectedIds.length})` : ''}`}
+                </span>
               </Link>
             </div>
 
