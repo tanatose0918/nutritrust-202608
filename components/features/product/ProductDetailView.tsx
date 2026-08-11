@@ -651,7 +651,7 @@ export default function ProductDetailView({ initialProductId = 'p_bm_vitc_1000',
               {/* Tab Views wrapped in clean dark container with uniform min-height */}
               <div className="bg-slate-950/80 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20 shadow-inner text-slate-100 min-h-[420px]">
                 {activeScoreTab === 'science' && <ScienceStudiesTab evidenceIds={currentProduct.evidence_ids} />}
-                {activeScoreTab === 'health' && <HealthScoreTab />}
+                {activeScoreTab === 'health' && <HealthScoreTab safetyProfile={currentProduct.safety_profile} product={currentProduct} />}
                 {activeScoreTab === 'merchant' && <MerchantScoreChart productId={currentProduct.id} />}
               </div>
             </div>

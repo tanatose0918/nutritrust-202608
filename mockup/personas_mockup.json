@@ -1,0 +1,164 @@
+[
+  {
+    "id": "per_001",
+    "name": "เควิน (Biohacker & Athlete)",
+    "avatar_emoji": "🏃‍♂️",
+    "title": "สายออกกำลังกาย & ชีวะแฮกเกอร์",
+    "health_status_label": "สุขภาพดีเยี่ยม (Optimal Health)",
+    "health_score": 95,
+    "description": "เน้นเพิ่มขีดความสามารถทางร่างกาย ฟื้นฟูกล้ามเนื้อ ป้องกันความเสื่อมของระดับเซลล์ และเพิ่ม VO2 Max",
+    "health_goals": [
+      "Anti-Aging & Cellular Energy",
+      "Immune System Support"
+    ],
+    "health_issues": [],
+    "contraindication_keywords": [],
+    "metrics": {
+      "immunity": 92,
+      "cardio": 96,
+      "cognitive": 90,
+      "joint_bone": 88,
+      "cellular_energy": 98,
+      "metabolic": 94
+    }
+  },
+  {
+    "id": "per_002",
+    "name": "คุณแพรว (Active Professional)",
+    "avatar_emoji": "👩‍💼",
+    "title": "วัยทำงานยุคใหม่ ดูแลตัวเองดี",
+    "health_status_label": "สุขภาพดี (Good Health)",
+    "health_score": 82,
+    "description": "ต้องการเพิ่มสมาธิในการทำงาน ดูแลผิวพรรณ ป้องกันความอ่อนล้า และเสริมสร้างภูมิคุ้มกันประจำวัน",
+    "health_goals": [
+      "Brain & Memory Care",
+      "Anti-Aging & Cellular Energy"
+    ],
+    "health_issues": [
+      "Fatigue Recovery & Stamina"
+    ],
+    "contraindication_keywords": [],
+    "metrics": {
+      "immunity": 85,
+      "cardio": 80,
+      "cognitive": 84,
+      "joint_bone": 78,
+      "cellular_energy": 80,
+      "metabolic": 82
+    }
+  },
+  {
+    "id": "per_003",
+    "name": "คุณต้น (Office Syndrome Worker)",
+    "avatar_emoji": "💻",
+    "title": "พนักงานออฟฟิศ เครียด นอนน้อย",
+    "health_status_label": "สุขภาพปานกลาง (Fair Health)",
+    "health_score": 62,
+    "description": "จ้องจอนาน ปวดเมื่อยคอ บ่า ไหล่ เครียดสะสม หลับยาก ต้องการฟื้นฟูสายตาและคุณภาพการนอน",
+    "health_goals": [
+      "Eye & Vision Protection",
+      "Brain & Memory Care"
+    ],
+    "health_issues": [
+      "Sleep Quality & Stress Relief",
+      "Office Syndrome & Muscle Relief"
+    ],
+    "contraindication_keywords": [],
+    "metrics": {
+      "immunity": 65,
+      "cardio": 60,
+      "cognitive": 58,
+      "joint_bone": 55,
+      "cellular_energy": 58,
+      "metabolic": 62
+    }
+  },
+  {
+    "id": "per_004",
+    "name": "ป้าสมศรี (Senior Joint & Cardio Care)",
+    "avatar_emoji": "👵",
+    "title": "ผู้สูงวัย ปวดข้อ ความดัน หลอดเลือด",
+    "health_status_label": "มีความเสี่ยงปานกลาง (Moderate Risk)",
+    "health_score": 50,
+    "description": "มีปัญหาข้อเข่าเสื่อม ปวดข้อเวลาเดิน ความดันโลหิตเริ่มสูง ทานยาละลายลิ่มเลือดเป็นประจำ",
+    "health_goals": [
+      "Heart & Cardiovascular Health"
+    ],
+    "health_issues": [
+      "Joint Care & Cartilage Protection"
+    ],
+    "contraindication_keywords": [
+      "ยาละลายลิ่มเลือด",
+      "Warfarin",
+      "Aspirin",
+      "ผ่าตัด"
+    ],
+    "metrics": {
+      "immunity": 55,
+      "cardio": 45,
+      "cognitive": 52,
+      "joint_bone": 40,
+      "cellular_energy": 48,
+      "metabolic": 50
+    }
+  },
+  {
+    "id": "per_005",
+    "name": "คุณวิชัย (Metabolic & Weight Care)",
+    "avatar_emoji": "🩺",
+    "title": "ผู้มีภาวะเมแทบอลิก คุมน้ำหนัก/น้ำตาล",
+    "health_status_label": "มีความเสี่ยงสูง (High Risk)",
+    "health_score": 42,
+    "description": "รอบเอวเกินเกณฑ์ น้ำตาลในเลือดและไขมันทรานส์สูง มีไขมันพอกตับ ต้องการควบคุมระดับน้ำตาลและกรดยูริก",
+    "health_goals": [
+      "Heart & Cardiovascular Health"
+    ],
+    "health_issues": [
+      "Fatigue Recovery & Stamina"
+    ],
+    "contraindication_keywords": [
+      "เบาหวาน",
+      "ยาลดระดับน้ำตาล",
+      "โรคตับ",
+      "กรดยูริก"
+    ],
+    "metrics": {
+      "immunity": 45,
+      "cardio": 40,
+      "cognitive": 48,
+      "joint_bone": 42,
+      "cellular_energy": 38,
+      "metabolic": 35
+    }
+  },
+  {
+    "id": "per_006",
+    "name": "คุณนภา (Post-Illness & Severe Recovery)",
+    "avatar_emoji": "🏥",
+    "title": "ผู้ป่วยระยะฟื้นตัว อ่อนแอ ต้องดูแลพิเศษ",
+    "health_status_label": "ระยะฟื้นฟูพิเศษ (Severe Recovery)",
+    "health_score": 32,
+    "description": "เพิ่งฟื้นตัวจากการรักษาตัวในโรงพยาบาล ตับและไตทำงานหนัก ระบบย่อยอาหารอ่อนแอ ต้องระวังสารสกัดเข้มข้นสูงเกินไป",
+    "health_goals": [
+      "Immune System Support"
+    ],
+    "health_issues": [
+      "Allergy & Immune Shield",
+      "Fatigue Recovery & Stamina"
+    ],
+    "contraindication_keywords": [
+      "โรคไต",
+      "ตับอักเสบ",
+      "ยากดภูมิ",
+      "สตรีมีครรภ์"
+    ],
+    "metrics": {
+      "immunity": 30,
+      "cardio": 35,
+      "cognitive": 40,
+      "joint_bone": 32,
+      "cellular_energy": 28,
+      "metabolic": 30
+    }
+  }
+]

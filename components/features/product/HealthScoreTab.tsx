@@ -1,7 +1,7 @@
-'use client';
-
 import React from 'react';
-import { ShieldAlert, CheckCircle2, AlertTriangle, Info, Clock, UserCheck, Sparkles } from 'lucide-react';
+import { ShieldAlert, CheckCircle2, AlertTriangle, Info, Clock, ShieldCheck } from 'lucide-react';
+import PersonaRadarOverlay from './PersonaRadarOverlay';
+import { IProduct } from '@/types/traceability';
 
 interface SafetyProfile {
   warnings?: string[];
@@ -13,14 +13,15 @@ interface SafetyProfile {
 
 interface HealthScoreTabProps {
   safetyProfile?: SafetyProfile;
+  product?: IProduct;
 }
 
-export default function HealthScoreTab({ safetyProfile }: HealthScoreTabProps) {
-  const warnings = safetyProfile?.warnings || [];
-  const contraindications = safetyProfile?.contraindications || [];
-  const optimalIntake = safetyProfile?.optimal_intake || 'รับประทานพร้อมมื้ออาหารเช้าหรือเย็น';
-  const pros = safetyProfile?.pros || [];
-  const considerations = safetyProfile?.considerations || [];
+export default function HealthScoreTab({ safetyProfile, product }: HealthScoreTabProps) {
+  const warnings = safetyProfile?.warnings || product?.safety_profile?.warnings || [];
+  const contraindications = safetyProfile?.contraindications || product?.safety_profile?.contraindications || [];
+  const optimalIntake = safetyProfile?.optimal_intake || product?.safety_profile?.optimal_intake || 'รับประทานวันละ 1 เม็ด พร้อมมื้ออาหารเช้าหรือเย็นเพื่อการดูดซึมที่ดีที่สุด';
+  const pros = safetyProfile?.pros || product?.safety_profile?.pros || [];
+  const considerations = safetyProfile?.considerations || product?.safety_profile?.considerations || [];
 
   return (
     <div className="space-y-6 pt-2">
@@ -37,31 +38,35 @@ export default function HealthScoreTab({ safetyProfile }: HealthScoreTabProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {/* Left Side: Safety Profile Details */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-5">
-          {/* Optimal Intake */}
-          <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 space-y-1">
+          {/* Optimal Intake & Specific Cautions Header */}
+          <div className="bg-emerald-50/90 p-4 rounded-2xl border border-emerald-200 space-y-2">
             <div className="flex items-center gap-2 text-emerald-900 font-extrabold text-sm">
               <Clock size={16} className="text-emerald-600" />
-              <span>คำแนะนำปริมาณและการทานที่เหมาะสม (Optimal Intake)</span>
+              <span>คำแนะนำปริมาณและการทานที่เหมาะสม (Optimal Intake & Specific Cautions)</span>
             </div>
-            <p className="text-xs text-emerald-800 leading-relaxed pl-6">
+            <p className="text-xs text-emerald-850 font-medium leading-relaxed pl-6">
               {optimalIntake}
             </p>
+            <div className="pl-6 pt-1 flex items-center gap-2 text-[11px] font-extrabold text-emerald-700">
+              <ShieldCheck size={14} />
+              <span>ผ่านการตรวจสอบข้อกำหนดความปลอดภัยโดย NutriTrust Standard Engine</span>
+            </div>
           </div>
 
           {/* Warnings & Contraindications */}
           <div className="space-y-3">
             {contraindications.length > 0 && (
-              <div className="space-y-1.5">
-                <span className="text-xs font-extrabold text-red-700 flex items-center gap-1.5 uppercase">
-                  <AlertTriangle size={14} className="text-red-600" />
-                  <span>ข้อห้ามรับประทานเด็ดขาด (Contraindications)</span>
+              <div className="space-y-1.5 bg-red-50/70 p-3.5 rounded-2xl border border-red-200">
+                <span className="text-xs font-extrabold text-red-800 flex items-center gap-1.5 uppercase">
+                  <AlertTriangle size={15} className="text-red-600 shrink-0" />
+                  <span>ข้อห้ามรับประทานเด็ดขาด (Contraindications & Specific Cautions)</span>
                 </span>
-                <ul className="space-y-1 pl-5">
+                <ul className="space-y-1 pl-6">
                   {contraindications.map((item, idx) => (
-                    <li key={idx} className="text-xs text-slate-700 list-disc">
+                    <li key={idx} className="text-xs text-red-950 font-medium list-disc">
                       {item}
                     </li>
                   ))}
@@ -70,14 +75,14 @@ export default function HealthScoreTab({ safetyProfile }: HealthScoreTabProps) {
             )}
 
             {warnings.length > 0 && (
-              <div className="space-y-1.5">
-                <span className="text-xs font-extrabold text-amber-700 flex items-center gap-1.5 uppercase">
-                  <Info size={14} className="text-amber-600" />
+              <div className="space-y-1.5 bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200">
+                <span className="text-xs font-extrabold text-amber-800 flex items-center gap-1.5 uppercase">
+                  <Info size={15} className="text-amber-600 shrink-0" />
                   <span>ข้อควรระวังเพิ่มเติม (Safety Warnings)</span>
                 </span>
-                <ul className="space-y-1 pl-5">
+                <ul className="space-y-1 pl-6">
                   {warnings.map((item, idx) => (
-                    <li key={idx} className="text-xs text-slate-700 list-disc">
+                    <li key={idx} className="text-xs text-amber-950 font-medium list-disc">
                       {item}
                     </li>
                   ))}
@@ -122,36 +127,8 @@ export default function HealthScoreTab({ safetyProfile }: HealthScoreTabProps) {
           </div>
         </div>
 
-        {/* Right Side: Reserved Placeholder for Personalize Health Data Spider Chart (6 Personas) */}
-        <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-white flex flex-col justify-between relative overflow-hidden min-h-[320px]">
-          <div className="space-y-3 z-10">
-            <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 text-xs font-extrabold px-3 py-1 rounded-full border border-emerald-500/30">
-              <Sparkles size={14} />
-              <span>Personalize Health Data Radar Chart</span>
-            </div>
-            
-            <h4 className="text-xl font-bold text-white">
-              การเปรียบเทียบ Health Score รายบุคคล (6 Personas)
-            </h4>
-            
-            <p className="text-xs text-slate-400 leading-relaxed">
-              พื้นที่สงวนสำหรับการคำนวณและแสดงผลกราฟ Spider Chart เปรียบเทียบค่าความเหมาะสมทางสุขภาพรายบุคคล ตามโปรไฟล์ 6 Personas (เช่น นักกีฬา, วัยทำงานออฟฟิศ, ผู้สูงอายุ, ผู้ควบคุมน้ำหนัก ฯลฯ)
-            </p>
-          </div>
-
-          {/* Abstract Placeholder Graphic */}
-          <div className="my-6 flex items-center justify-center z-10">
-            <div className="w-48 h-48 rounded-full border border-dashed border-emerald-500/40 flex items-center justify-center relative bg-emerald-950/40 backdrop-blur-xs">
-              <UserCheck className="w-16 h-16 text-emerald-400 opacity-60 animate-pulse" />
-              <div className="absolute inset-0 rounded-full border border-emerald-500/20 animate-ping opacity-20" />
-            </div>
-          </div>
-
-          <div className="z-10 flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800 pt-3">
-            <span>สถานะ: พร้อมรองรับ Mockup 6 Personas ใน Task ถัดไป</span>
-            <span className="text-emerald-400 font-bold">NTT Health Algorithm</span>
-          </div>
-        </div>
+        {/* Right Side: Interactive Personalize Health Data Spider Chart (6 Personas) */}
+        <PersonaRadarOverlay product={product} />
       </div>
     </div>
   );

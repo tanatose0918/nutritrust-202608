@@ -116,10 +116,10 @@ export default function SurveyWaitlistForm() {
 
         <div className="space-y-1">
           <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-3 py-1 rounded-full border border-emerald-400/30 uppercase tracking-wider">
-            Early Adopter Membership Pass
+            Early Register Pass
           </span>
           <h2 className="text-2xl font-black text-white">Registration Successful</h2>
-          <p className="text-xs text-slate-400">Welcome, <strong>{username}</strong>! You are officially an Early Adopter.</p>
+          <p className="text-xs text-slate-400">Welcome, <strong>{username}</strong>! You are officially an Early Register member.</p>
         </div>
 
         <div className="bg-slate-800 p-5 rounded-2xl border border-emerald-500/30 text-left space-y-2 max-w-sm mx-auto">
@@ -158,10 +158,10 @@ export default function SurveyWaitlistForm() {
       <div className="border-b border-slate-100 pb-4 space-y-1">
         <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">
           <Sparkles size={14} className="text-emerald-600" />
-          <span>Anonymous Membership & Survey</span>
+          <span>Join Early Access</span>
         </div>
-        <h2 className="text-2xl font-black text-slate-900">Early Adopter Registration</h2>
-        <p className="text-xs text-slate-500">Fast, 100% anonymous survey to personalize your NutriTrust experience.</p>
+        <h2 className="text-2xl font-black text-slate-900">Early Register</h2>
+        <p className="text-xs text-slate-500">Fast survey to personalize your NutriTrust experience.</p>
       </div>
 
       {errorMsg && (
@@ -175,7 +175,7 @@ export default function SurveyWaitlistForm() {
       <div className="space-y-3">
         <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
           <User size={15} className="text-emerald-600" />
-          <span>1. Member Credentials (Anonymous)</span>
+          <span>1. Member Credentials</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
