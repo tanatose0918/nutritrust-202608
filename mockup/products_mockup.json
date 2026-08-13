@@ -14,6 +14,9 @@
     "serving_package": "tablet-150",
     "min_price": 1090,
     "max_price": 1390,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores Bio C 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -51,6 +54,9 @@
     "serving_package": "tablet-45",
     "min_price": 329,
     "max_price": 499,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Acerola Cherry 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -88,6 +94,9 @@
     "serving_package": "tablet-60",
     "min_price": 480,
     "max_price": 650,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Nat C ตามขนาดที่แนะนำบนฉลาก",
@@ -125,6 +134,9 @@
     "serving_package": "capsule-100",
     "min_price": 520,
     "max_price": 750,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods Vitamin C-1000 ตามขนาดที่แนะนำบนฉลาก",
@@ -162,6 +174,9 @@
     "serving_package": "capsule-120",
     "min_price": 180,
     "max_price": 250,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน DHC Vitamin C 60 Days ตามขนาดที่แนะนำบนฉลาก",
@@ -199,6 +214,9 @@
     "serving_package": "tablet-50",
     "min_price": 120,
     "max_price": 160,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Hicee Vitamin C Chewable ตามขนาดที่แนะนำบนฉลาก",
@@ -236,6 +254,9 @@
     "serving_package": "tablet-500",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Kirkland Signature Vitamin C 1000mg ตามขนาดที่แนะนำบนฉลาก",
@@ -273,6 +294,9 @@
     "serving_package": "tablet-110",
     "min_price": 290,
     "max_price": 390,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน 21st Century Vitamin C 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -310,6 +334,9 @@
     "serving_package": "capsule-60",
     "min_price": 220,
     "max_price": 320,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน California Gold Nutrition Gold C 1000mg ตามขนาดที่แนะนำบนฉลาก",
@@ -347,6 +374,9 @@
     "serving_package": "tablet-20",
     "min_price": 115,
     "max_price": 150,
+    "health_goals": [
+      "immune"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Demosana Vitamin C Effervescent ตามขนาดที่แนะนำบนฉลาก",
@@ -384,6 +414,9 @@
     "serving_package": "softgel-100",
     "min_price": 450,
     "max_price": 590,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Fish Oil 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -421,6 +454,9 @@
     "serving_package": "softgel-200",
     "min_price": 790,
     "max_price": 1050,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores Fish Oil 1000 mg Odourless ตามขนาดที่แนะนำบนฉลาก",
@@ -458,6 +494,9 @@
     "serving_package": "softgel-200",
     "min_price": 650,
     "max_price": 890,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods Omega-3 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -495,6 +534,9 @@
     "serving_package": "softgel-100",
     "min_price": 350,
     "max_price": 480,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Salmon Fish Oil 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -532,6 +574,9 @@
     "serving_package": "softgel-400",
     "min_price": 1190,
     "max_price": 1490,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Swisse Ultiboost Odourless Wild Fish Oil ตามขนาดที่แนะนำบนฉลาก",
@@ -569,6 +614,9 @@
     "serving_package": "softgel-400",
     "min_price": 950,
     "max_price": 1250,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Kirkland Signature Fish Oil 1000 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -606,6 +654,9 @@
     "serving_package": "softgel-120",
     "min_price": 1890,
     "max_price": 2350,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Nordic Naturals Ultimate Omega ตามขนาดที่แนะนำบนฉลาก",
@@ -643,6 +694,9 @@
     "serving_package": "softgel-120",
     "min_price": 1450,
     "max_price": 1850,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Carlson Labs The Very Finest Fish Oil ตามขนาดที่แนะนำบนฉลาก",
@@ -680,6 +734,9 @@
     "serving_package": "softgel-240",
     "min_price": 490,
     "max_price": 650,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน DHC DHA 60 Days ตามขนาดที่แนะนำบนฉลาก",
@@ -717,6 +774,9 @@
     "serving_package": "softgel-120",
     "min_price": 1690,
     "max_price": 2100,
+    "health_goals": [
+      "heart"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน GNC Triple Strength Fish Oil ตามขนาดที่แนะนำบนฉลาก",
@@ -754,6 +814,9 @@
     "serving_package": "tablet-180",
     "min_price": 750,
     "max_price": 990,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods Magnesium Glycinate 200 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -791,6 +854,9 @@
     "serving_package": "tablet-100",
     "min_price": 190,
     "max_price": 280,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Magnesium Oxide 400 mg (General) ตามขนาดที่แนะนำบนฉลาก",
@@ -828,6 +894,9 @@
     "serving_package": "tablet-60",
     "min_price": 490,
     "max_price": 680,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores Magnesium Muscle Relax ตามขนาดที่แนะนำบนฉลาก",
@@ -865,6 +934,9 @@
     "serving_package": "capsule-30",
     "min_price": 210,
     "max_price": 320,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Magnesium Complex Plus B1 B6 B12 ตามขนาดที่แนะนำบนฉลาก",
@@ -902,6 +974,9 @@
     "serving_package": "tablet-240",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Doctor's Best High Absorption Magnesium ตามขนาดที่แนะนำบนฉลาก",
@@ -939,6 +1014,9 @@
     "serving_package": "tablet-160",
     "min_price": 820,
     "max_price": 1050,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน KAL Magnesium Glycinate 350 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -976,6 +1054,9 @@
     "serving_package": "capsule-100",
     "min_price": 490,
     "max_price": 680,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Life Extension Magnesium Caps 500 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1013,6 +1094,9 @@
     "serving_package": "tablet-100",
     "min_price": 380,
     "max_price": 520,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Nature's Bounty Magnesium 500 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1050,6 +1134,9 @@
     "serving_package": "tablet-120",
     "min_price": 690,
     "max_price": 890,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Swisse Ultiboost Magnesium ตามขนาดที่แนะนำบนฉลาก",
@@ -1087,6 +1174,9 @@
     "serving_package": "tablet-110",
     "min_price": 240,
     "max_price": 340,
+    "health_goals": [
+      "bone"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน 21st Century Magnesium 250 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1124,6 +1214,9 @@
     "serving_package": "softgel-60",
     "min_price": 850,
     "max_price": 1150,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Astaxanthin 12 mg Softgels ตามขนาดที่แนะนำบนฉลาก",
@@ -1161,6 +1254,9 @@
     "serving_package": "softgel-30",
     "min_price": 490,
     "max_price": 680,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Astaxanthin 6 mg AstaReal ตามขนาดที่แนะนำบนฉลาก",
@@ -1198,6 +1294,9 @@
     "serving_package": "softgel-30",
     "min_price": 390,
     "max_price": 520,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Astax 4 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1235,6 +1334,9 @@
     "serving_package": "softgel-60",
     "min_price": 680,
     "max_price": 890,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods Astaxanthin 4 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1272,6 +1374,9 @@
     "serving_package": "softgel-120",
     "min_price": 990,
     "max_price": 1350,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน California Gold Nutrition Astaxanthin 12mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1309,6 +1414,9 @@
     "serving_package": "softgel-30",
     "min_price": 420,
     "max_price": 580,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน DHC Astaxanthin 30 Days ตามขนาดที่แนะนำบนฉลาก",
@@ -1346,6 +1454,9 @@
     "serving_package": "powder-200g",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Meiji Amino Collagen Powder ตามขนาดที่แนะนำบนฉลาก",
@@ -1383,6 +1494,9 @@
     "serving_package": "tablet-250",
     "min_price": 950,
     "max_price": 1290,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Neocell Super Collagen + Vitamin C ตามขนาดที่แนะนำบนฉลาก",
@@ -1420,6 +1534,9 @@
     "serving_package": "can-110g",
     "min_price": 490,
     "max_price": 690,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Amado Colligi Collagen Tripeptide ตามขนาดที่แนะนำบนฉลาก",
@@ -1457,6 +1574,9 @@
     "serving_package": "sachet-14",
     "min_price": 390,
     "max_price": 550,
+    "health_goals": [
+      "skin"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Bomi Collagen Dipeptide 100,000mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1494,6 +1614,9 @@
     "serving_package": "softgel-60",
     "min_price": 690,
     "max_price": 890,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Nature's Bounty Co Q-10 100 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1531,6 +1654,9 @@
     "serving_package": "softgel-30",
     "min_price": 250,
     "max_price": 350,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน CoQ10 30 mg Softgels (General) ตามขนาดที่แนะนำบนฉลาก",
@@ -1568,6 +1694,9 @@
     "serving_package": "tablet-60",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Swisse Ultiboost Multivitamin ตามขนาดที่แนะนำบนฉลาก",
@@ -1605,6 +1734,9 @@
     "serving_package": "capsule-30",
     "min_price": 790,
     "max_price": 990,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores CoQ10 150 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1642,6 +1774,9 @@
     "serving_package": "capsule-45",
     "min_price": 330,
     "max_price": 450,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Coenzyme Q10 30 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1679,6 +1814,9 @@
     "serving_package": "softgel-30",
     "min_price": 310,
     "max_price": 420,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Maxcover CoQ10 30 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1716,6 +1854,9 @@
     "serving_package": "softgel-120",
     "min_price": 950,
     "max_price": 1290,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Doctor's Best High Absorption CoQ10 ตามขนาดที่แนะนำบนฉลาก",
@@ -1753,6 +1894,9 @@
     "serving_package": "softgel-100",
     "min_price": 1150,
     "max_price": 1490,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Kirkland Signature CoQ10 300 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1790,6 +1934,9 @@
     "serving_package": "capsule-60",
     "min_price": 380,
     "max_price": 520,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน DHC Coenzyme Q10 Direct 30 Days ตามขนาดที่แนะนำบนฉลาก",
@@ -1827,6 +1974,9 @@
     "serving_package": "tablet-100",
     "min_price": 590,
     "max_price": 790,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Centrum Multivitamin Adults A-Z ตามขนาดที่แนะนำบนฉลาก",
@@ -1864,6 +2014,9 @@
     "serving_package": "tablet-75",
     "min_price": 990,
     "max_price": 1290,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Move Free Ultra Triple Action UC-II ตามขนาดที่แนะนำบนฉลาก",
@@ -1901,6 +2054,9 @@
     "serving_package": "tablet-30",
     "min_price": 890,
     "max_price": 1150,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores Joint Plus Collagen UC-II ตามขนาดที่แนะนำบนฉลาก",
@@ -1938,6 +2094,9 @@
     "serving_package": "capsule-60",
     "min_price": 850,
     "max_price": 1100,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods UC-II Joint Health 40 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -1975,6 +2134,9 @@
     "serving_package": "tablet-90",
     "min_price": 320,
     "max_price": 450,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra Calplex Calcium 600 mg Plus D3 K2 ตามขนาดที่แนะนำบนฉลาก",
@@ -2012,6 +2174,9 @@
     "serving_package": "sachet-30",
     "min_price": 650,
     "max_price": 890,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Jointsical Glucosamine Complex ตามขนาดที่แนะนำบนฉลาก",
@@ -2049,6 +2214,9 @@
     "serving_package": "capsule-240",
     "min_price": 1250,
     "max_price": 1650,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Doctor's Best Glucosamine Chondroitin MSM ตามขนาดที่แนะนำบนฉลาก",
@@ -2086,6 +2254,9 @@
     "serving_package": "tablet-180",
     "min_price": 1090,
     "max_price": 1450,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Blackmores Glucosamine 1500 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -2123,6 +2294,9 @@
     "serving_package": "capsule-30",
     "min_price": 590,
     "max_price": 790,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน InterCare Joint Care UC-II Plus Turmeric ตามขนาดที่แนะนำบนฉลาก",
@@ -2160,6 +2334,9 @@
     "serving_package": "capsule-60",
     "min_price": 990,
     "max_price": 1290,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Life Extension NT2 Collagen UC-II ตามขนาดที่แนะนำบนฉลาก",
@@ -2197,6 +2374,9 @@
     "serving_package": "tablet-90",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "joint"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Swisse Ultiboost Joint Repair Glucosamine ตามขนาดที่แนะนำบนฉลาก",
@@ -2234,6 +2414,9 @@
     "serving_package": "tablet-30",
     "min_price": 290,
     "max_price": 420,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Vistra L-Carnitine 500 mg Plus 3L ตามขนาดที่แนะนำบนฉลาก",
@@ -2271,6 +2454,9 @@
     "serving_package": "capsule-30",
     "min_price": 390,
     "max_price": 550,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Yanhee Ultimate L-Carnitine ตามขนาดที่แนะนำบนฉลาก",
@@ -2308,6 +2494,9 @@
     "serving_package": "capsule-30",
     "min_price": 320,
     "max_price": 450,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Mega We Care Hi-GREEN EGCG Concentrated ตามขนาดที่แนะนำบนฉลาก",
@@ -2345,6 +2534,9 @@
     "serving_package": "tablet-100",
     "min_price": 890,
     "max_price": 1190,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods L-Carnitine 1000 mg Carnipure® ตามขนาดที่แนะนำบนฉลาก",
@@ -2382,6 +2574,9 @@
     "serving_package": "capsule-30",
     "min_price": 350,
     "max_price": 480,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน InterCare L-Carnitine 500+ Arginine ตามขนาดที่แนะนำบนฉลาก",
@@ -2419,6 +2614,9 @@
     "serving_package": "liquid-473ml",
     "min_price": 990,
     "max_price": 1290,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Nutrex Research Liquid L-Carnitine 3000 ตามขนาดที่แนะนำบนฉลาก",
@@ -2456,6 +2654,9 @@
     "serving_package": "tablet-150",
     "min_price": 450,
     "max_price": 620,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน DHC L-Carnitine 300 mg 30 Days ตามขนาดที่แนะนำบนฉลาก",
@@ -2493,6 +2694,9 @@
     "serving_package": "capsule-30",
     "min_price": 250,
     "max_price": 350,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Watsons L-Carnitine 500 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -2530,6 +2734,9 @@
     "serving_package": "capsule-100",
     "min_price": 490,
     "max_price": 680,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Nature's Bounty Green Tea Extract 315 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -2567,6 +2774,9 @@
     "serving_package": "ampoule-20",
     "min_price": 1150,
     "max_price": 1490,
+    "health_goals": [
+      "energy"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Gold Nutrition L-Carnitine 3000 Liquid ตามขนาดที่แนะนำบนฉลาก",
@@ -2604,6 +2814,9 @@
     "serving_package": "chewable-60",
     "min_price": 550,
     "max_price": 750,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน SaltStick Electrolyte Fastchews ตามขนาดที่แนะนำบนฉลาก",
@@ -2641,6 +2854,9 @@
     "serving_package": "sachet-5",
     "min_price": 110,
     "max_price": 150,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Pocari Sweat Ion Supply Powder Drink ตามขนาดที่แนะนำบนฉลาก",
@@ -2678,6 +2894,9 @@
     "serving_package": "sachet-1",
     "min_price": 65,
     "max_price": 85,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Active Peak Energy Gel + Electrolytes ตามขนาดที่แนะนำบนฉลาก",
@@ -2715,6 +2934,9 @@
     "serving_package": "sachet-1",
     "min_price": 45,
     "max_price": 60,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Dever Energy Gel & Electrolyte Drink ตามขนาดที่แนะนำบนฉลาก",
@@ -2752,6 +2974,9 @@
     "serving_package": "sachet-1",
     "min_price": 75,
     "max_price": 95,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน AMMO Natural Energy Gel ตามขนาดที่แนะนำบนฉลาก",
@@ -2789,6 +3014,9 @@
     "serving_package": "sachet-10",
     "min_price": 85,
     "max_price": 120,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Royal-D Energy Gel & Electrolyte Beverage ตามขนาดที่แนะนำบนฉลาก",
@@ -2826,6 +3054,9 @@
     "serving_package": "sachet-1",
     "min_price": 85,
     "max_price": 110,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน GU Energy Gel + Amino Acids Tri-Berry ตามขนาดที่แนะนำบนฉลาก",
@@ -2863,6 +3094,9 @@
     "serving_package": "can-750g",
     "min_price": 1290,
     "max_price": 1690,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Ultrapro Whey Protein Isolate Mega We Care ตามขนาดที่แนะนำบนฉลาก",
@@ -2900,6 +3134,9 @@
     "serving_package": "can-800g",
     "min_price": 1490,
     "max_price": 1890,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน Plantae Complete Plant Protein ตามขนาดที่แนะนำบนฉลาก",
@@ -2937,6 +3174,9 @@
     "serving_package": "tablet-100",
     "min_price": 490,
     "max_price": 680,
+    "health_goals": [
+      "recovery"
+    ],
     "safety_profile": {
       "warnings": [
         "ควรรับประทาน NOW Foods Magnesium Citrate 200 mg ตามขนาดที่แนะนำบนฉลาก",
@@ -2957,99 +3197,6 @@
     },
     "evidence_ids": [
       "ev_magnesium_001"
-    ]
-  },
-  {
-    "id": "p_081",
-    "brand_id": "br_004",
-    "name": "Mega We Care Vitamin K2 MK-7 100 mcg",
-    "category_slug": "bone-vascular",
-    "sub_category": "k2-osteocalcin-calcification",
-    "ingredient_list": [
-      {
-        "igd_id": "igd_013",
-        "volume": "100mcg"
-      }
-    ],
-    "serving_package": "capsule-60",
-    "min_price": 620,
-    "max_price": 850,
-    "health_goals": [
-      "Heart & Cardiovascular Health",
-      "Anti-Aging & Cellular Energy"
-    ],
-    "health_issues": [
-      "Joint Care & Cartilage Protection"
-    ],
-    "safety_profile": {
-      "warnings": [
-        "ควรรับประทาน Mega We Care Vitamin K2 MK-7 ตามขนาดที่แนะนำบนฉลาก",
-        "ผู้ที่รับประทานยาละลายลิ่มเลือด (เช่น Warfarin, Aspirin) ควรปรึกษาแพทย์หรือเภสัชกรก่อนทาน"
-      ],
-      "contraindications": [
-        "ผู้ที่มีประวัติแพ้ส่วนผสมในผลิตภัณฑ์นี้ควรหลีกเลี่ยง",
-        "ห้ามรับประทานร่วมกับยาต้านการแข็งตัวของเลือดโดยไม่อยู่ภายใต้การดูแลของแพทย์"
-      ],
-      "optimal_intake": "รับประทานวันละ 1 แคปซูล พร้อมมื้ออาหารที่มีไขมัน (มื้อเช้า) ร่วมกับ Vitamin D3 เพื่อประสิทธิภาพการดูดซึมแคลเซียมสูงสุด",
-      "pros": [
-        "ใช้สารสกัด MenaQ7® วิตามิน K2 รูปแบบ MK-7 ธรรมชาติ ดูดซึมดีและคงอยู่ในร่างกายยาวนาน 72 ชั่วโมง",
-        "ช่วยดึงแคลเซียมเข้าสู่กระดูกและลดการสะสมของหินปูนในผนังหลอดเลือด"
-      ],
-      "considerations": [
-        "ควรเก็บในที่แห้ง พ้นจากแสงแดดและความร้อน"
-      ]
-    },
-    "evidence_ids": [
-      "ev_vitamink2_001",
-      "ev_vitamink2_002"
-    ]
-  },
-  {
-    "id": "p_082",
-    "brand_id": "br_005",
-    "name": "SWISSE Ultiboost Vitamin D3 + K2 Matrix",
-    "category_slug": "bone-vascular",
-    "sub_category": "d3-k2-calcium-synergy",
-    "ingredient_list": [
-      {
-        "igd_id": "igd_013",
-        "volume": "90mcg"
-      },
-      {
-        "igd_id": "igd_001",
-        "volume": "1000IU"
-      }
-    ],
-    "serving_package": "capsule-90",
-    "min_price": 890,
-    "max_price": 1150,
-    "health_goals": [
-      "Heart & Cardiovascular Health",
-      "Immune System Support"
-    ],
-    "health_issues": [
-      "Joint Care & Cartilage Protection"
-    ],
-    "safety_profile": {
-      "warnings": [
-        "ควรรับประทาน SWISSE Ultiboost Vitamin D3 + K2 ตามขนาดที่แนะนำ",
-        "ผู้ใช้ยาต้านการแข็งตัวของเลือด Warfarin ควรปรึกษาแพทย์"
-      ],
-      "contraindications": [
-        "ผู้ที่มีภาวะแคลเซียมในเลือดสูงเกินเกณฑ์ (Hypercalcemia) ควรหลีกเลี่ยง"
-      ],
-      "optimal_intake": "รับประทานวันละ 1 แคปซูล พร้อมอาหารเช้าที่มีไขมันสุขภาพ",
-      "pros": [
-        "สูตร Synergy ทำงานร่วมกันระหว่าง Vitamin D3 และ K2 MK-7 นำแคลเซียมลงกระดูกโดยตรง",
-        "มาตรฐานความปลอดภัยและงานวิจัยรองรับจากประเทศออสเตรเลีย"
-      ],
-      "considerations": [
-        "หลีกเลี่ยงการทานเกินขนาดที่กำหนด"
-      ]
-    },
-    "evidence_ids": [
-      "ev_vitamink2_001",
-      "ev_vitamink2_002"
     ]
   }
 ]

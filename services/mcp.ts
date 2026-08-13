@@ -17,12 +17,12 @@ export async function runPrivacyTokenizer(email?: string, prompt?: string, conse
   }
 }
 
-export async function analyzeStackSafety(productIds: string[]) {
+export async function analyzeStackSafety(productIds: string[], healthIssues?: string[], healthGoals?: string[]) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/mcp/stack-safety`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_ids: productIds }),
+      body: JSON.stringify({ product_ids: productIds, health_issues: healthIssues, health_goals: healthGoals }),
       cache: 'no-store'
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -34,12 +34,12 @@ export async function analyzeStackSafety(productIds: string[]) {
   }
 }
 
-export async function computeDynamicPersonaMatch(email: string | undefined, prompt: string | undefined, productIds: string[]) {
+export async function computeDynamicPersonaMatch(email: string | undefined, prompt: string | undefined, productIds: string[], healthIssues?: string[], healthGoals?: string[]) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/mcp/dynamic-persona-match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, prompt, product_ids: productIds }),
+      body: JSON.stringify({ email, prompt, product_ids: productIds, health_issues: healthIssues, health_goals: healthGoals }),
       cache: 'no-store'
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

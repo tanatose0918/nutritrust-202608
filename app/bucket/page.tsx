@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ShoppingBag, Sparkles, Trash2, ShieldCheck, AlertTriangle, CheckCircle2, ExternalLink, Activity, Lock, Mail, User, Eye, EyeOff, LogIn, Heart, Stethoscope } from 'lucide-react';
+import { ArrowLeft, ShoppingBag, Sparkles, Trash2, ShieldCheck, AlertTriangle, CheckCircle2, ExternalLink, Activity, Lock, Mail, User, Eye, EyeOff, LogIn, Heart, Stethoscope, BookmarkPlus, FolderOpen, X, Zap, FlaskConical } from 'lucide-react';
 import { getBucketItems, removeFromBucket, clearBucket, BUCKET_UPDATED_EVENT, IBucketItem } from '@/services/bucket';
 import { getUserSession, setUserSession, IUserSession } from '@/services/auth';
 import { loginUser } from '@/services/api';
+import { getSavedStacks, saveStack, deleteSavedStack, ISavedStack } from '@/services/savedStack';
 
 export default function BucketPage() {
   const [items, setItems] = useState<IBucketItem[]>([]);
@@ -27,12 +28,19 @@ export default function BucketPage() {
   const [mcpPersona, setMcpPersona] = useState<any>(null);
   const [mcpPrice, setMcpPrice] = useState<any>(null);
 
+  // Saved Stack State
+  const [savedStacks, setSavedStacks] = useState<ISavedStack[]>([]);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [stackName, setStackName] = useState('');
+  const [showSavedPanel, setShowSavedPanel] = useState(false);
+
   const miniLoginRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
     setItems(getBucketItems());
     setUserSessionState(getUserSession());
+    setSavedStacks(getSavedStacks());
 
     const handleUpdate = (e: Event) => {
       const customEv = e as CustomEvent;
@@ -42,6 +50,29 @@ export default function BucketPage() {
     window.addEventListener(BUCKET_UPDATED_EVENT, handleUpdate);
     return () => window.removeEventListener(BUCKET_UPDATED_EVENT, handleUpdate);
   }, []);
+
+  const handleSaveStack = () => {
+    if (items.length === 0) return;
+    const ids = items.map((i) => i._id);
+    const names = items.map((i) => i.name);
+    const score = mcpSafety?.safety_score;
+    saveStack(stackName || '', ids, names, score);
+    setSavedStacks(getSavedStacks());
+    setStackName('');
+    setShowSaveModal(false);
+  };
+
+  const handleLoadSavedStack = (stack: ISavedStack) => {
+    // Load saved product IDs back into bucket by rebuilding
+    // Note: only IDs stored — names/prices are already in bucket service
+    // We set the bucket via a page reload approach: navigate to bucket with ids param
+    window.location.href = `/stack?ids=${stack.product_ids.join(',')}`;
+  };
+
+  const handleDeleteSavedStack = (stackId: string) => {
+    deleteSavedStack(stackId);
+    setSavedStacks(getSavedStacks());
+  };
 
   const handleMiniLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,11 +117,14 @@ export default function BucketPage() {
     const productIds = items.map((i) => i._id);
 
     try {
+      const healthIssues = userSession?.health_issues ? [userSession.health_issues] : [];
+      const healthGoals = userSession?.health_goals || [];
+
       // 1. Run MCP 2 (Stack Safety & Cumulative UL Guard)
       const safetyRes = await fetch(`${baseUrl}/api/mcp/stack-safety`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_ids: productIds })
+        body: JSON.stringify({ product_ids: productIds, health_issues: healthIssues, health_goals: healthGoals })
       });
       const safetyJson = await safetyRes.json();
       if (safetyJson.success) setMcpSafety(safetyJson.data);
@@ -102,7 +136,9 @@ export default function BucketPage() {
         body: JSON.stringify({
           email: userSession?.email || 'guest@nutritrust.com',
           prompt: userSession?.health_issues || 'ดูแลสุขภาพทั่วไปและบำรุงข้อต่อ',
-          product_ids: productIds
+          product_ids: productIds,
+          health_issues: healthIssues,
+          health_goals: healthGoals
         })
       });
       const personaJson = await personaRes.json();
@@ -226,7 +262,7 @@ export default function BucketPage() {
                 {items.map((item) => (
                   <div
                     key={item._id}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-4 hover:border-slate-300 transition"
+                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-4 hover:border-emerald-200 transition group"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="w-12 h-12 bg-white rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 shrink-0">
@@ -236,11 +272,17 @@ export default function BucketPage() {
                           <ShoppingBag size={20} />
                         )}
                       </div>
-                      <div className="space-y-0.5 truncate">
+                      <div className="space-y-0.5 min-w-0">
                         <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.2 rounded border border-emerald-200 uppercase">
                           {item.brand_name || 'Verified Brand'}
                         </span>
-                        <h4 className="text-xs font-bold text-slate-900 truncate">{item.name}</h4>
+                        {/* Feature 3: Product Detail Link */}
+                        <Link href={`/products/${item._id}`} className="block">
+                          <h4 className="text-xs font-bold text-slate-900 truncate hover:text-emerald-700 hover:underline underline-offset-2 transition cursor-pointer flex items-center gap-1">
+                            {item.name}
+                            <ExternalLink size={10} className="shrink-0 opacity-50 group-hover:opacity-100" />
+                          </h4>
+                        </Link>
                         <p className="text-[11px] text-slate-500 font-mono font-bold">
                           ฿{(item.price_thb || 0).toLocaleString()} / เดือน
                         </p>
@@ -250,7 +292,7 @@ export default function BucketPage() {
                     <button
                       type="button"
                       onClick={() => removeFromBucket(item._id)}
-                      className="p-2 text-slate-400 hover:text-red-500 hover:bg-slate-200/60 rounded-xl transition cursor-pointer"
+                      className="p-2 text-slate-400 hover:text-red-500 hover:bg-slate-200/60 rounded-xl transition cursor-pointer shrink-0"
                       title="Remove item"
                     >
                       <Trash2 size={16} />
@@ -260,7 +302,56 @@ export default function BucketPage() {
               </div>
             </div>
 
-            {/* MCP 2 Cumulative Dosage Breakdown */}
+            {/* Feature 1: Conflict & Synergy Alerts (from MCP 2) */}
+            {mcpSafety && (
+              <div className="space-y-3">
+                {/* Conflicts */}
+                {mcpSafety.conflicts && mcpSafety.conflicts.length > 0 && (
+                  <div className="bg-red-950/60 border border-red-500/50 rounded-3xl p-5 space-y-3">
+                    <div className="flex items-center gap-2 text-red-300 font-extrabold text-xs border-b border-red-500/30 pb-2">
+                      <AlertTriangle size={16} className="text-red-400" />
+                      <span>⚠️ ข้อควรระวัง — อาจขัดแย้งกัน (Conflict Alerts)</span>
+                    </div>
+                    <div className="space-y-2">
+                      {mcpSafety.conflicts.map((c: any, idx: number) => (
+                        <div key={idx} className="bg-red-950/80 p-3 rounded-2xl border border-red-500/30 space-y-1">
+                          <p className="text-xs font-bold text-red-200">{c.title_th}</p>
+                          <p className="text-[11px] text-red-300/80 leading-relaxed">{c.description_th}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Synergies */}
+                {mcpSafety.synergies && mcpSafety.synergies.length > 0 && (
+                  <div className="bg-emerald-950/60 border border-emerald-500/50 rounded-3xl p-5 space-y-3">
+                    <div className="flex items-center gap-2 text-emerald-300 font-extrabold text-xs border-b border-emerald-500/30 pb-2">
+                      <Zap size={16} className="text-emerald-400" />
+                      <span>⚡ เสริมฤทธิ์กัน — ทานร่วมกันได้ดีเยี่ยม (Synergies)</span>
+                    </div>
+                    <div className="space-y-2">
+                      {mcpSafety.synergies.map((s: any, idx: number) => (
+                        <div key={idx} className="bg-emerald-950/80 p-3 rounded-2xl border border-emerald-500/30 space-y-1">
+                          <p className="text-xs font-bold text-emerald-200">{s.title_th}</p>
+                          <p className="text-[11px] text-emerald-300/80 leading-relaxed">{s.description_th}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* No conflicts and no synergies */}
+                {mcpSafety.conflicts?.length === 0 && mcpSafety.synergies?.length === 0 && (
+                  <div className="bg-slate-800 border border-slate-700 rounded-2xl p-4 flex items-center gap-2 text-xs text-slate-300">
+                    <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                    <span>✅ ทานร่วมกันได้อย่างปลอดภัย ไม่พบ Conflict ใน Stack นี้</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* MCP 2 Cumulative Dosage Breakdown (kept for reference) */}
             {mcpSafety?.ingredient_breakdown && (
               <div className="bg-slate-950 text-white rounded-3xl p-5 border border-slate-800 space-y-4 shadow-md">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -483,6 +574,78 @@ export default function BucketPage() {
               )}
             </div>
 
+            {/* Feature 2: Save Stack Button (appears when items exist) */}
+            {items.length > 0 && (
+              <div className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xs space-y-3">
+                <button
+                  type="button"
+                  onClick={() => setShowSaveModal(true)}
+                  className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-extrabold text-xs py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                >
+                  <BookmarkPlus size={15} />
+                  <span>💾 บันทึก Stack นี้ไว้ใช้ภายหลัง</span>
+                </button>
+
+                {savedStacks.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowSavedPanel(!showSavedPanel)}
+                    className="w-full bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <FolderOpen size={14} />
+                    <span>📚 Stack ที่บันทึกไว้ ({savedStacks.length})</span>
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Feature 2: Saved Stacks Panel */}
+            {showSavedPanel && savedStacks.length > 0 && (
+              <div className="bg-white rounded-3xl p-5 border border-indigo-200 shadow-xs space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                    <FlaskConical size={14} className="text-indigo-600" />
+                    Stacks ที่บันทึกไว้
+                  </span>
+                  <button onClick={() => setShowSavedPanel(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer"><X size={14} /></button>
+                </div>
+                <div className="space-y-2">
+                  {savedStacks.map((stack) => (
+                    <div key={stack.id} className="bg-slate-50 rounded-2xl p-3 border border-slate-200 space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-slate-900 truncate">{stack.name}</p>
+                          <p className="text-[10px] text-slate-400">{new Date(stack.created_at).toLocaleDateString('th-TH')} · {stack.product_ids.length} รายการ</p>
+                          {stack.safety_score !== undefined && (
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                              stack.safety_score >= 80 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                            }`}>
+                              Safety: {stack.safety_score}%
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => handleDeleteSavedStack(stack.id)}
+                          className="text-slate-400 hover:text-red-500 p-1 cursor-pointer shrink-0"
+                          title="ลบ Stack นี้"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-slate-500 truncate">{stack.product_names.join(', ')}</p>
+                      <button
+                        onClick={() => handleLoadSavedStack(stack)}
+                        className="w-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-[11px] py-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1"
+                      >
+                        <FolderOpen size={12} />
+                        <span>โหลด Stack นี้เข้า Stack Analyzer</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Safety Index Card (MCP 2) */}
             {mcpSafety && (
               <div className="bg-slate-900 text-white rounded-3xl p-5 border border-slate-800 space-y-3">
@@ -497,13 +660,40 @@ export default function BucketPage() {
                 </div>
 
                 {mcpSafety.synergies?.length > 0 && (
-                  <div className="space-y-1 text-xs">
+                  <div className="space-y-1 text-xs mt-3 pt-3 border-t border-slate-800">
                     <span className="text-[10px] font-bold text-emerald-400 uppercase">สารส่งเสริมกัน (Synergies):</span>
                     {mcpSafety.synergies.map((syn: string, idx: number) => (
                       <p key={idx} className="text-[11px] text-slate-300 flex items-start gap-1">
                         <span className="text-emerald-400">⚡</span> {syn}
                       </p>
                     ))}
+                  </div>
+                )}
+
+                {mcpSafety.consumption_schedule && (
+                  <div className="space-y-2 text-xs mt-3 pt-3 border-t border-slate-800">
+                    <span className="text-[10px] font-bold text-blue-400 uppercase block mb-2">ตารางการทานแนะนำ (Consumption Schedule):</span>
+                    
+                    {mcpSafety.consumption_schedule.morning_before_meal?.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-amber-400 font-bold block mb-1">🌅 เช้าก่อนอาหาร (Morning - Before Meal)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.morning_before_meal.join(', ')}</span>
+                      </div>
+                    )}
+
+                    {mcpSafety.consumption_schedule.morning_after_meal?.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-emerald-400 font-bold block mb-1">🍽️ เช้าหลังอาหาร (Morning - After Meal)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.morning_after_meal.join(', ')}</span>
+                      </div>
+                    )}
+
+                    {mcpSafety.consumption_schedule.bedtime?.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-indigo-400 font-bold block mb-1">🌙 ก่อนนอน (Bedtime)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.bedtime.join(', ')}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -527,6 +717,50 @@ export default function BucketPage() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Feature 2: Save Stack Modal */}
+      {showSaveModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl space-y-4 animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
+                <BookmarkPlus size={16} className="text-indigo-600" />
+                บันทึก Supplement Stack
+              </h3>
+              <button onClick={() => setShowSaveModal(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer"><X size={16} /></button>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] font-bold text-slate-600 block">ตั้งชื่อ Stack (เช่น "Stack เช้า", "วิ่งมาราธอน")</label>
+              <input
+                type="text"
+                value={stackName}
+                onChange={(e) => setStackName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSaveStack()}
+                placeholder={`Stack ${new Date().toLocaleDateString('th-TH')}`}
+                autoFocus
+                className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition"
+              />
+            </div>
+            <div className="text-[10px] text-slate-400 bg-slate-50 p-2.5 rounded-xl">
+              จะบันทึก <span className="font-bold text-slate-700">{items.length} รายการ</span>: {items.map((i) => i.name).slice(0, 2).join(', ')}{items.length > 2 ? ` +${items.length - 2} อื่นๆ` : ''}
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowSaveModal(false)}
+                className="flex-1 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition cursor-pointer"
+              >
+                ยกเลิก
+              </button>
+              <button
+                onClick={handleSaveStack}
+                className="flex-1 py-2 text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition cursor-pointer shadow-md"
+              >
+                💾 บันทึก Stack
+              </button>
+            </div>
           </div>
         </div>
       )}

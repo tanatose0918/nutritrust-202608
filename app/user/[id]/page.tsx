@@ -122,7 +122,9 @@ export default function UserProfilePage() {
         body: JSON.stringify({
           email: email || 'guest@nutritrust.com',
           prompt: healthIssues || 'ดูแลสุขภาพทั่วไปและบำรุงข้อต่อ',
-          product_ids: ['p_001', 'p_002']
+          product_ids: ['p_001', 'p_002'],
+          health_issues: healthIssues ? [healthIssues] : [],
+          health_goals: healthGoals
         })
       });
       const json = await res.json();

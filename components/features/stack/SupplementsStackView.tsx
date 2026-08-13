@@ -156,9 +156,11 @@ export default function SupplementsStackView() {
                           <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full inline-block">
                             {brand?.name || product.brand_id}
                           </span>
-                          <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-800 transition">
-                            {product.name}
-                          </h4>
+                          <Link href={`/products/${product.id}`} className="block">
+                            <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-800 hover:underline underline-offset-2 transition cursor-pointer">
+                              {product.name}
+                            </h4>
+                          </Link>
                           <p className="text-[11px] text-slate-500">
                             ขนาดบรรจุ: {product.serving_package}
                           </p>

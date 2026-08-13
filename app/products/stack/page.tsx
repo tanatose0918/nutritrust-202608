@@ -40,13 +40,15 @@ export default function StackBuilderPage() {
 
     try {
       // 1. Run MCP 2 (Stack Safety & Cumulative UL Guard)
-      const safetyData = await analyzeStackSafety(productIds);
+      const healthIssues = userSession?.health_issues ? [userSession.health_issues] : [];
+      const healthGoals = userSession?.health_goals || [];
+      const safetyData = await analyzeStackSafety(productIds, healthIssues, healthGoals);
       if (safetyData) setMcpSafety(safetyData);
 
       // 2. Run MCP 5 (Dynamic Persona Match Engine)
       const email = userSession?.email || 'guest@nutritrust.com';
       const prompt = userSession?.health_issues || 'ดูแลสุขภาพทั่วไปและสร้างภูมิคุ้มกัน';
-      const personaData = await computeDynamicPersonaMatch(email, prompt, productIds);
+      const personaData = await computeDynamicPersonaMatch(email, prompt, productIds, healthIssues, healthGoals);
       if (personaData) setMcpPersona(personaData);
 
     } catch (err) {
@@ -320,6 +322,33 @@ export default function StackBuilderPage() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {mcpSafety.consumption_schedule && (
+                  <div className="space-y-2 text-xs mt-3 pt-3 border-t border-slate-800">
+                    <span className="text-[10px] font-bold text-blue-400 uppercase block mb-2">ตารางการทานแนะนำ (Consumption Schedule):</span>
+                    
+                    {mcpSafety.consumption_schedule.morning_before_meal.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-amber-400 font-bold block mb-1">🌅 เช้าก่อนอาหาร (Morning - Before Meal)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.morning_before_meal.join(', ')}</span>
+                      </div>
+                    )}
+
+                    {mcpSafety.consumption_schedule.morning_after_meal.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-emerald-400 font-bold block mb-1">🍽️ เช้าหลังอาหาร (Morning - After Meal)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.morning_after_meal.join(', ')}</span>
+                      </div>
+                    )}
+
+                    {mcpSafety.consumption_schedule.bedtime.length > 0 && (
+                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                        <span className="text-indigo-400 font-bold block mb-1">🌙 ก่อนนอน (Bedtime)</span>
+                        <span className="text-slate-300 text-[11px]">{mcpSafety.consumption_schedule.bedtime.join(', ')}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
