@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Users, Search, Activity, UserCheck } from 'lucide-react';
-import { fetchWebAnalytics, sendTelemetryEvent } from '@/services/api';
+import { fetchWebAnalytics } from '@/services/api';
 
 export default function VisitorStats() {
     const [earlyAdopterCount, setEarlyAdopterCount] = useState(0);
@@ -13,20 +13,6 @@ export default function VisitorStats() {
     useEffect(() => {
         setIsLive(true);
 
-        const trackSession = () => {
-            try {
-                const sessionKey = 'ntt_session_visitor_tracked';
-                let sessionId = sessionStorage.getItem(sessionKey);
-                if (!sessionId) {
-                    sessionId = 'sess_' + Math.random().toString(36).substring(2, 10);
-                    sessionStorage.setItem(sessionKey, sessionId);
-                    sendTelemetryEvent('page_view', sessionId);
-                }
-            } catch (err) {
-                console.error('Telemetry error:', err);
-            }
-        };
-
         const loadAnalytics = async () => {
             const data = await fetchWebAnalytics();
             if (data) {
@@ -36,17 +22,17 @@ export default function VisitorStats() {
             }
         };
 
-        trackSession();
         loadAnalytics();
 
         const handleSearchEvent = () => {
-            sendTelemetryEvent('search');
+            setSearchCount((prev) => prev + 1);
             loadAnalytics();
         };
 
         window.addEventListener('nutritrust_search_performed', handleSearchEvent);
         return () => window.removeEventListener('nutritrust_search_performed', handleSearchEvent);
     }, []);
+
 
     return (
         <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">

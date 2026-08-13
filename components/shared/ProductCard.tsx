@@ -1,67 +1,105 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Layers, CheckCircle2, Plus, ShoppingBag } from 'lucide-react';
+
+import { addToStack, removeFromStack, isInStack, STACK_UPDATED_EVENT } from '@/services/stack';
 
 interface ProductCardProps {
-    name: string;
-    countdown: number; // e.g. 12.00 down to 0.01
-    className?: string;
+  id?: string;
+  name: string;
+  brand_name?: string;
+  price_thb?: number;
+  countdown?: number; // e.g. 12.00 down to 0.01
+  className?: string;
 }
 
-export default function ProductCard({ name, countdown, className = '' }: ProductCardProps) {
-    // Formats countdown from 12.00 down to 0.01
-    const formattedCountdown = Math.max(0.01, countdown).toFixed(2);
+export default function ProductCard({
+  id = 'p_001',
+  name,
+  brand_name,
+  price_thb = 850,
+  countdown = 12,
+  className = ''
+}: ProductCardProps) {
+  const [inStack, setInStack] = useState(false);
 
-    return (
-        <div className={`bg-white rounded-3xl p-4 sm:p-5 border border-green-100 shadow-xl flex flex-col justify-between w-full max-w-sm mx-auto transition-all hover:shadow-2xl ${className}`}>
+  useEffect(() => {
+    setInStack(isInStack(id));
 
-            {/* ช่องว่างสำหรับใส่รูปภาพผลิตภัณฑ์ + Overlay ชื่อผลิตภัณฑ์ ({name}) บนรูปภาพ */}
-            <div className="w-full h-64 sm:h-72 bg-gradient-to-br from-green-50/70 via-gray-50 to-emerald-50/50 rounded-2xl border border-dashed border-green-300/80 flex flex-col items-center justify-center relative overflow-hidden mb-4 group shadow-inner">
+    const handleUpdate = () => setInStack(isInStack(id));
+    window.addEventListener(STACK_UPDATED_EVENT, handleUpdate);
+    return () => window.removeEventListener(STACK_UPDATED_EVENT, handleUpdate);
+  }, [id]);
 
-                {/* Placeholder Icon & Label (พื้นที่รูปภาพ) */}
-                <div className="text-center p-4 pb-20">
-                    <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-white shadow-md border border-green-100 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform duration-300">
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <span className="text-xs font-semibold text-gray-400 tracking-wide uppercase block">
-                        พื้นที่รูปภาพผลิตภัณฑ์
-                    </span>
-                    <span className="text-[11px] text-gray-400 opacity-75 mt-0.5 block">
-                        (Image Placeholder)
-                    </span>
-                </div>
+  const handleToggleStack = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (inStack) {
+      removeFromStack(id);
+    } else {
+      addToStack({
+        _id: id,
+        name,
+        brand_name: brand_name || 'NutriTrust Verified',
+        price_thb
+      });
+    }
+  };
 
-                {/* Overlay ชื่อผลิตภัณฑ์ ({name}) ทับบนรูปภาพ */}
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-gray-950/90 via-gray-900/65 to-transparent backdrop-blur-[1px] flex flex-col justify-end text-white">
-                    {/* <span className="inline-block self-start text-[10px] font-extrabold tracking-wider text-emerald-300 uppercase bg-emerald-950/80 backdrop-blur-md px-2.5 py-0.5 rounded-full mb-1.5 border border-emerald-500/30">
-                        Featured Supplement
-                    </span> */}
-                    <h3 className="text-base sm:text-lg font-bold leading-snug line-clamp-2 drop-shadow-md text-white">
-                        {name}
-                    </h3>
-                </div>
-
-            </div>
-
-            {/* ใต้รูป: แสดงนับถอยหลัง (12.00 -> 0.01) */}
-            {/* <div className="bg-gradient-to-r from-emerald-900 to-green-900 text-white rounded-2xl px-4 py-3 flex items-center justify-between shadow-md border border-emerald-800">
-                    <div className="flex items-center gap-2.5">
-                        <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                        </span>
-                        <span className="text-xs font-medium text-emerald-200">
-                            สลับการ์ดถัดไปใน
-                        </span>
-                    </div>
-                    <div className="font-mono text-lg sm:text-xl font-black text-emerald-300 tracking-wider flex items-baseline gap-1">
-                        <span>{formattedCountdown}</span>
-                        <span className="text-xs font-sans text-emerald-400 font-medium">s</span>
-                    </div>
-                </div> */}
-
+  return (
+    <div className={`bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between w-full max-w-sm mx-auto transition-all hover:shadow-md ${className}`}>
+      {/* Image Container + Overlay Name */}
+      <div className="w-full h-56 sm:h-64 bg-gradient-to-br from-emerald-50/70 via-slate-50 to-emerald-50/50 rounded-2xl border border-dashed border-emerald-300/80 flex flex-col items-center justify-center relative overflow-hidden mb-3 group shadow-inner">
+        <div className="text-center p-4 pb-16">
+          <div className="w-14 h-14 mx-auto mb-2 rounded-2xl bg-white shadow-sm border border-emerald-100 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform duration-300">
+            <Layers size={24} />
+          </div>
+          <span className="text-[10px] font-extrabold text-slate-400 tracking-wide uppercase block">
+            {brand_name || 'NutriTrust Supplement'}
+          </span>
         </div>
-    );
+
+        {/* Product Name Overlay */}
+        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-slate-950/90 via-slate-900/65 to-transparent backdrop-blur-[1px] flex flex-col justify-end text-white">
+          <h3 className="text-sm font-bold leading-snug line-clamp-2 drop-shadow-md text-white">
+            {name}
+          </h3>
+        </div>
+      </div>
+
+      {/* Price & Add to Stack Action Bar */}
+      <div className="flex items-center justify-between pt-1">
+        <div className="space-y-0.5">
+          <span className="text-[10px] text-slate-400 font-bold block uppercase">Price Index</span>
+          <span className="text-sm font-black text-slate-900 font-mono">
+            ฿{price_thb.toLocaleString()}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleToggleStack}
+          className={`px-3 py-2 rounded-xl text-xs font-black transition cursor-pointer flex items-center gap-1.5 shadow-xs ${
+            inStack
+              ? 'bg-emerald-600 text-white border border-emerald-500 hover:bg-emerald-700'
+              : 'bg-gradient-to-r from-amber-400 to-emerald-400 hover:from-amber-300 hover:to-emerald-300 text-slate-950 hover:scale-105 active:scale-95'
+          }`}
+          title={inStack ? 'อยู่ใน Bucket แล้ว' : 'เพิ่มลงใน Bucket'}
+        >
+          {inStack ? (
+            <>
+              <CheckCircle2 size={15} />
+              <ShoppingBag size={15} />
+            </>
+          ) : (
+            <>
+              <Plus size={14} />
+              <ShoppingBag size={15} />
+            </>
+          )}
+        </button>
+
+      </div>
+    </div>
+  );
 }

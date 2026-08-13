@@ -81,7 +81,7 @@ function ComparePageContent() {
   }, [products, selectedProductIds]);
 
   return (
-    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 font-sans space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 pb-12 font-sans space-y-8 animate-in fade-in duration-300">
       {/* Top Navigation */}
       <div className="flex items-center justify-between">
         <Link
@@ -151,19 +151,6 @@ function ComparePageContent() {
         selectedProducts={selectedProducts}
         brands={brands}
       />
-
-      {/* Task 3.2: Sticky Medical Disclaimer Banner */}
-      <div className="sticky bottom-4 z-40 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl p-4 border border-slate-700 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2.5">
-          <AlertTriangle size={18} className="text-amber-400 shrink-0" />
-          <p className="text-slate-300 font-medium leading-relaxed">
-            <strong className="text-white font-bold">NutriTrust Medical Disclaimer:</strong> ตารางเปรียบเทียบทั้งหมดจัดทำขึ้นเพื่อการศึกษาเท่านั้น ไม่สามารถใช้ทดแทนการวินิจฉัยหรือคำแนะนำทางการแพทย์ได้
-          </p>
-        </div>
-        <Link href="/help#terms" className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-3.5 py-1.5 rounded-xl transition shrink-0 whitespace-nowrap shadow-xs">
-          ข้อกำหนดการใช้งาน
-        </Link>
-      </div>
     </div>
   );
 }

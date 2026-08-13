@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { Slider } from 'primereact/slider';
 import { Tag } from 'primereact/tag';
-import { User, Mail, Lock, Sparkles, CheckCircle2, ShieldCheck, Heart, AlertCircle, ArrowRight, UserCheck, Sliders, MessageSquare } from 'lucide-react';
+import { User, Mail, Lock, Sparkles, CheckCircle2, ShieldCheck, Heart, AlertCircle, ArrowRight, UserCheck, Eye, EyeOff } from 'lucide-react';
 import { submitUserProfile } from '@/services/api';
+import { setUserSession } from '@/services/auth';
 
 interface ExpectationRatings {
   traceability: number;
@@ -13,41 +14,42 @@ interface ExpectationRatings {
   bestDeals: number;
 }
 
-const HEALTH_GOAL_OPTIONS = [
-  { id: 'brain', label: '🧠 Brain & Cognitive Performance' },
-  { id: 'heart', label: '🫀 Heart & Cardiovascular Health' },
-  { id: 'immune', label: '🛡️ Immune System Support' },
-  { id: 'joint', label: '🦴 Joint, Bone & Cartilage Care' },
-  { id: 'energy', label: '⚡ Cellular Energy & Anti-Aging' },
-  { id: 'sleep', label: '😴 Sleep Quality & Stress Relief' },
+const HEALTH_GOALS_OPTIONS = [
+  { id: 'brain', label: '🧠 สมอง & การทำงานของระบบประสาท (Brain & Memory)' },
+  { id: 'heart', label: '🫀 หัวใจ & หลอดเลือด (Heart & Cardiovascular)' },
+  { id: 'immune', label: '🛡️ ภูมิคุ้มกัน & ต้านอนุมูลอิสระ (Immunity Boost)' },
+  { id: 'joint', label: '🦴 ข้อต่อ & กระดูก (Joint & Cartilage)' },
+  { id: 'energy', label: '⚡ พลังงานเซลล์ & ต่อต้านวัย (Cellular Energy & Anti-Aging)' },
+  { id: 'sleep', label: '😴 การนอนหลับ & คลายเครียด (Sleep & Stress Relief)' },
 ];
 
 export default function SurveyWaitlistForm() {
-  // Credentials
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Health Profile
+
   const [healthGoals, setHealthGoals] = useState<string[]>([]);
   const [healthIssues, setHealthIssues] = useState('');
   const [currentSupplements, setCurrentSupplements] = useState('');
 
-  // Expectation Ratings (0-5)
   const [ratings, setRatings] = useState<ExpectationRatings>({
-    traceability: 5,
-    compareEngine: 4,
-    scienceEvidence: 5,
-    bestDeals: 4,
+    traceability: 8,
+    compareEngine: 9,
+    scienceEvidence: 9,
+    bestDeals: 7,
   });
 
   const [additionalFeedback, setAdditionalFeedback] = useState('');
-  const [legalConsent, setLegalConsent] = useState(false);
+
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [memberId, setMemberId] = useState('');
+  const [mongoId, setMongoId] = useState('');
 
   const handleGoalToggle = (goalId: string) => {
     setHealthGoals((prev) =>
@@ -97,9 +99,16 @@ export default function SurveyWaitlistForm() {
     // Call API helper to submit to MongoDB backend
     const apiResult = await submitUserProfile(payload);
 
+    if (apiResult?.data) {
+      setUserSession(apiResult.data);
+    }
+
+    const realId = apiResult?.data?._id || '';
+    setMongoId(realId);
+
     // Generate fallback or read ID from API result
-    const returnedId = apiResult?.data?._id 
-      ? `NTT-EARLY-${apiResult.data._id.substring(apiResult.data._id.length - 6).toUpperCase()}`
+    const returnedId = realId 
+      ? `NTT-EARLY-${realId.substring(realId.length - 6).toUpperCase()}`
       : `NTT-EARLY-${Math.floor(1000 + Math.random() * 9000)}`;
 
     setMemberId(returnedId);
@@ -139,10 +148,19 @@ export default function SurveyWaitlistForm() {
           </div>
         </div>
 
-        <div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          {mongoId && (
+            <a
+              href={`/user/${mongoId}`}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-400 to-emerald-400 hover:from-amber-300 hover:to-emerald-300 text-slate-950 font-black text-xs px-6 py-3.5 rounded-xl transition cursor-pointer shadow-lg hover:scale-105 active:scale-95"
+            >
+              <Sparkles size={16} />
+              <span>Go to My Personal Health Profile (`/user/${mongoId.slice(-6)}`)</span>
+            </a>
+          )}
           <a
             href="/"
-            className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs px-6 py-3 rounded-xl transition cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs px-5 py-3.5 rounded-xl transition cursor-pointer border border-slate-700"
           >
             <span>Return to Home</span>
             <ArrowRight size={14} />
@@ -158,82 +176,109 @@ export default function SurveyWaitlistForm() {
       <div className="border-b border-slate-100 pb-4 space-y-1">
         <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">
           <Sparkles size={14} className="text-emerald-600" />
-          <span>Join Early Access</span>
+          <span>Quick Early Access Pass</span>
         </div>
-        <h2 className="text-2xl font-black text-slate-900">Early Register</h2>
-        <p className="text-xs text-slate-500">Fast survey to personalize your NutriTrust experience.</p>
+        <h1 className="text-2xl font-black text-slate-900">ลงทะเบียนสมาชิก Early Register Pass</h1>
+        <p className="text-xs text-slate-500">กรอกข้อมูลเบื้องต้นเพียง 1 นาที เพื่อรับ Member ID และเข้าสู่หน้า Personal Health Profile</p>
       </div>
 
       {errorMsg && (
         <div className="bg-red-50 text-red-700 p-3 rounded-xl border border-red-200 text-xs font-bold flex items-center gap-2">
-          <AlertCircle size={15} className="shrink-0" />
+          <AlertCircle size={16} className="text-red-500 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
-      {/* Section 1: Credentials */}
-      <div className="space-y-3">
-        <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-          <User size={15} className="text-emerald-600" />
-          <span>1. Member Credentials</span>
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Account Info */}
+      <div className="space-y-4">
+        <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+          <User size={16} className="text-emerald-600" />
+          <span>1. ข้อมูลบัญชีผู้ใช้ (Account Setup)</span>
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-[11px] font-bold text-slate-700 block mb-1">Username *</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="e.g. biohacker_99"
-              className="w-full px-3 py-2 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-            />
+            <div className="relative">
+              <User size={15} className="absolute left-3 top-3 text-slate-400" />
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="e.g. biohacker_tor"
+                className="w-full pl-9 pr-3 py-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
+              />
+            </div>
           </div>
 
           <div>
             <label className="text-[11px] font-bold text-slate-700 block mb-1">Email *</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@example.com"
-              className="w-full px-3 py-2 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-            />
+            <div className="relative">
+              <Mail size={15} className="absolute left-3 top-3 text-slate-400" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@example.com"
+                className="w-full pl-9 pr-3 py-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="text-[11px] font-bold text-slate-700 block mb-1">Password (Min 6 chars) *</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-3 py-2 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-            />
+            <label className="text-[11px] font-bold text-slate-700 block mb-1">Password *</label>
+            <div className="relative">
+              <Lock size={15} className="absolute left-3 top-3 text-slate-400" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="อย่างน้อย 6 ตัวอักษร"
+                className="w-full pl-9 pr-10 py-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 p-0.5 transition cursor-pointer"
+                title={showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
           </div>
 
           <div>
             <label className="text-[11px] font-bold text-slate-700 block mb-1">Confirm Password *</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-3 py-2 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-            />
+            <div className="relative">
+              <Lock size={15} className="absolute left-3 top-3 text-slate-400" />
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="ยืนยันรหัสผ่าน"
+                className="w-full pl-9 pr-10 py-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 p-0.5 transition cursor-pointer"
+                title={showConfirmPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
+              >
+                {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
 
-      {/* Section 2: Health Profile */}
+      {/* Health Goals */}
       <div className="space-y-3 pt-3 border-t border-slate-100">
-        <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-          <Heart size={15} className="text-emerald-600" />
-          <span>2. Health Profile & Goals</span>
-        </h3>
-
+        <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+          <Heart size={16} className="text-emerald-600" />
+          <span>2. เป้าหมายสุขภาพเบื้องต้น (Initial Health Goals)</span>
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {HEALTH_GOAL_OPTIONS.map((goal) => {
+          {HEALTH_GOALS_OPTIONS.map((goal) => {
             const isChecked = healthGoals.includes(goal.id);
             return (
               <button
@@ -258,123 +303,17 @@ export default function SurveyWaitlistForm() {
             );
           })}
         </div>
-
-        {/* Health Issues Prompt Input */}
-        <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1 flex items-center justify-between">
-            <span>Current Health Issues / Concerns</span>
-            <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              AI MCP Server Prompt Input
-            </span>
-          </label>
-          <textarea
-            value={healthIssues}
-            onChange={(e) => setHealthIssues(e.target.value)}
-            rows={2}
-            placeholder="e.g. High triglycerides, knee stiffness, fatigue, poor sleep..."
-            className="w-full p-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500 placeholder-slate-400"
-          />
-        </div>
-
-        <div>
-          <label className="text-[11px] font-bold text-slate-700 block mb-1">Current Supplements Taken</label>
-          <input
-            type="text"
-            value={currentSupplements}
-            onChange={(e) => setCurrentSupplements(e.target.value)}
-            placeholder="e.g. Blackmores Fish Oil 1000mg, Vitamin C"
-            className="w-full px-3 py-2 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-          />
-        </div>
       </div>
 
-      {/* Section 3: Feature Importance Sliders (0-5) */}
-      <div className="space-y-4 pt-3 border-t border-slate-100">
-        <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-          <Sliders size={15} className="text-emerald-600" />
-          <span>3. Feature Importance Ratings (0 - 5 Scale)</span>
-        </h3>
-
-        <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          {[
-            { key: 'traceability', label: '🔍 Upstream Raw Material Traceability' },
-            { key: 'compareEngine', label: '⚖️ Side-by-Side Dosage & Price Compare Engine' },
-            { key: 'scienceEvidence', label: '📚 PubMed Clinical Evidence Summaries' },
-            { key: 'bestDeals', label: '🛒 E-Commerce Platform Price Tracking' },
-          ].map((item) => {
-            const val = ratings[item.key as keyof ExpectationRatings];
-            return (
-              <div key={item.key} className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-800">{item.label}</span>
-                  <span className="font-extrabold text-xs text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                    {val} / 5
-                  </span>
-                </div>
-                <div className="py-2 px-1">
-                  {React.createElement(Slider as any, {
-                    value: val,
-                    min: 0,
-                    max: 5,
-                    step: 1,
-                    onChange: (e: any) => handleRatingChange(item.key as keyof ExpectationRatings, e.value as number),
-                    className: "w-full"
-                  })}
-                </div>
-                <div className="flex justify-between text-[9px] text-slate-400 font-bold px-0.5 pt-1">
-                  <span>0 (Not Needed)</span>
-                  <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
-                  <span>5 (Essential)</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Section 4: Feedback */}
-      <div className="space-y-1.5 pt-3 border-t border-slate-100">
-        <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-          <MessageSquare size={15} className="text-emerald-600" />
-          <span>4. Additional Feedback</span>
-        </label>
-        <textarea
-          value={additionalFeedback}
-          onChange={(e) => setAdditionalFeedback(e.target.value)}
-          rows={2}
-          placeholder="Any comments or requested features for NutriTrust team..."
-          className="w-full p-2.5 text-xs text-slate-900 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-emerald-500"
-        />
-      </div>
-
-      {/* Legal & Medical Disclaimer Verification Checkbox (Task 3.2) */}
-      <div className="pt-2 border-t border-slate-100">
-        <label className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 p-3 rounded-xl border border-amber-200/80 cursor-pointer">
-          <input
-            type="checkbox"
-            required
-            checked={legalConsent}
-            onChange={(e) => setLegalConsent(e.target.checked)}
-            className="mt-0.5 accent-emerald-600 rounded shrink-0 cursor-pointer"
-          />
-          <span className="leading-relaxed font-medium">
-            <strong className="text-amber-900 font-bold">Medical Disclaimer Agreement:</strong> I understand that NutriTrust compiles public research for educational purposes and does not replace medical advice from doctors or pharmacists.
-          </span>
-        </label>
-      </div>
-
-      {/* Submit */}
-      <div className="pt-2">
+      {/* Submit Button */}
+      <div className="pt-4 border-t border-slate-100">
         <button
           type="submit"
-          disabled={isSubmitting || !legalConsent}
-          className="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-extrabold text-xs py-3.5 rounded-xl transition cursor-pointer shadow-sm flex items-center justify-center gap-2"
+          disabled={isSubmitting}
+          className="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-extrabold text-xs py-3.5 rounded-xl transition cursor-pointer shadow-md flex items-center justify-center gap-2"
         >
-          <UserCheck size={16} />
-          <span>{isSubmitting ? 'Saving to NutriTrust Backend...' : 'Submit & Get Early Access Pass'}</span>
+          <span>{isSubmitting ? 'กำลังสร้าง Member ID...' : 'ลงทะเบียนและรับ Member Pass ทันที'}</span>
+          <ArrowRight size={15} />
         </button>
       </div>
     </form>

@@ -2,11 +2,15 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Package, HeartPulse, Stethoscope, Layers } from 'lucide-react';
+import { ChevronDown, Package, HeartPulse, Stethoscope, Layers, User, LogIn, ShoppingBag } from 'lucide-react';
 import { sendTelemetryEvent } from '@/services/api';
+import { getUserSession, IUserSession, AUTH_STATE_EVENT } from '@/services/auth';
+import { getBucketItems, BUCKET_UPDATED_EVENT } from '@/services/bucket';
 
 export default function Header() {
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
+  const [session, setSession] = useState<IUserSession | null>(null);
+  const [bucketCount, setBucketCount] = useState<number>(0);
   const productsNavRef = useRef<HTMLDivElement>(null);
 
   const scrollToEarlyAccess = (e: React.MouseEvent) => {
@@ -19,19 +23,46 @@ export default function Header() {
   };
 
   useEffect(() => {
+    // Initial reads
+    setSession(getUserSession());
+    setBucketCount(getBucketItems().length);
+
+    const handleAuthChange = (e: Event) => {
+      const customEv = e as CustomEvent;
+      setSession(customEv.detail || getUserSession());
+    };
+
+    const handleBucketChange = (e: Event) => {
+      const customEv = e as CustomEvent;
+      const items = customEv.detail || getBucketItems();
+      setBucketCount(Array.isArray(items) ? items.length : 0);
+    };
+
+    window.addEventListener(AUTH_STATE_EVENT, handleAuthChange);
+    window.addEventListener(BUCKET_UPDATED_EVENT, handleBucketChange);
+    window.addEventListener('storage', () => {
+      setSession(getUserSession());
+      setBucketCount(getBucketItems().length);
+    });
+
     const handleClickOutside = (e: MouseEvent) => {
       if (productsNavRef.current && !productsNavRef.current.contains(e.target as Node)) {
         setIsProductsDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      window.removeEventListener(AUTH_STATE_EVENT, handleAuthChange);
+      window.removeEventListener(BUCKET_UPDATED_EVENT, handleBucketChange);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
+
 
   return (
     <div className="font-sans text-slate-900">
       <header className="bg-white backdrop-blur-md flex justify-between items-center p-4 md:px-10 border-b border-slate-100 sticky top-0 z-50 shadow-sm shadow-slate-200/50">
-        
+
         {/* Brand Logo */}
         <Link
           href="/?from=logo"
@@ -47,8 +78,8 @@ export default function Header() {
 
         {/* Navigation Bar Menu */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-          
-          {/* Products Mega-Menu Dropdown Wrapper with MouseEnter & MouseLeave */}
+
+          {/* Products Mega-Menu Dropdown Wrapper */}
           <div
             ref={productsNavRef}
             className="relative"
@@ -67,102 +98,102 @@ export default function Header() {
             {isProductsDropdownOpen && (
               <div className="absolute left-0 top-full pt-1 w-80 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                 <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl p-4 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                  <span className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                    <Layers size={14} className="text-emerald-600" /> Catalog Menu
-                  </span>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                    Live Directory
-                  </span>
-                </div>
-
-                <div className="max-h-[360px] overflow-y-auto pr-1 space-y-3.5 custom-scrollbar">
-                  {/* Category 1: By Product Type */}
-                  <div className="space-y-1">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
-                      <Package size={13} className="text-emerald-600" /> By Product Category
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                    <span className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                      <Layers size={14} className="text-emerald-600" /> Catalog Menu
                     </span>
-                    <div className="grid grid-cols-1 gap-0.5">
-                      {[
-                        { name: 'Vitamins & Minerals', query: 'Vitamin C' },
-                        { name: 'Fish Oil & Omega-3', query: 'Fish Oil' },
-                        { name: 'Collagen & Joint Care', query: 'Collagen' },
-                        { name: 'Antioxidants', query: 'Astaxanthin' },
-                      ].map((item, idx) => (
-                        <Link
-                          key={idx}
-                          href={`/products?search=${encodeURIComponent(item.query)}`}
-                          onClick={() => setIsProductsDropdownOpen(false)}
-                          className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-emerald-800 hover:bg-emerald-50/80 rounded-xl transition flex items-center justify-between group"
-                        >
-                          <span>{item.name}</span>
-                          <span className="text-[10px] text-slate-400 group-hover:text-emerald-600 font-bold">›</span>
-                        </Link>
-                      ))}
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      Live Directory
+                    </span>
+                  </div>
+
+                  <div className="max-h-[360px] overflow-y-auto pr-1 space-y-3.5 custom-scrollbar">
+                    {/* Category 1: By Product Type */}
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
+                        <Package size={13} className="text-emerald-600" /> By Product Category
+                      </span>
+                      <div className="grid grid-cols-1 gap-0.5">
+                        {[
+                          { name: 'Vitamins & Minerals', query: 'Vitamin C' },
+                          { name: 'Fish Oil & Omega-3', query: 'Fish Oil' },
+                          { name: 'Collagen & Joint Care', query: 'Collagen' },
+                          { name: 'Antioxidants', query: 'Astaxanthin' },
+                        ].map((item, idx) => (
+                          <Link
+                            key={idx}
+                            href={`/products?search=${encodeURIComponent(item.query)}`}
+                            onClick={() => setIsProductsDropdownOpen(false)}
+                            className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-emerald-800 hover:bg-emerald-50/80 rounded-xl transition flex items-center justify-between group"
+                          >
+                            <span>{item.name}</span>
+                            <span className="text-[10px] text-slate-400 group-hover:text-emerald-600 font-bold">›</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Category 2: By Health Goal */}
+                    <div className="space-y-1 pt-2 border-t border-slate-100">
+                      <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
+                        <HeartPulse size={13} className="text-teal-600" /> By Health Goal
+                      </span>
+                      <div className="grid grid-cols-1 gap-0.5">
+                        {[
+                          { name: 'Brain & Memory Care', query: 'Ginkgo' },
+                          { name: 'Eye & Vision Protection', query: 'Astaxanthin' },
+                          { name: 'Anti-Aging & Cellular Energy', query: 'Co Q-10' },
+                          { name: 'Heart & Cardiovascular', query: 'Fish Oil' },
+                        ].map((item, idx) => (
+                          <Link
+                            key={idx}
+                            href={`/products?search=${encodeURIComponent(item.query)}`}
+                            onClick={() => setIsProductsDropdownOpen(false)}
+                            className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-teal-800 hover:bg-teal-50/80 rounded-xl transition flex items-center justify-between group"
+                          >
+                            <span>{item.name}</span>
+                            <span className="text-[10px] text-slate-400 group-hover:text-teal-600 font-bold">›</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Category 3: By Health Issue */}
+                    <div className="space-y-1 pt-2 border-t border-slate-100">
+                      <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
+                        <Stethoscope size={13} className="text-amber-600" /> By Health Condition
+                      </span>
+                      <div className="grid grid-cols-1 gap-0.5">
+                        {[
+                          { name: 'Sleep Quality & Stress Relief', query: 'Magnesium' },
+                          { name: 'Office Syndrome & Muscle Relief', query: 'Magnesium' },
+                          { name: 'Joint Care & Cartilage Protection', query: 'Collagen' },
+                        ].map((item, idx) => (
+                          <Link
+                            key={idx}
+                            href={`/products?search=${encodeURIComponent(item.query)}`}
+                            onClick={() => setIsProductsDropdownOpen(false)}
+                            className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-amber-900 hover:bg-amber-50/80 rounded-xl transition flex items-center justify-between group"
+                          >
+                            <span>{item.name}</span>
+                            <span className="text-[10px] text-slate-400 group-hover:text-amber-700 font-bold">›</span>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Category 2: By Health Goal */}
-                  <div className="space-y-1 pt-2 border-t border-slate-100">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
-                      <HeartPulse size={13} className="text-teal-600" /> By Health Goal
-                    </span>
-                    <div className="grid grid-cols-1 gap-0.5">
-                      {[
-                        { name: 'Brain & Memory Care', query: 'Ginkgo' },
-                        { name: 'Eye & Vision Protection', query: 'Astaxanthin' },
-                        { name: 'Anti-Aging & Cellular Energy', query: 'Co Q-10' },
-                        { name: 'Heart & Cardiovascular', query: 'Fish Oil' },
-                      ].map((item, idx) => (
-                        <Link
-                          key={idx}
-                          href={`/products?search=${encodeURIComponent(item.query)}`}
-                          onClick={() => setIsProductsDropdownOpen(false)}
-                          className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-teal-800 hover:bg-teal-50/80 rounded-xl transition flex items-center justify-between group"
-                        >
-                          <span>{item.name}</span>
-                          <span className="text-[10px] text-slate-400 group-hover:text-teal-600 font-bold">›</span>
-                        </Link>
-                      ))}
-                    </div>
+                  <div className="pt-2 border-t border-slate-100">
+                    <Link
+                      href="/products?search=all"
+                      onClick={() => setIsProductsDropdownOpen(false)}
+                      className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-2.5 rounded-xl transition cursor-pointer text-center block shadow-xs hover:scale-[1.02] active:scale-95"
+                    >
+                      View All Products Directory
+                    </Link>
                   </div>
-
-                  {/* Category 3: By Health Issue */}
-                  <div className="space-y-1 pt-2 border-t border-slate-100">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 px-2">
-                      <Stethoscope size={13} className="text-amber-600" /> By Health Condition
-                    </span>
-                    <div className="grid grid-cols-1 gap-0.5">
-                      {[
-                        { name: 'Sleep Quality & Stress Relief', query: 'Magnesium' },
-                        { name: 'Office Syndrome & Muscle Relief', query: 'Magnesium' },
-                        { name: 'Joint Care & Cartilage Protection', query: 'Collagen' },
-                      ].map((item, idx) => (
-                        <Link
-                          key={idx}
-                          href={`/products?search=${encodeURIComponent(item.query)}`}
-                          onClick={() => setIsProductsDropdownOpen(false)}
-                          className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-amber-900 hover:bg-amber-50/80 rounded-xl transition flex items-center justify-between group"
-                        >
-                          <span>{item.name}</span>
-                          <span className="text-[10px] text-slate-400 group-hover:text-amber-700 font-bold">›</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-slate-100">
-                  <Link
-                    href="/products?search=all"
-                    onClick={() => setIsProductsDropdownOpen(false)}
-                    className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-2.5 rounded-xl transition cursor-pointer text-center block shadow-xs hover:scale-[1.02] active:scale-95"
-                  >
-                    View All Products Directory
-                  </Link>
                 </div>
               </div>
-            </div>
             )}
           </div>
 
@@ -173,21 +204,60 @@ export default function Header() {
           >
             Compare
           </Link>
-          <a href="#early-access" onClick={scrollToEarlyAccess} className="hover:text-emerald-700 transition font-semibold">
+          <Link
+            href="/health-guide"
+            className="hover:text-emerald-700 transition font-semibold"
+          >
             Health Guides
-          </a>
+          </Link>
           <Link href="/about" className="hover:text-emerald-700 transition-colors duration-200 font-semibold">
             About Us
           </Link>
         </nav>
 
-        {/* Join Early Access Button */}
-        <Link
-          href="/survey"
-          className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-sm hover:shadow-md cursor-pointer flex items-center gap-1.5"
-        >
-          Join Early Access
-        </Link>
+        {/* Auth / Session State Action Buttons */}
+        <div className="flex items-center gap-2.5">
+          {/* Supplement Bucket Badge Button */}
+          <Link
+            href="/bucket"
+            className="relative bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-900 border border-slate-200 hover:border-emerald-300 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs group"
+            title="View Supplement Bucket"
+          >
+            <ShoppingBag size={15} className="text-emerald-600 group-hover:scale-110 transition-transform" />
+            <span>Bucket</span>
+            {bucketCount > 0 && (
+              <span className="bg-emerald-600 text-white font-extrabold text-[10px] px-1.5 py-0.2 rounded-full font-mono">
+                {bucketCount}
+              </span>
+            )}
+          </Link>
+
+          {session ? (
+            <Link
+              href={`/user/${session._id}`}
+              className="bg-gradient-to-r from-amber-400 to-emerald-400 hover:from-amber-300 hover:to-emerald-300 text-slate-950 px-4 py-2 rounded-xl text-xs font-black hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm flex items-center gap-1.5 cursor-pointer"
+            >
+              <User size={15} />
+              <span>{session.username || 'My Profile'}</span>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-xs font-bold text-slate-700 hover:text-emerald-700 px-3 py-2 rounded-xl transition cursor-pointer flex items-center gap-1"
+              >
+                <LogIn size={14} />
+                <span>Login</span>
+              </Link>
+              <Link
+                href="/survey"
+                className="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-xl text-xs font-bold hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm cursor-pointer flex items-center gap-1.5"
+              >
+                Join Early Access
+              </Link>
+            </>
+          )}
+        </div>
       </header>
     </div>
   );

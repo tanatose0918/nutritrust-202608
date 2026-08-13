@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { SiFacebook, SiLine, SiYoutube, SiInstagram } from '@icons-pack/react-simple-icons';
 import { submitUserProfile } from '@/services/api';
 
@@ -34,7 +35,7 @@ export default function Footer() {
                 {/* ส่วนบน: 4 คอลัมน์ สำหรับ โลโก้ และ ลิงก์ต่างๆ */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
-                    {/* คอลัมน์ 1: โลโก้ และ สโลแกน */}
+                    {/* คอลัมน์ 1: โลโก้ และ สโลแกน + Medical Disclaimer บนมือถือ */}
                     <div className="space-y-4">
                         <div className="text-2xl font-extrabold text-green-700 flex items-center gap-2.5">
                             <img
@@ -47,6 +48,21 @@ export default function Footer() {
                         <p className="text-gray-500 leading-relaxed text-sm">
                             แหล่งข้อมูลโภชนาการและอาหารเสริมที่คุณเชื่อถือได้ เพื่อการตัดสินใจที่ดีที่สุดเพื่อสุขภาพของคุณและคนที่คุณรัก
                         </p>
+
+                        {/* REQUIREMENT: NutriTrust Medical Disclaimer shown under NutriTrust Banner on Mobile */}
+                        <div className="block sm:hidden bg-slate-950 text-white rounded-2xl p-4 border border-slate-800 space-y-2 text-xs shadow-md">
+                            <div className="flex items-center gap-2 text-amber-400 font-bold">
+                                <AlertTriangle size={16} className="shrink-0" />
+                                <span>NutriTrust Medical Disclaimer</span>
+                            </div>
+                            <p className="text-slate-300 text-[11px] leading-relaxed">
+                                ข้อมูลสารสกัดและโภชนาการทั้งหมดจัดทำขึ้นเพื่อวัตถุประสงค์การศึกษาและการค้นคว้าเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ และไม่สามารถใช้ทดแทนการวินิจฉัยจากแพทย์หรือเภสัชกรได้
+                            </p>
+                            <Link href="/help#terms" className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
+                                อ่านข้อกำหนดการใช้งาน
+                            </Link>
+                        </div>
+
                         <p className="text-xs text-gray-400 mt-4">
                             © 2026 NutriTrust. All rights reserved.
                         </p>
@@ -58,7 +74,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             <li><a href="/about" className="hover:text-green-700 transition">เกี่ยวกับ NutriTrust</a></li>
                             <li><a href="/about" className="hover:text-green-700 transition">วิธีการประเมินของเรา (Methodology)</a></li>
-                            <li><a href="/about" className="hover:text-green-700 transition">ทีมงาน & Blue Horizon</a></li>
+                            <li><a href="/about" className="hover:text-green-700 transition">ทีมงาน &amp; Blue Horizon</a></li>
                             <li><a href="/about" className="hover:text-green-700 transition">ติดต่อเรา</a></li>
                         </ul>
                     </div>

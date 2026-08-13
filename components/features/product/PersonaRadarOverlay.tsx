@@ -170,19 +170,10 @@ export default function PersonaRadarOverlay({ product }: PersonaRadarOverlayProp
     <div className="bg-slate-950 rounded-3xl p-5 border border-slate-800 text-white flex flex-col justify-between space-y-4 shadow-xl">
       {/* Top Banner Header */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-xs font-extrabold px-3 py-1 rounded-full border border-emerald-500/30">
-            <Sparkles size={14} />
-            <span>Personalize Health Data Radar Chart</span>
-          </span>
-          <span className="text-[10px] text-slate-400 font-mono">6 Personas Algorithm</span>
-        </div>
         <h4 className="text-base font-bold text-white">
-          วิเคราะห์ความเหมาะสมรายบุคคล (Personalized Match)
+          Personalized Match
         </h4>
-        <p className="text-[11px] text-slate-400 leading-relaxed">
-          กดเลือกโปรไฟล์ Persona เพื่อดูการซ้อนทับ (Overlay) ระหว่าง **สุขภาพพื้นฐาน** กับ **ผลลัพธ์ของผลิตภัณฑ์**
-        </p>
+
       </div>
 
       {/* Persona Selector Buttons (6 Personas) */}
@@ -193,11 +184,10 @@ export default function PersonaRadarOverlay({ product }: PersonaRadarOverlayProp
             <button
               key={p.id}
               onClick={() => setSelectedPersonaId(p.id)}
-              className={`p-2 rounded-xl text-left transition cursor-pointer border ${
-                isSelected
+              className={`p-2 rounded-xl text-left transition cursor-pointer border ${isSelected
                   ? 'bg-emerald-950 border-emerald-400 text-white shadow-md'
                   : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-200'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-1.5">
                 <span className="text-sm">{p.avatar_emoji}</span>

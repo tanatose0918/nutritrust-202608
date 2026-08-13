@@ -1,45 +1,61 @@
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-export async function fetchProducts(params?: { search?: string; category?: string; brand?: string }) {
+export async function fetchProducts(searchQuery?: string) {
   try {
-    const url = new URL(`${API_BASE_URL}/api/products`);
-    if (params?.search) url.searchParams.append('search', params.search);
-    if (params?.category) url.searchParams.append('category', params.category);
-    if (params?.brand) url.searchParams.append('brand', params.brand);
+    const url = searchQuery && searchQuery !== 'all' 
+      ? `${API_BASE_URL}/api/products?search=${encodeURIComponent(searchQuery)}`
+      : `${API_BASE_URL}/api/products`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.warn('API fetchProducts error:', error);
+    return [];
+  }
+}
 
-    const res = await fetch(url.toString(), { signal: AbortSignal.timeout(2000) });
+export async function fetchProductBySlug(slug: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/products/${slug}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return data.success ? data.data : null;
   } catch (error) {
-    console.warn('Fastify API fetchProducts fallback to local mockup:', error);
+    console.warn(`API fetchProductBySlug('${slug}') error:`, error);
     return null;
   }
 }
 
-export async function fetchProductDetail(id: string) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/products/${id}`, { signal: AbortSignal.timeout(2000) });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return data.success ? data.data : null;
-  } catch (error) {
-    console.warn(`Fastify API fetchProductDetail('${id}') fallback to local mockup:`, error);
-    return null;
-  }
+export async function fetchProductDetail(idOrSlug: string) {
+  return fetchProductBySlug(idOrSlug);
 }
 
 export async function searchAllCollections(query: string) {
   try {
-    if (!query || query.trim() === '') {
-      return { products: [], brands: [], ingredients: [] };
-    }
-    const res = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query.trim())}`, { signal: AbortSignal.timeout(2000) });
+    const res = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    return data.success ? data.data : { products: [], brands: [], ingredients: [] };
+    return data.success ? data.data : null;
   } catch (error) {
-    console.warn(`Fastify API searchAllCollections('${query}') fallback to local mockup:`, error);
+    console.warn('API searchAllCollections error:', error);
+    return null;
+  }
+}
+
+
+export async function compareProducts(ids: string[]) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/compare`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_ids: ids })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.warn('API compareProducts error:', error);
     return null;
   }
 }
@@ -51,24 +67,18 @@ export async function submitUserProfile(formData: {
   health_goals?: string[];
   health_issues?: string;
   current_supplements?: string;
-  ratings?: {
-    traceability?: number;
-    compareEngine?: number;
-    scienceEvidence?: number;
-    bestDeals?: number;
-  };
+  subject_type?: string;
+  intake_routine?: string;
+  ratings?: any;
   feedback?: string;
   is_newsletter_subscriber?: boolean;
 }) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
-
     const result = await response.json();
     if (!response.ok) {
       throw new Error(result.message || 'Failed to save user profile');
@@ -77,6 +87,52 @@ export async function submitUserProfile(formData: {
   } catch (error) {
     console.warn('API submitUserProfile error:', error);
     return null;
+  }
+}
+
+export async function fetchUserById(id: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/users/id/${id}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.warn(`API fetchUserById('${id}') error:`, error);
+    return null;
+  }
+}
+
+export async function updateUserProfileById(id: string, payload: any) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/users/id/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.warn(`API updateUserProfileById('${id}') error:`, error);
+    return null;
+  }
+}
+
+export async function loginUser(identifier: string, password?: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier, password })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || 'Login failed');
+    }
+    return data;
+  } catch (error: any) {
+    console.warn('API loginUser error:', error);
+    return { success: false, message: error.message || 'Network error during login' };
   }
 }
 
@@ -94,20 +150,16 @@ export async function fetchWebAnalytics() {
 
 export function sendTelemetryEvent(eventType: string, sessionId?: string) {
   try {
-    if (typeof window !== 'undefined') {
-      const payload = JSON.stringify({ event_type: eventType, session_id: sessionId });
-      
-      // Use fetch with application/json header to ensure Fastify parses body correctly
-      fetch(`${API_BASE_URL}/api/telemetry/event`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload,
-        keepalive: true
-      }).catch((err) => {
-        console.warn('Telemetry fetch error:', err);
-      });
+    fetch(`${API_BASE_URL}/api/web-analytics/event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event_type: eventType, session_id: sessionId || 'anon_session' })
+    }).catch(() => {});
+
+    if (eventType === 'search' && typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('nutritrust_search_performed'));
     }
-  } catch {
-    // Ignore telemetry errors
+  } catch (e) {
+    // Silent telemetry fail
   }
 }
