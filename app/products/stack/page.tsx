@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Layers, Sparkles, Trash2, ShieldCheck, AlertTriangle, CheckCircle2, ShoppingBag, ExternalLink, Activity, Info } from 'lucide-react';
 import { getStackItems, removeFromStack, clearStack, STACK_UPDATED_EVENT, IStackItem } from '@/services/stack';
 import { getUserSession } from '@/services/auth';
+import { analyzeStackSafety, computeDynamicPersonaMatch } from '@/services/mcp';
 
 export default function StackBuilderPage() {
   const [items, setItems] = useState<IStackItem[]>([]);
@@ -35,40 +36,18 @@ export default function StackBuilderPage() {
     if (items.length === 0) return;
     setIsAnalyzing(true);
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
     const productIds = items.map((i) => i._id);
 
     try {
       // 1. Run MCP 2 (Stack Safety & Cumulative UL Guard)
-      const safetyRes = await fetch(`${baseUrl}/api/mcp/stack-safety`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_ids: productIds })
-      });
-      const safetyJson = await safetyRes.json();
-      if (safetyJson.success) setMcpSafety(safetyJson.data);
+      const safetyData = await analyzeStackSafety(productIds);
+      if (safetyData) setMcpSafety(safetyData);
 
       // 2. Run MCP 5 (Dynamic Persona Match Engine)
-      const personaRes = await fetch(`${baseUrl}/api/mcp/dynamic-persona-match`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: userSession?.email || 'guest@nutritrust.com',
-          prompt: userSession?.health_issues || 'ดูแลสุขภาพทั่วไปและสร้างภูมิคุ้มกัน',
-          product_ids: productIds
-        })
-      });
-      const personaJson = await personaRes.json();
-      if (personaJson.success) setMcpPersona(personaJson.data);
-
-      // 3. Run MCP 4 (Merchant Price Indexer)
-      const priceRes = await fetch(`${baseUrl}/api/mcp/merchant-prices`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_ids: productIds })
-      });
-      const priceJson = await priceRes.json();
-      if (priceJson.success) setMcpPrice(priceJson.data);
+      const email = userSession?.email || 'guest@nutritrust.com';
+      const prompt = userSession?.health_issues || 'ดูแลสุขภาพทั่วไปและสร้างภูมิคุ้มกัน';
+      const personaData = await computeDynamicPersonaMatch(email, prompt, productIds);
+      if (personaData) setMcpPersona(personaData);
 
     } catch (err) {
       console.error('Error running Multi-MCP Analysis:', err);
@@ -150,6 +129,23 @@ export default function StackBuilderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column: Stack Items List (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
+            {/* CRITICAL OVERDOSE WARNING BANNER (MCP 2) */}
+            {mcpSafety?.warnings && mcpSafety.warnings.length > 0 && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-2xl shadow-sm mb-4 animate-in slide-in-from-top-2">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="text-red-500 shrink-0 mt-0.5" size={20} />
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-black text-red-800">พบความเสี่ยงได้รับสารอาหารเกินขนาด (Overdose Warning)</h3>
+                    <ul className="text-xs text-red-700 list-disc list-inside space-y-1">
+                      {mcpSafety.warnings.map((warn: string, idx: number) => (
+                        <li key={idx}>{warn}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
@@ -204,7 +200,7 @@ export default function StackBuilderPage() {
             </div>
 
             {/* MCP 2 Cumulative Dosage Breakdown */}
-            {mcpSafety?.ingredient_breakdown && (
+            {mcpSafety?.cumulative_ingredients && (
               <div className="bg-slate-950 text-white rounded-3xl p-5 border border-slate-800 space-y-4 shadow-md">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <div className="flex items-center gap-2 text-emerald-400 font-extrabold text-xs">
@@ -217,29 +213,20 @@ export default function StackBuilderPage() {
                 </div>
 
                 <div className="space-y-2">
-                  {mcpSafety.ingredient_breakdown.map((ing: any, idx: number) => {
-                    const isOverdosed = ing.is_overdosed;
+                  {Object.values(mcpSafety.cumulative_ingredients).map((ing: any, idx: number) => {
                     return (
                       <div
                         key={idx}
-                        className={`p-3 rounded-2xl border text-xs space-y-1 ${
-                          isOverdosed
-                            ? 'bg-red-950/40 border-red-500/50 text-red-200'
-                            : 'bg-slate-900 border-slate-800 text-slate-300'
-                        }`}
+                        className="p-3 rounded-2xl border text-xs space-y-1 bg-slate-900 border-slate-800 text-slate-300"
                       >
                         <div className="flex items-center justify-between font-bold">
                           <span className="text-white flex items-center gap-1.5">
-                            {isOverdosed ? <AlertTriangle size={14} className="text-red-400" /> : <CheckCircle2 size={14} className="text-emerald-400" />}
-                            <span>{ing.ingredient_name}</span>
+                            <CheckCircle2 size={14} className="text-emerald-400" />
+                            <span>{ing.name}</span>
                           </span>
                           <span className="font-mono text-amber-300">
-                            รวม: {ing.cumulative_amount} {ing.unit}
+                            รวม: {ing.total_volume} {ing.unit}
                           </span>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] opacity-80 pt-1 border-t border-slate-800">
-                          <span>ทานร่วมกันใน {ing.found_in_products_count} รายการ</span>
-                          <span>เกณฑ์ปลอดภัยสูงสุด (UL): {ing.upper_limit} {ing.unit}</span>
                         </div>
                       </div>
                     );
@@ -307,13 +294,31 @@ export default function StackBuilderPage() {
                   </span>
                 </div>
 
+                {mcpSafety.conflicts?.length > 0 && (
+                  <div className="space-y-1 text-xs mt-3 pt-3 border-t border-slate-800">
+                    <span className="text-[10px] font-bold text-red-400 uppercase">ข้อควรระวัง (Conflicts):</span>
+                    {mcpSafety.conflicts.map((conf: any, idx: number) => (
+                      <div key={idx} className="text-[11px] text-slate-300 flex items-start gap-1">
+                        <span className="text-red-400 mt-0.5">⚠</span> 
+                        <div>
+                          <strong className="block text-red-200">{conf.title_th}</strong>
+                          <span>{conf.description_th}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {mcpSafety.synergies?.length > 0 && (
-                  <div className="space-y-1 text-xs">
+                  <div className="space-y-1 text-xs mt-3 pt-3 border-t border-slate-800">
                     <span className="text-[10px] font-bold text-emerald-400 uppercase">สารส่งเสริมกัน (Synergies):</span>
-                    {mcpSafety.synergies.map((syn: string, idx: number) => (
-                      <p key={idx} className="text-[11px] text-slate-300 flex items-start gap-1">
-                        <span className="text-emerald-400">⚡</span> {syn}
-                      </p>
+                    {mcpSafety.synergies.map((syn: any, idx: number) => (
+                      <div key={idx} className="text-[11px] text-slate-300 flex items-start gap-1">
+                        <span className="text-emerald-400 mt-0.5">⚡</span> 
+                        <div>
+                          <strong className="block text-emerald-200">{syn.title_th}</strong>
+                          <span>{syn.description_th}</span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}

@@ -6,6 +6,7 @@ import scienceSummariesData from '@/mockup/science_summaries_mockup.json';
 
 interface ScienceStudiesTabProps {
   evidenceIds?: string[];
+  customEvidences?: any[];
 }
 
 const getEvidenceScore = (levelStr?: string) => {
@@ -22,15 +23,17 @@ const getShortTitle = (fullTitle: string) => {
   return title.length > 16 ? title.slice(0, 16) + '...' : title;
 };
 
-export default function ScienceStudiesTab({ evidenceIds = [] }: ScienceStudiesTabProps) {
+export default function ScienceStudiesTab({ evidenceIds = [], customEvidences }: ScienceStudiesTabProps) {
   const summaries = React.useMemo(() => {
+    if (customEvidences && customEvidences.length > 0) return customEvidences;
+    
     const all = scienceSummariesData as any[];
     if (!evidenceIds || evidenceIds.length === 0) return all.slice(0, 3);
     const filtered = all.filter(
       (item) => evidenceIds.includes(item.evidence_id) || (item.id && evidenceIds.includes(item.id))
     );
     return filtered.length > 0 ? filtered : all.slice(0, 3);
-  }, [evidenceIds]);
+  }, [evidenceIds, customEvidences]);
 
   const N = summaries.length;
   const size = 300;

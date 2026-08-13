@@ -22,6 +22,7 @@ import ScienceStudiesTab from '@/components/features/product/ScienceStudiesTab';
 import MarketTrendChart from '@/components/features/product/MarketTrendChart';
 import { fetchProductDetail } from '@/services/api';
 import { addToBucket, removeFromBucket, isInBucket, BUCKET_UPDATED_EVENT } from '@/services/bucket';
+import { getMerchantPrices, queryEvidenceKB } from '@/services/mcp';
 
 interface ProductDetailViewProps {
   initialProductId?: string | null;
@@ -137,6 +138,8 @@ export default function ProductDetailView({ initialProductId = null, isSearchOnl
   const [tier2SubTab, setTier2SubTab] = useState<Tier2TabType>('science');
 
   const [apiProductDetail, setApiProductDetail] = useState<IProduct | null>(null);
+  const [mcpMerchantPrices, setMcpMerchantPrices] = useState<any>(null);
+  const [mcpEvidences, setMcpEvidences] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -199,9 +202,24 @@ export default function ProductDetailView({ initialProductId = null, isSearchOnl
 
     fetchProductDetail(selectedProductId)
       .then((data) => {
-        if (data) setApiProductDetail(data);
+        if (data) {
+          setApiProductDetail(data);
+          if (data.evidence_ids && data.evidence_ids.length > 0) {
+            queryEvidenceKB(data.evidence_ids).then((evidenceData) => {
+              if (evidenceData && evidenceData.evidence_list) {
+                setMcpEvidences(evidenceData.evidence_list);
+              }
+            }).catch((err) => console.warn('Fetch evidence error:', err));
+          }
+        }
       })
-      .catch((err) => console.warn('Fetch detail error:', err))
+      .catch((err) => console.warn('Fetch detail error:', err));
+      
+    getMerchantPrices(selectedProductId)
+      .then((data) => {
+        if (data) setMcpMerchantPrices(data);
+      })
+      .catch((err) => console.warn('Fetch merchant price error:', err))
       .finally(() => setIsLoading(false));
   }, [selectedProductId]);
 
@@ -580,33 +598,34 @@ export default function ProductDetailView({ initialProductId = null, isSearchOnl
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    { platform: 'Shopee Mall (Official Store)', price: currentProduct.min_price || 850, url: 'https://shopee.co.th', tag: 'ส่งฟรี + รับเงินคืน' },
-                    { platform: 'Lazada LazMall Official', price: (currentProduct.min_price || 850) + 40, url: 'https://lazada.co.th', tag: 'โค้ดส่วนลดพิเศษ' },
-                  ].map((merchant, idx) => (
-                    <a
-                      key={idx}
-                      href={merchant.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition flex items-center justify-between group cursor-pointer"
-                    >
-                      <div className="space-y-0.5">
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.2 rounded-full inline-block">
-                          {merchant.tag}
-                        </span>
-                        <h5 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition">
-                          {merchant.platform}
-                        </h5>
-                      </div>
-                      <div className="text-right flex items-center gap-2">
-                        <span className="text-sm font-black text-slate-900 font-mono">
-                          ฿{merchant.price.toLocaleString()}
-                        </span>
-                        <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600 transition" />
-                      </div>
-                    </a>
-                  ))}
+                  {mcpMerchantPrices?.official_offers ? (
+                    mcpMerchantPrices.official_offers.map((offer: any, idx: number) => (
+                      <a
+                        key={idx}
+                        href="#"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition flex items-center justify-between group cursor-pointer"
+                      >
+                        <div className="space-y-0.5">
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.2 rounded-full inline-block">
+                            {offer.store_type}
+                          </span>
+                          <h5 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition">
+                            {offer.platform}
+                          </h5>
+                        </div>
+                        <div className="text-right flex items-center gap-2">
+                          <span className="text-sm font-black text-slate-900 font-mono">
+                            ฿{offer.package_price_thb.toLocaleString()}
+                          </span>
+                          <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600 transition" />
+                        </div>
+                      </a>
+                    ))
+                  ) : (
+                    <div className="col-span-2 text-xs text-slate-500 font-bold p-4 text-center bg-slate-50 rounded-2xl border border-slate-200">กำลังโหลดราคาทางการ (MCP 4)...</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -653,7 +672,7 @@ export default function ProductDetailView({ initialProductId = null, isSearchOnl
               {/* Tab Content Container - Unified Dark Matching Color */}
               <div className="pt-2 bg-slate-900 text-white rounded-2xl p-4 border border-slate-800/80">
                 {tier2SubTab === 'science' && (
-                  <ScienceStudiesTab evidenceIds={currentProduct.evidence_ids} />
+                  <ScienceStudiesTab evidenceIds={currentProduct.evidence_ids} customEvidences={mcpEvidences} />
                 )}
                 {tier2SubTab === 'merchant' && (
                   <MerchantScoreChart productId={currentProduct.id} />
@@ -736,7 +755,7 @@ export default function ProductDetailView({ initialProductId = null, isSearchOnl
 
             <div className={`space-y-6 ${isTier2RightLocked ? 'blur-xs select-none pointer-events-none opacity-40' : ''}`}>
               {/* Scientific Evidences Dept Card */}
-              <ScientificEvidence evidenceIds={currentProduct.evidence_ids} defaultLocked={false} />
+              <ScientificEvidence evidenceIds={currentProduct.evidence_ids} customEvidences={mcpEvidences} defaultLocked={false} />
 
               {/* Brand Certificate Card (รูปที่ 2: Blackmores / Verified Supplier Card) */}
               <div className="bg-slate-950 text-white rounded-3xl p-6 border border-slate-800 shadow-xl space-y-4">
