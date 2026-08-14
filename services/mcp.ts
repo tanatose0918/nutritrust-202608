@@ -78,3 +78,29 @@ export async function getMerchantPrices(productId: string) {
     return null;
   }
 }
+
+export async function fetchAiPharmacistSummary(payload: {
+  email?: string;
+  product_names: string[];
+  conflicts: any[];
+  synergies: any[];
+  warnings: any[];
+  health_issues?: string[];
+  health_goals?: string[];
+  safety_score?: number;
+}) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/mcp/ai-summary`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error('API MCP fetchAiPharmacistSummary error:', error);
+    return null;
+  }
+}

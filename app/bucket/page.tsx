@@ -27,6 +27,8 @@ export default function BucketPage() {
   const [mcpSafety, setMcpSafety] = useState<any>(null);
   const [mcpPersona, setMcpPersona] = useState<any>(null);
   const [mcpPrice, setMcpPrice] = useState<any>(null);
+  const [mcpAiSummary, setMcpAiSummary] = useState<any>(null);
+  const [isAiSummaryLoading, setIsAiSummaryLoading] = useState(false);
 
   // Saved Stack State
   const [savedStacks, setSavedStacks] = useState<ISavedStack[]>([]);
@@ -152,6 +154,32 @@ export default function BucketPage() {
       });
       const priceJson = await priceRes.json();
       if (priceJson.success) setMcpPrice(priceJson.data);
+
+      // 4. Run MCP 6 (AI Pharmacist Summary via Google AI Studio Gemini)
+      setIsAiSummaryLoading(true);
+      try {
+        const productNames = items.map((i) => i.name);
+        const aiRes = await fetch(`${baseUrl}/api/mcp/ai-summary`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: userSession?.email,
+            product_names: productNames,
+            conflicts: safetyJson.data?.conflicts || [],
+            synergies: safetyJson.data?.synergies || [],
+            warnings: safetyJson.data?.warnings || [],
+            health_issues: healthIssues,
+            health_goals: healthGoals,
+            safety_score: safetyJson.data?.safety_score
+          })
+        });
+        const aiJson = await aiRes.json();
+        if (aiJson.success) setMcpAiSummary(aiJson.data);
+      } catch (aiErr) {
+        console.error('Error running AI Pharmacist Summary:', aiErr);
+      } finally {
+        setIsAiSummaryLoading(false);
+      }
 
     } catch (err) {
       console.error('Error running Multi-MCP Analysis:', err);
@@ -302,6 +330,51 @@ export default function BucketPage() {
               </div>
             </div>
 
+            {/* Feature: Personal Health Cautions Alert (from MCP 2) */}
+            {mcpSafety && mcpSafety.warnings && mcpSafety.warnings.length > 0 && (
+              <div className="bg-amber-950/70 border border-amber-500/50 rounded-3xl p-5 space-y-3 shadow-lg">
+                <div className="flex items-center justify-between border-b border-amber-500/30 pb-2">
+                  <div className="flex items-center gap-2 text-amber-300 font-extrabold text-xs">
+                    <Stethoscope size={16} className="text-amber-400" />
+                    <span>⚠️ ข้อควรระวังเฉพาะบุคคล (Personal Health Cautions)</span>
+                  </div>
+                  <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-500/30">
+                    พบ {mcpSafety.warnings.length} ข้อระวังสุขภาพ
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {mcpSafety.warnings.map((w: any, idx: number) => (
+                    <div key={idx} className="bg-amber-950/90 p-3.5 rounded-2xl border border-amber-500/40 space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-black text-amber-200 flex items-center gap-1.5">
+                          <span>{w.title_th || w}</span>
+                        </span>
+                        {w.severity && (
+                          <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded ${
+                            w.severity === 'high' ? 'bg-red-500/30 text-red-300 border border-red-500/40' : 'bg-amber-500/30 text-amber-300 border border-amber-500/40'
+                          }`}>
+                            {w.severity === 'high' ? 'High Risk' : 'Caution'}
+                          </span>
+                        )}
+                      </div>
+                      {w.description_th && (
+                        <p className="text-[11px] text-amber-100/90 leading-relaxed pl-2 border-l-2 border-amber-500/50">
+                          {w.description_th}
+                        </p>
+                      )}
+                      {w.condition && (
+                        <div className="flex items-center gap-2 text-[10px] text-amber-300/80 pt-0.5">
+                          <span>ภาวะที่ตรวจพบ: <strong className="text-amber-200">{w.condition}</strong></span>
+                          <span>•</span>
+                          <span>สารที่เกี่ยวข้อง: <strong className="text-amber-200">{w.ingredient}</strong></span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Feature 1: Conflict & Synergy Alerts (from MCP 2) */}
             {mcpSafety && (
               <div className="space-y-3">
@@ -347,6 +420,51 @@ export default function BucketPage() {
                     <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
                     <span>✅ ทานร่วมกันได้อย่างปลอดภัย ไม่พบ Conflict ใน Stack นี้</span>
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* Feature: AI Pharmacist Summary (Google AI Studio Gemini) */}
+            {(isAiSummaryLoading || mcpAiSummary) && (
+              <div className="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-violet-950/90 text-white rounded-3xl p-5 border border-indigo-500/40 shadow-xl space-y-3 relative overflow-hidden">
+                <div className="absolute -right-6 -top-6 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
+                
+                <div className="flex items-center justify-between border-b border-indigo-500/30 pb-2.5">
+                  <div className="flex items-center gap-2 text-indigo-300 font-extrabold text-xs">
+                    <Sparkles size={16} className="text-indigo-400 animate-pulse" />
+                    <span>🤖 NutriTrust AI Pharmacist Synthesis (Gemini AI Studio)</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    {mcpAiSummary?.source === 'gemini_cloud' ? (
+                      <span className="text-[9px] bg-emerald-500/20 text-emerald-300 font-mono px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        Live Gemini Cloud
+                      </span>
+                    ) : (
+                      <span className="text-[9px] bg-indigo-500/20 text-indigo-300 font-mono px-2 py-0.5 rounded-full border border-indigo-500/30">
+                        ZK-Encrypted
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {isAiSummaryLoading ? (
+                  <div className="py-6 flex flex-col items-center justify-center gap-2 text-indigo-300 text-xs">
+                    <Sparkles size={24} className="animate-spin text-indigo-400" />
+                    <span>กำลังเชื่อมต่อ Google AI Studio เพื่อประมวลผลคำแนะนำโภชนเภสัช...</span>
+                  </div>
+                ) : (
+                  mcpAiSummary && (
+                    <div className="space-y-2">
+                      <p className="text-xs text-slate-200 leading-relaxed font-sans bg-slate-950/60 p-3.5 rounded-2xl border border-indigo-500/20">
+                        {mcpAiSummary.ai_summary}
+                      </p>
+                      <div className="flex items-center justify-between text-[10px] text-indigo-300/70 pt-1">
+                        <span>ZK-Token: <code className="text-indigo-200 font-mono">{mcpAiSummary.zk_token?.substring(0, 16)}...</code></span>
+                        <span>ความเชื่อมั่น: <strong className="text-emerald-400 font-mono">{mcpAiSummary.confidence_score}%</strong></span>
+                      </div>
+                    </div>
+                  )
                 )}
               </div>
             )}
@@ -660,12 +778,17 @@ export default function BucketPage() {
                 </div>
 
                 {mcpSafety.synergies?.length > 0 && (
-                  <div className="space-y-1 text-xs mt-3 pt-3 border-t border-slate-800">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase">สารส่งเสริมกัน (Synergies):</span>
-                    {mcpSafety.synergies.map((syn: string, idx: number) => (
-                      <p key={idx} className="text-[11px] text-slate-300 flex items-start gap-1">
-                        <span className="text-emerald-400">⚡</span> {syn}
-                      </p>
+                  <div className="space-y-1.5 text-xs mt-3 pt-3 border-t border-slate-800">
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase block">สารส่งเสริมกัน (Synergies):</span>
+                    {mcpSafety.synergies.map((s: any, idx: number) => (
+                      <div key={idx} className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 space-y-0.5">
+                        <p className="text-[11px] font-bold text-emerald-300 flex items-center gap-1">
+                          <span>⚡</span> {s.title_th || s}
+                        </p>
+                        {s.description_th && (
+                          <p className="text-[10px] text-slate-400 leading-normal">{s.description_th}</p>
+                        )}
+                      </div>
                     ))}
                   </div>
                 )}
