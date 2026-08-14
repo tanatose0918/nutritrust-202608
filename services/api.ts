@@ -141,7 +141,9 @@ export async function fetchWebAnalytics() {
     const res = await fetch(`${API_BASE_URL}/api/web-analytics`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    return data.success ? data.data : null;
+    if (!data.success) return null;
+    // Return full response so component can check loading flag
+    return data;
   } catch (error) {
     console.warn('API fetchWebAnalytics error:', error);
     return null;
