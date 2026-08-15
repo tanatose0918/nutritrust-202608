@@ -115,7 +115,11 @@ export default function BucketPage() {
     if (items.length === 0) return;
     setIsAnalyzing(true);
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? 'https://nutritrust-backend-production.up.railway.app'
+        : 'http://localhost:5000');
     const productIds = items.map((i) => i._id);
 
     try {

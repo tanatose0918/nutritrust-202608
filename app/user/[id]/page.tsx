@@ -116,7 +116,12 @@ export default function UserProfilePage() {
   const handleRunMcpDiagnostics = async () => {
     setIsRunningMcp(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/mcp/dynamic-persona-match`, {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_URL ||
+        (process.env.NODE_ENV === 'production'
+          ? 'https://nutritrust-backend-production.up.railway.app'
+          : 'http://localhost:5000');
+      const res = await fetch(`${baseUrl}/api/mcp/dynamic-persona-match`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

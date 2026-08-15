@@ -1,4 +1,8 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? 'https://nutritrust-backend-production.up.railway.app'
+    : 'http://localhost:5000');
 
 export async function runPrivacyTokenizer(email?: string, prompt?: string, consentSecret?: string) {
   try {
